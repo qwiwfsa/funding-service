@@ -1277,7 +1277,7 @@ export function initApp(): void {
   consultBtns.forEach((btn: Element) => {
     const text = (btn as HTMLElement).textContent?.trim();
     console.log('Button text:', text);
-    if (text === '立即咨询') {
+    if (text && text.trim() === '立即咨询') {
       console.log('Adding click handler to:', btn);
       btn.addEventListener('click', (e: Event) => {
         console.log('立即咨询 clicked!');
