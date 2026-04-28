@@ -1242,25 +1242,24 @@ export function initApp(): void {
   });
 }
 
-  // Show contact modal function
+  // Show phone number below button
   window.showModal135 = function() {
-    const existing = document.getElementById('contact-modal');
-    if (existing) existing.remove();
+    // Toggle desktop phone display
+    const navDisplay = document.getElementById('phone-display-nav');
+    const mobileDisplay = document.getElementById('phone-display-mobile');
     
-    const modal = document.createElement('div');
-    modal.id = 'contact-modal';
-    modal.style.cssText = 'position:fixed;top:0;left:0;right:0;bottom:0;background:rgba(0,0,0,0.5);z-index:9999;display:flex;align-items:center;justify-content:center;';
-    modal.innerHTML = `
-      <div style="background:white;padding:50px 60px;border-radius:12px;text-align:center;box-shadow:0 10px 40px rgba(0,0,0,0.2);">
-        <div style="font-size:16px;color:#666;margin-bottom:15px;">联系电话</div>
-        <div style="font-size:42px;font-weight:bold;color:#D4AF37;letter-spacing:2px;">135-5288-3008</div>
-        <button onclick="this.closest('#contact-modal').remove()" style="margin-top:30px;padding:12px 40px;background:#D4AF37;color:white;border:none;border-radius:6px;font-size:16px;cursor:pointer;">关闭</button>
-      </div>
-    `;
-    document.body.appendChild(modal);
-    modal.addEventListener('click', (e) => {
-      if ((e.target as HTMLElement).id === 'contact-modal') modal.remove();
-    });
+    if (navDisplay) {
+      navDisplay.classList.toggle('hidden');
+    }
+    if (mobileDisplay) {
+      mobileDisplay.classList.toggle('hidden');
+    }
+    
+    // Auto hide after 5 seconds
+    setTimeout(() => {
+      navDisplay?.classList.add('hidden');
+      mobileDisplay?.classList.add('hidden');
+    }, 5000);
   }
 
   // Add click events to all "立即咨询" buttons
