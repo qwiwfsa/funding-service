@@ -388,7 +388,7 @@ function renderNavbar(): string {
             <a href="#" data-page="contact" class="nav-link text-gray-700 hover:text-yellow-600 transition-colors">联系我们</a>
           </div>
           
-          <button class="btn-gold hidden md:block">
+          <button id="hero-consult-btn" class="btn-gold hidden md:block">
             立即咨询
           </button>
           
@@ -1027,6 +1027,15 @@ export function initApp(): void {
       const page = (link as HTMLElement).dataset.page || 'home';
       navigateTo(page);
     });
+
+  // Hero consult button - show modal directly
+  const heroConsultBtn = document.getElementById('hero-consult-btn');
+  if (heroConsultBtn) {
+    heroConsultBtn.addEventListener('click', (e) => {
+      e.preventDefault();
+      showConsultModal();
+    });
+  }
   });
 
   // Initialize mobile menu toggle
@@ -1045,6 +1054,46 @@ export function initApp(): void {
       });
     });
   }
+
+  // Show consult modal function
+  function showConsultModal() {
+    const existingModal = document.getElementById('success-modal');
+    if (existingModal) existingModal.remove();
+    
+    const modal = document.createElement('div');
+    modal.id = 'success-modal';
+    modal.innerHTML = `
+      <div style="position: fixed; top: 0; left: 0; right: 0; bottom: 0; background: rgba(0,0,0,0.6); z-index: 9999; display: flex; align-items: center; justify-content: center;">
+        <div style="background: white; padding: 40px; border-radius: 16px; max-width: 400px; width: 90%; text-align: center; animation: modalFadeIn 0.3s ease;">
+          <div style="width: 60px; height: 60px; background: linear-gradient(135deg, #D4AF37, #C9A227); border-radius: 50%; display: flex; align-items: center; justify-content: center; margin: 0 auto 20px;">
+            <svg width="30" height="30" fill="white" viewBox="0 0 24 24"><path d="M9 16.17L4.83 12l-1.42 1.41L9 19 21 7l-1.41-1.41L9 16.17z"/></svg>
+          </div>
+          <h3 style="font-size: 24px; font-weight: bold; color: #1a1a2e; margin-bottom: 20px;">欢迎咨询！</h3>
+          <div style="background: #fef9e7; padding: 20px; border-radius: 12px; margin-bottom: 20px; border: 1px solid #D4AF37;">
+            <p style="margin: 8px 0; color: #666; font-size: 14px;">联系电话（微信同号）</p>
+            <p style="margin: 0; font-size: 32px; font-weight: bold; color: #D4AF37;">135-5288-3008</p>
+          </div>
+          <div style="background: #f8f8f8; padding: 15px; border-radius: 12px; margin-bottom: 20px;">
+            <p style="margin: 0; color: #666; font-size: 14px;">电子邮箱</p>
+            <p style="margin: 5px 0 0; font-size: 16px; color: #333;">wanglizhongguo@126.com</p>
+          </div>
+          <p style="color: #999; font-size: 14px; margin-bottom: 0;">期待与您的合作！</p>
+          <button id="close-modal" style="margin-top: 20px; padding: 12px 40px; background: linear-gradient(135deg, #D4AF37, #C9A227); color: white; border: none; border-radius: 8px; font-size: 16px; cursor: pointer;">
+            知道了
+          </button>
+        </div>
+      </div>
+    `;
+    document.body.appendChild(modal);
+    
+    document.getElementById('close-modal')?.addEventListener('click', () => {
+      modal.remove();
+    });
+    modal.addEventListener('click', (e) => {
+      if ((e.target as HTMLElement).tagName === 'DIV') modal.remove();
+    });
+  }
+
 
   // Form submission handler
   const contactForm = document.getElementById('contact-form') as HTMLFormElement;
