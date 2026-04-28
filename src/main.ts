@@ -1159,14 +1159,16 @@ export function initApp(): void {
     observer.observe(el);
   });
 
-  // All consult buttons show phone modal
-  document.querySelectorAll('button').forEach(btn => {
-    const text = btn.textContent?.trim() || '';
-    if (text === '立即咨询' || text === '提交咨询') {
-      btn.addEventListener('click', (e) => {
+  // All consult buttons show phone modal - using event delegation
+  document.addEventListener('click', (e) => {
+    const target = e.target as HTMLElement;
+    const btn = target.closest('button') as HTMLButtonElement;
+    if (btn) {
+      const text = btn.textContent?.trim() || '';
+      if (text.includes('咨询') || text.includes('立即')) {
         e.preventDefault();
         showConsultModal();
-      });
+      }
     }
   });
 
