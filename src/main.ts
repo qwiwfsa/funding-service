@@ -758,7 +758,7 @@ function renderContact(): string {
                 </div>
                 <div>
                   <p class="text-sm mb-1" style="color: #6B7280;">联系电话</p>
-                  <p class="text-lg font-medium" style="color: #1F2937;">400-888-8888</p>
+                  <p class="text-lg font-medium" style="color: #1F2937;">135-5288-3008</p>
                   <p class="text-sm" style="color: #6B7280;">7×24小时恭候您的来电</p>
                 </div>
               </div>
