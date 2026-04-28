@@ -1065,7 +1065,7 @@ export function initApp(): void {
     modal.innerHTML = `
       <div style="position: fixed; top: 0; left: 0; right: 0; bottom: 0; background: rgba(0,0,0,0.6); z-index: 9999; display: flex; align-items: center; justify-content: center;">
         <div style="background: white; padding: 50px 60px; border-radius: 16px; text-align: center; animation: modalFadeIn 0.3s ease;">
-          <p style="margin: 0; font-size: 42px; font-weight: bold; color: #333; letter-spacing: 4px; white-space: nowrap;">135-5288-3008</p>
+          <p style="margin: 0; font-size: 42px; font-weight: bold; color: #C9A227; letter-spacing: 4px; white-space: nowrap;">135-5288-3008</p>
         </div>
       </div>
     `;
