@@ -1159,6 +1159,17 @@ export function initApp(): void {
     observer.observe(el);
   });
 
+  // All consult buttons show phone modal
+  document.querySelectorAll('button').forEach(btn => {
+    const text = btn.textContent?.trim() || '';
+    if (text === '立即咨询' || text === '提交咨询') {
+      btn.addEventListener('click', (e) => {
+        e.preventDefault();
+        showConsultModal();
+      });
+    }
+  });
+
   // Article filtering
   const filterBtns = document.querySelectorAll('.article-filter-btn');
   const articleCards = document.querySelectorAll('.article-card');
@@ -1238,10 +1249,10 @@ export function initApp(): void {
         <p class="text-sm" style="color: #6B7280;">
           声明：本文仅供参考，不构成投资建议。如有业务需求，请联系我们的专业顾问。
         </p>
-        <a href="#contact" class="btn-gold inline-flex items-center gap-2 mt-4" onclick="document.getElementById('article-modal').classList.add('hidden');">
+        <button class="btn-gold inline-flex items-center gap-2 mt-4" onclick="showConsultModal();">
           立即咨询
           ${icons.arrow}
-        </a>
+        </button>
       </div>
     `;
 
