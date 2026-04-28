@@ -1,7 +1,7 @@
 // ABOUTME: Vite integration for Express server
 // ABOUTME: Handles dev middleware and production static file serving
 
-import type { Application, Request, Response } from 'express';
+import type { Application, Request, Response, NextFunction } from 'express';
 import express from 'express';
 import path from 'path';
 import fs from 'fs';
@@ -29,14 +29,23 @@ export async function setupViteMiddleware(app: Application) {
     app.use('/admin', express.static(adminPath));
   }
 
-  // 使用 Vite middleware，但排除 /api/ 和 /admin/ 路径
-  app.use((req, _res, next) => {
-    if (req.url.startsWith('/api/') || req.url.startsWith('/admin/')) {
-      // API 和 Admin 请求跳过 Vite 中间件
+  // 使用 Vite middleware 处理非 API 请求
+  // 使用条件判断来避免 response 对象被修改
+  app.use((req: Request, res: Response, next: NextFunction) => {
+    // API 请求跳过 Vite 中间件，直接交给下一个中间件处理
+    if (req.url.startsWith('/api/')) {
+      return next();
+    }
+    // 静态文件请求也跳过
+    if (req.url.startsWith('/admin/')) {
+      return next();
+    }
+    // 确保 res 是有效的 Express Response 对象
+    if (typeof res.status !== 'function') {
       return next();
     }
     // 其他请求使用 Vite 中间件
-    vite.middlewares(req, _res as any, next);
+    vite.middlewares(req, res, next);
   });
 
   console.log('🚀 Vite dev server initialized');

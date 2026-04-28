@@ -199,4 +199,272 @@ router.get('/api/cases', async (req, res) => {
   }
 });
 
+// ============ 文章管理 API（增删改）============
+
+// 创建文章
+router.post('/api/articles', async (req, res) => {
+  try {
+    const client = getSupabaseClient();
+    const { category_id, title, excerpt, content, image, author, is_published } = req.body;
+    
+    if (!title) {
+      res.status(400).json({ success: false, error: '文章标题不能为空' });
+      return;
+    }
+    
+    const { data, error } = await client
+      .from('articles')
+      .insert({
+        category_id: category_id || null,
+        title,
+        excerpt: excerpt || null,
+        content: content || null,
+        image: image || null,
+        author: author || '管理员',
+        is_published: is_published !== false,
+        views: 0
+      })
+      .select()
+      .single();
+    
+    if (error) throw new Error(`创建失败: ${error.message}`);
+    res.json({ success: true, data, message: '文章创建成功' });
+  } catch (err) {
+    console.error('API Error:', err);
+    res.status(500).json({ success: false, error: (err as Error).message });
+  }
+});
+
+// 更新文章
+router.put('/api/articles/:id', async (req, res) => {
+  try {
+    const client = getSupabaseClient();
+    const { id } = req.params;
+    const { category_id, title, excerpt, content, image, author, is_published } = req.body;
+    
+    if (!title) {
+      res.status(400).json({ success: false, error: '文章标题不能为空' });
+      return;
+    }
+    
+    const { data, error } = await client
+      .from('articles')
+      .update({
+        category_id: category_id || null,
+        title,
+        excerpt: excerpt || null,
+        content: content || null,
+        image: image || null,
+        author: author || null,
+        is_published: is_published !== false,
+        updated_at: new Date().toISOString()
+      })
+      .eq('id', parseInt(id))
+      .select()
+      .single();
+    
+    if (error) throw new Error(`更新失败: ${error.message}`);
+    res.json({ success: true, data, message: '文章更新成功' });
+  } catch (err) {
+    console.error('API Error:', err);
+    res.status(500).json({ success: false, error: (err as Error).message });
+  }
+});
+
+// 删除文章
+router.delete('/api/articles/:id', async (req, res) => {
+  try {
+    const client = getSupabaseClient();
+    const { id } = req.params;
+    
+    const { error } = await client
+      .from('articles')
+      .delete()
+      .eq('id', parseInt(id));
+    
+    if (error) throw new Error(`删除失败: ${error.message}`);
+    res.json({ success: true, message: '文章删除成功' });
+  } catch (err) {
+    console.error('API Error:', err);
+    res.status(500).json({ success: false, error: (err as Error).message });
+  }
+});
+
+// ============ 案例管理 API（增删改）============
+
+// 创建案例
+router.post('/api/cases', async (req, res) => {
+  try {
+    const client = getSupabaseClient();
+    const { category, title, description, image, sort_order } = req.body;
+    
+    if (!title || !category) {
+      res.status(400).json({ success: false, error: '案例分类和标题不能为空' });
+      return;
+    }
+    
+    const { data, error } = await client
+      .from('cases')
+      .insert({
+        category,
+        title,
+        description: description || null,
+        image: image || null,
+        sort_order: sort_order || 0
+      })
+      .select()
+      .single();
+    
+    if (error) throw new Error(`创建失败: ${error.message}`);
+    res.json({ success: true, data, message: '案例创建成功' });
+  } catch (err) {
+    console.error('API Error:', err);
+    res.status(500).json({ success: false, error: (err as Error).message });
+  }
+});
+
+// 更新案例
+router.put('/api/cases/:id', async (req, res) => {
+  try {
+    const client = getSupabaseClient();
+    const { id } = req.params;
+    const { category, title, description, image, sort_order } = req.body;
+    
+    if (!title || !category) {
+      res.status(400).json({ success: false, error: '案例分类和标题不能为空' });
+      return;
+    }
+    
+    const { data, error } = await client
+      .from('cases')
+      .update({
+        category,
+        title,
+        description: description || null,
+        image: image || null,
+        sort_order: sort_order || 0
+      })
+      .eq('id', parseInt(id))
+      .select()
+      .single();
+    
+    if (error) throw new Error(`更新失败: ${error.message}`);
+    res.json({ success: true, data, message: '案例更新成功' });
+  } catch (err) {
+    console.error('API Error:', err);
+    res.status(500).json({ success: false, error: (err as Error).message });
+  }
+});
+
+// 删除案例
+router.delete('/api/cases/:id', async (req, res) => {
+  try {
+    const client = getSupabaseClient();
+    const { id } = req.params;
+    
+    const { error } = await client
+      .from('cases')
+      .delete()
+      .eq('id', parseInt(id));
+    
+    if (error) throw new Error(`删除失败: ${error.message}`);
+    res.json({ success: true, message: '案例删除成功' });
+  } catch (err) {
+    console.error('API Error:', err);
+    res.status(500).json({ success: false, error: (err as Error).message });
+  }
+});
+
+// ============ 文章分类管理 API（增删改）============
+
+// 创建文章分类
+router.post('/api/article-categories', async (req, res) => {
+  try {
+    const client = getSupabaseClient();
+    const { name, slug, sort_order } = req.body;
+    
+    if (!name || !slug) {
+      res.status(400).json({ success: false, error: '分类名称和标识不能为空' });
+      return;
+    }
+    
+    const { data, error } = await client
+      .from('article_categories')
+      .insert({
+        name,
+        slug,
+        sort_order: sort_order || 0
+      })
+      .select()
+      .single();
+    
+    if (error) throw new Error(`创建失败: ${error.message}`);
+    res.json({ success: true, data, message: '分类创建成功' });
+  } catch (err) {
+    console.error('API Error:', err);
+    res.status(500).json({ success: false, error: (err as Error).message });
+  }
+});
+
+// 更新文章分类
+router.put('/api/article-categories/:id', async (req, res) => {
+  try {
+    const client = getSupabaseClient();
+    const { id } = req.params;
+    const { name, slug, sort_order } = req.body;
+    
+    if (!name || !slug) {
+      res.status(400).json({ success: false, error: '分类名称和标识不能为空' });
+      return;
+    }
+    
+    const { data, error } = await client
+      .from('article_categories')
+      .update({
+        name,
+        slug,
+        sort_order: sort_order || 0
+      })
+      .eq('id', parseInt(id))
+      .select()
+      .single();
+    
+    if (error) throw new Error(`更新失败: ${error.message}`);
+    res.json({ success: true, data, message: '分类更新成功' });
+  } catch (err) {
+    console.error('API Error:', err);
+    res.status(500).json({ success: false, error: (err as Error).message });
+  }
+});
+
+// 删除文章分类
+router.delete('/api/article-categories/:id', async (req, res) => {
+  try {
+    const client = getSupabaseClient();
+    const { id } = req.params;
+    
+    // 先检查该分类下是否有文章
+    const { data: articles } = await client
+      .from('articles')
+      .select('id')
+      .eq('category_id', parseInt(id));
+    
+    if (articles && articles.length > 0) {
+      res.status(400).json({ success: false, error: '该分类下有文章，无法删除' });
+      return;
+    }
+    
+    const { error } = await client
+      .from('article_categories')
+      .delete()
+      .eq('id', parseInt(id));
+    
+    if (error) throw new Error(`删除失败: ${error.message}`);
+    res.json({ success: true, message: '分类删除成功' });
+  } catch (err) {
+    console.error('API Error:', err);
+    res.status(500).json({ success: false, error: (err as Error).message });
+  }
+});
+
 export default router;

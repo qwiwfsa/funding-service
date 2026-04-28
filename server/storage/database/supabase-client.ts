@@ -100,21 +100,12 @@ function getSupabaseClient(token?: string): SupabaseClient {
     key = serviceRoleKey ?? anonKey;
   }
 
-  const globalOptions: Record<string, any> = {};
-  if (token) {
-    globalOptions.headers = { Authorization: `Bearer ${token}` };
-  }
-  try {
-    const buffer = getReportBuffer();
-    if (buffer) {
-      globalOptions.fetch = createWrappedFetch(buffer, 'supabase');
-    }
-  } catch {
-    // Silent — reporting setup failure should not block client creation
-  }
-
+  // 使用标准 fetch，不使用 coze-coding-dev-sdk 包装
+  // 这避免了与 Express 的兼容性问题
   return createClient(url, key, {
-    global: globalOptions,
+    global: {
+      fetch: fetch,
+    },
     db: {
       timeout: 60000,
     },

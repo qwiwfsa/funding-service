@@ -15,548 +15,780 @@
     .tab-btn.active { border-bottom-color: #B8860B; color: #B8860B; }
     .fade-in { animation: fadeIn 0.3s ease-out; }
     @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
+    .modal-overlay { background: rgba(0,0,0,0.5); }
+    .tooltip { position: relative; }
+    .tooltip:hover::after { content: attr(data-tip); position: absolute; bottom: 100%; left: 50%; transform: translateX(-50%); background: #333; color: white; padding: 4px 8px; border-radius: 4px; font-size: 12px; white-space: nowrap; z-index: 100; }
   </style>
 </head>
-<body class="min-h-screen bg-gray-100" style="font-family: 'Noto Sans SC', sans-serif;">
-  
-  <div class="flex min-h-screen">
-    <!-- Sidebar -->
-    <aside class="w-64 bg-white shadow-lg fixed h-full overflow-y-auto">
-      <div class="p-6 border-b" style="border-color: rgba(184, 134, 11, 0.1);">
-        <div class="flex items-center gap-3">
-          <div class="w-10 h-10 rounded-xl bg-gradient-to-br from-yellow-600 to-yellow-500 flex items-center justify-center">
-            <span class="text-lg font-bold text-white">DF</span>
-          </div>
-          <div>
-            <h1 class="font-bold" style="color: #B8860B;">鼎丰资金</h1>
-            <p class="text-xs text-gray-500">后台管理系统</p>
-          </div>
-        </div>
+<body class="min-h-screen bg-gray-100">
+  <!-- 顶部导航 -->
+  <nav class="bg-gray-900 text-white px-6 py-4 flex justify-between items-center shadow-lg">
+    <div class="flex items-center gap-3">
+      <div class="w-10 h-10 rounded-lg flex items-center justify-center" style="background: linear-gradient(135deg, #B8860B, #DAA520);">
+        <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8c-1.657 0-3 .895-3 2s1.343 2 3 2 3 .895 3 2-1.343 2-3 2m0-8c1.11 0 2.08.402 2.599 1M12 8V7m0 1v8m0 0v1m0-1c-1.11 0-2.08-.402-2.599-1M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path>
+        </svg>
       </div>
+      <span class="text-xl font-bold">鼎丰资金 · 管理后台</span>
+    </div>
+    <button onclick="logout()" class="px-4 py-2 bg-gray-700 hover:bg-gray-600 rounded-lg transition flex items-center gap-2">
+      <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 16l4-4m0 0l-4-4m4 4H7m6 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h4a3 3 0 013 3v1"></path>
+      </svg>
+      退出登录
+    </button>
+  </nav>
 
-      <nav class="p-4 space-y-1">
-        <a href="#" class="sidebar-item active flex items-center gap-3 px-4 py-3 rounded-lg text-gray-700 transition-all" data-page="dashboard">
+  <div class="flex">
+    <!-- 侧边栏 -->
+    <aside class="w-56 bg-white shadow-lg min-h-screen">
+      <nav class="py-4">
+        <button onclick="switchTab('dashboard')" class="sidebar-item w-full px-6 py-3 text-left flex items-center gap-3 transition" id="tab-dashboard">
           <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6"></path>
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2H6a2 2 0 01-2-2V6zM14 6a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2h-2a2 2 0 01-2-2V6zM4 16a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2H6a2 2 0 01-2-2v-2zM14 16a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2h-2a2 2 0 01-2-2v-2z"></path>
           </svg>
-          <span>数据概览</span>
-        </a>
-        <a href="#" class="sidebar-item flex items-center gap-3 px-4 py-3 rounded-lg text-gray-700 transition-all" data-page="consultations">
+          数据概览
+        </button>
+        <button onclick="switchTab('consultations')" class="sidebar-item w-full px-6 py-3 text-left flex items-center gap-3 transition" id="tab-consultations">
           <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 10h.01M12 10h.01M16 10h.01M9 16H5a2 2 0 01-2-2V6a2 2 0 012-2h14a2 2 0 012 2v8a2 2 0 01-2 2h-5l-5 5v-5z"></path>
           </svg>
-          <span>用户咨询</span>
-        </a>
-        <a href="#" class="sidebar-item flex items-center gap-3 px-4 py-3 rounded-lg text-gray-700 transition-all" data-page="articles">
+          用户咨询
+        </button>
+        <button onclick="switchTab('articles')" class="sidebar-item w-full px-6 py-3 text-left flex items-center gap-3 transition" id="tab-articles">
           <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 20H5a2 2 0 01-2-2V6a2 2 0 012-2h10a2 2 0 012 2v1m2 13a2 2 0 01-2-2V7m2 13a2 2 0 002-2V9a2 2 0 00-2-2h-2m-4-3H9M7 16h6M7 8h6v4H7V8z"></path>
           </svg>
-          <span>文章管理</span>
-        </a>
-        <a href="#" class="sidebar-item flex items-center gap-3 px-4 py-3 rounded-lg text-gray-700 transition-all" data-page="cases">
+          文章管理
+        </button>
+        <button onclick="switchTab('cases')" class="sidebar-item w-full px-6 py-3 text-left flex items-center gap-3 transition" id="tab-cases">
           <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z"></path>
           </svg>
-          <span>案例管理</span>
-        </a>
-      </nav>
-
-      <div class="absolute bottom-0 left-0 right-0 p-4 border-t" style="border-color: rgba(184, 134, 11, 0.1);">
-        <a href="/" class="flex items-center gap-3 px-4 py-3 rounded-lg text-gray-500 hover:text-gray-700 transition-all">
-          <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M11 15l-3-3m0 0l8-8m-8 8h12"></path>
-          </svg>
-          <span>返回首页</span>
-        </a>
-        <button onclick="logout()" class="w-full mt-2 flex items-center gap-3 px-4 py-3 rounded-lg text-red-500 hover:bg-red-50 transition-all">
-          <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 16l4-4m0 0l-4-4m4 4H7m6 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h4a3 3 0 013 3v1"></path>
-          </svg>
-          <span>退出登录</span>
+          案例管理
         </button>
-      </div>
+      </nav>
     </aside>
 
-    <!-- Main Content -->
-    <main class="flex-1 ml-64 p-8">
-      <!-- Dashboard Page -->
-      <div id="page-dashboard" class="page-content fade-in">
-        <h2 class="text-2xl font-bold mb-6" style="color: #1F2937;">数据概览</h2>
-        
-        <!-- Stats Cards -->
-        <div class="grid grid-cols-1 md:grid-cols-4 gap-6 mb-8">
-          <div class="bg-white rounded-xl p-6 shadow-sm" style="border: 1px solid rgba(184, 134, 11, 0.1);">
+    <!-- 主内容区 -->
+    <main class="flex-1 p-8">
+      <!-- 数据概览 -->
+      <section id="section-dashboard" class="fade-in">
+        <h2 class="text-2xl font-bold mb-6 text-gray-800">数据概览</h2>
+        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-8">
+          <div class="bg-white rounded-xl p-6 shadow-sm border-l-4" style="border-color: #B8860B;">
             <div class="flex items-center justify-between">
               <div>
-                <p class="text-gray-500 text-sm mb-1">总咨询数</p>
-                <p class="text-3xl font-bold" style="color: #B8860B;" id="stat-total">0</p>
+                <p class="text-gray-500 text-sm">总咨询数</p>
+                <p class="text-3xl font-bold text-gray-800" id="stat-total">0</p>
               </div>
-              <div class="w-12 h-12 rounded-lg bg-yellow-100 flex items-center justify-center">
-                <svg class="w-6 h-6 text-yellow-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <div class="w-12 h-12 rounded-full flex items-center justify-center" style="background: rgba(184, 134, 11, 0.1);">
+                <svg class="w-6 h-6" style="color: #B8860B;" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                   <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 10h.01M12 10h.01M16 10h.01M9 16H5a2 2 0 01-2-2V6a2 2 0 012-2h14a2 2 0 012 2v8a2 2 0 01-2 2h-5l-5 5v-5z"></path>
                 </svg>
               </div>
             </div>
           </div>
-          <div class="bg-white rounded-xl p-6 shadow-sm" style="border: 1px solid rgba(184, 134, 11, 0.1);">
+          <div class="bg-white rounded-xl p-6 shadow-sm border-l-4 border-yellow-500">
             <div class="flex items-center justify-between">
               <div>
-                <p class="text-gray-500 text-sm mb-1">待处理</p>
-                <p class="text-3xl font-bold text-orange-500" id="stat-pending">0</p>
+                <p class="text-gray-500 text-sm">待处理</p>
+                <p class="text-3xl font-bold text-yellow-600" id="stat-pending">0</p>
               </div>
-              <div class="w-12 h-12 rounded-lg bg-orange-100 flex items-center justify-center">
-                <svg class="w-6 h-6 text-orange-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <div class="w-12 h-12 rounded-full flex items-center justify-center bg-yellow-100">
+                <svg class="w-6 h-6 text-yellow-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                   <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"></path>
                 </svg>
               </div>
             </div>
           </div>
-          <div class="bg-white rounded-xl p-6 shadow-sm" style="border: 1px solid rgba(184, 134, 11, 0.1);">
+          <div class="bg-white rounded-xl p-6 shadow-sm border-l-4 border-blue-500">
             <div class="flex items-center justify-between">
               <div>
-                <p class="text-gray-500 text-sm mb-1">已联系</p>
-                <p class="text-3xl font-bold text-blue-500" id="stat-contacted">0</p>
+                <p class="text-gray-500 text-sm">已联系</p>
+                <p class="text-3xl font-bold text-blue-600" id="stat-contacted">0</p>
               </div>
-              <div class="w-12 h-12 rounded-lg bg-blue-100 flex items-center justify-center">
-                <svg class="w-6 h-6 text-blue-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <div class="w-12 h-12 rounded-full flex items-center justify-center bg-blue-100">
+                <svg class="w-6 h-6 text-blue-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                   <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 5a2 2 0 012-2h3.28a1 1 0 01.948.684l1.498 4.493a1 1 0 01-.502 1.21l-2.257 1.13a11.042 11.042 0 005.516 5.516l1.13-2.257a1 1 0 011.21-.502l4.493 1.498a1 1 0 01.684.949V19a2 2 0 01-2 2h-1C9.716 21 3 14.284 3 6V5z"></path>
                 </svg>
               </div>
             </div>
           </div>
-          <div class="bg-white rounded-xl p-6 shadow-sm" style="border: 1px solid rgba(184, 134, 11, 0.1);">
+          <div class="bg-white rounded-xl p-6 shadow-sm border-l-4 border-green-500">
             <div class="flex items-center justify-between">
               <div>
-                <p class="text-gray-500 text-sm mb-1">已完成</p>
-                <p class="text-3xl font-bold text-green-500" id="stat-completed">0</p>
+                <p class="text-gray-500 text-sm">已完成</p>
+                <p class="text-3xl font-bold text-green-600" id="stat-completed">0</p>
               </div>
-              <div class="w-12 h-12 rounded-lg bg-green-100 flex items-center justify-center">
-                <svg class="w-6 h-6 text-green-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <div class="w-12 h-12 rounded-full flex items-center justify-center bg-green-100">
+                <svg class="w-6 h-6 text-green-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                   <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"></path>
                 </svg>
               </div>
             </div>
           </div>
         </div>
+      </section>
 
-        <!-- Recent Consultations -->
-        <div class="bg-white rounded-xl shadow-sm" style="border: 1px solid rgba(184, 134, 11, 0.1);">
-          <div class="p-6 border-b" style="border-color: rgba(184, 134, 11, 0.1);">
-            <h3 class="font-bold" style="color: #1F2937;">最新咨询</h3>
+      <!-- 用户咨询管理 -->
+      <section id="section-consultations" class="hidden fade-in">
+        <div class="flex justify-between items-center mb-6">
+          <h2 class="text-2xl font-bold text-gray-800">用户咨询管理</h2>
+        </div>
+        <div class="bg-white rounded-xl shadow-sm">
+          <div class="p-4 border-b flex gap-4">
+            <button onclick="filterConsultations('all')" class="consultation-filter px-4 py-2 rounded-lg bg-gray-100 hover:bg-gray-200 transition text-sm" data-filter="all">全部</button>
+            <button onclick="filterConsultations('pending')" class="consultation-filter px-4 py-2 rounded-lg bg-yellow-100 hover:bg-yellow-200 transition text-sm" data-filter="pending">待处理</button>
+            <button onclick="filterConsultations('contacted')" class="consultation-filter px-4 py-2 rounded-lg bg-gray-100 hover:bg-gray-200 transition text-sm" data-filter="contacted">已联系</button>
+            <button onclick="filterConsultations('completed')" class="consultation-filter px-4 py-2 rounded-lg bg-gray-100 hover:bg-gray-200 transition text-sm" data-filter="completed">已完成</button>
           </div>
-          <div class="p-6">
-            <div id="recent-list" class="space-y-4">
-              <p class="text-gray-500 text-center py-8">加载中...</p>
-            </div>
+          <div class="overflow-x-auto">
+            <table class="w-full">
+              <thead class="bg-gray-50">
+                <tr>
+                  <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">姓名</th>
+                  <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">联系方式</th>
+                  <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">公司</th>
+                  <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">咨询类型</th>
+                  <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">留言内容</th>
+                  <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">状态</th>
+                  <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">时间</th>
+                  <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">操作</th>
+                </tr>
+              </thead>
+              <tbody class="bg-white divide-y divide-gray-200" id="consultations-table">
+                <tr><td colspan="8" class="px-6 py-8 text-center text-gray-500">加载中...</td></tr>
+              </tbody>
+            </table>
           </div>
         </div>
-      </div>
+      </section>
 
-      <!-- Consultations Page -->
-      <div id="page-consultations" class="page-content hidden fade-in">
-        <div class="flex items-center justify-between mb-6">
-          <h2 class="text-2xl font-bold" style="color: #1F2937;">用户咨询管理</h2>
-          <select id="filter-status" class="px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-yellow-500">
-            <option value="all">全部状态</option>
-            <option value="pending">待处理</option>
-            <option value="contacted">已联系</option>
-            <option value="completed">已完成</option>
-          </select>
-        </div>
-
-        <div class="bg-white rounded-xl shadow-sm overflow-hidden" style="border: 1px solid rgba(184, 134, 11, 0.1);">
-          <table class="w-full">
-            <thead class="bg-gray-50">
-              <tr>
-                <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase">姓名</th>
-                <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase">电话</th>
-                <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase">邮箱</th>
-                <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase">公司</th>
-                <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase">业务类型</th>
-                <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase">状态</th>
-                <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase">时间</th>
-                <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase">操作</th>
-              </tr>
-            </thead>
-            <tbody id="consultations-table" class="divide-y divide-gray-200">
-              <tr><td colspan="8" class="px-6 py-8 text-center text-gray-500">加载中...</td></tr>
-            </tbody>
-          </table>
-        </div>
-      </div>
-
-      <!-- Articles Page -->
-      <div id="page-articles" class="page-content hidden fade-in">
-        <div class="flex items-center justify-between mb-6">
-          <h2 class="text-2xl font-bold" style="color: #1F2937;">文章管理</h2>
-          <button onclick="showAddArticleModal()" class="px-4 py-2 bg-gradient-to-r from-yellow-600 to-yellow-500 text-white rounded-lg hover:from-yellow-500 hover:to-yellow-400 transition-all">
-            + 添加文章
+      <!-- 文章管理 -->
+      <section id="section-articles" class="hidden fade-in">
+        <div class="flex justify-between items-center mb-6">
+          <h2 class="text-2xl font-bold text-gray-800">文章管理</h2>
+          <button onclick="openArticleModal()" class="px-4 py-2 text-white rounded-lg transition flex items-center gap-2" style="background: linear-gradient(135deg, #B8860B, #DAA520);">
+            <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4"></path>
+            </svg>
+            新增文章
           </button>
         </div>
-
-        <div class="bg-white rounded-xl shadow-sm overflow-hidden" style="border: 1px solid rgba(184, 134, 11, 0.1);">
-          <table class="w-full">
-            <thead class="bg-gray-50">
-              <tr>
-                <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase">ID</th>
-                <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase">标题</th>
-                <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase">分类</th>
-                <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase">浏览量</th>
-                <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase">发布时间</th>
-                <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase">操作</th>
-              </tr>
-            </thead>
-            <tbody id="articles-table" class="divide-y divide-gray-200">
-              <tr><td colspan="6" class="px-6 py-8 text-center text-gray-500">加载中...</td></tr>
-            </tbody>
-          </table>
+        <div class="bg-white rounded-xl shadow-sm">
+          <div class="overflow-x-auto">
+            <table class="w-full">
+              <thead class="bg-gray-50">
+                <tr>
+                  <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">ID</th>
+                  <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">标题</th>
+                  <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">分类</th>
+                  <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">作者</th>
+                  <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">阅读量</th>
+                  <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">发布状态</th>
+                  <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">创建时间</th>
+                  <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">操作</th>
+                </tr>
+              </thead>
+              <tbody class="bg-white divide-y divide-gray-200" id="articles-table">
+                <tr><td colspan="8" class="px-6 py-8 text-center text-gray-500">加载中...</td></tr>
+              </tbody>
+            </table>
+          </div>
         </div>
-      </div>
+      </section>
 
-      <!-- Cases Page -->
-      <div id="page-cases" class="page-content hidden fade-in">
-        <div class="flex items-center justify-between mb-6">
-          <h2 class="text-2xl font-bold" style="color: #1F2937;">案例管理</h2>
-          <button onclick="showAddCaseModal()" class="px-4 py-2 bg-gradient-to-r from-yellow-600 to-yellow-500 text-white rounded-lg hover:from-yellow-500 hover:to-yellow-400 transition-all">
-            + 添加案例
+      <!-- 案例管理 -->
+      <section id="section-cases" class="hidden fade-in">
+        <div class="flex justify-between items-center mb-6">
+          <h2 class="text-2xl font-bold text-gray-800">案例管理</h2>
+          <button onclick="openCaseModal()" class="px-4 py-2 text-white rounded-lg transition flex items-center gap-2" style="background: linear-gradient(135deg, #B8860B, #DAA520);">
+            <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4"></path>
+            </svg>
+            新增案例
           </button>
         </div>
-
         <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6" id="cases-grid">
-          <p class="text-gray-500 col-span-full text-center py-8">加载中...</p>
+          <div class="text-center text-gray-500 col-span-4 py-12">加载中...</div>
         </div>
-      </div>
+      </section>
     </main>
   </div>
 
-  <!-- Modal -->
-  <div id="modal" class="fixed inset-0 bg-black/50 hidden items-center justify-center z-50">
-    <div class="bg-white rounded-xl w-full max-w-lg mx-4 max-h-[90vh] overflow-y-auto">
-      <div class="p-6 border-b" style="border-color: rgba(184, 134, 11, 0.1);">
-        <h3 class="text-lg font-bold" style="color: #1F2937;" id="modal-title">标题</h3>
-      </div>
-      <div class="p-6" id="modal-content">
-        <!-- Modal content here -->
+  <!-- 咨询详情弹窗 -->
+  <div id="consultation-modal" class="fixed inset-0 z-50 hidden">
+    <div class="modal-overlay absolute inset-0" onclick="closeModal('consultation-modal')"></div>
+    <div class="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 bg-white rounded-xl p-6 w-full max-w-lg shadow-xl">
+      <h3 class="text-xl font-bold mb-4">咨询详情</h3>
+      <div id="consultation-detail" class="space-y-3"></div>
+      <div class="mt-6 flex justify-end gap-3">
+        <button onclick="closeModal('consultation-modal')" class="px-4 py-2 bg-gray-200 hover:bg-gray-300 rounded-lg transition">关闭</button>
       </div>
     </div>
   </div>
 
+  <!-- 文章编辑弹窗 -->
+  <div id="article-modal" class="fixed inset-0 z-50 hidden overflow-y-auto">
+    <div class="modal-overlay absolute inset-0" onclick="closeModal('article-modal')"></div>
+    <div class="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 bg-white rounded-xl p-6 w-full max-w-2xl shadow-xl" style="margin-top: -200px;">
+      <h3 class="text-xl font-bold mb-4" id="article-modal-title">新增文章</h3>
+      <form id="article-form" class="space-y-4">
+        <input type="hidden" id="article-id">
+        <div class="grid grid-cols-2 gap-4">
+          <div>
+            <label class="block text-sm font-medium text-gray-700 mb-1">文章标题 *</label>
+            <input type="text" id="article-title" required class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-amber-500">
+          </div>
+          <div>
+            <label class="block text-sm font-medium text-gray-700 mb-1">文章分类</label>
+            <select id="article-category" class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-amber-500">
+              <option value="">请选择分类</option>
+            </select>
+          </div>
+        </div>
+        <div class="grid grid-cols-2 gap-4">
+          <div>
+            <label class="block text-sm font-medium text-gray-700 mb-1">作者</label>
+            <input type="text" id="article-author" class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-amber-500" placeholder="管理员">
+          </div>
+          <div>
+            <label class="block text-sm font-medium text-gray-700 mb-1">发布状态</label>
+            <select id="article-published" class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-amber-500">
+              <option value="true">已发布</option>
+              <option value="false">未发布</option>
+            </select>
+          </div>
+        </div>
+        <div>
+          <label class="block text-sm font-medium text-gray-700 mb-1">封面图片URL</label>
+          <input type="url" id="article-image" class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-amber-500" placeholder="https://...">
+        </div>
+        <div>
+          <label class="block text-sm font-medium text-gray-700 mb-1">文章摘要</label>
+          <textarea id="article-excerpt" rows="2" class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-amber-500"></textarea>
+        </div>
+        <div>
+          <label class="block text-sm font-medium text-gray-700 mb-1">文章内容</label>
+          <textarea id="article-content" rows="6" class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-amber-500"></textarea>
+        </div>
+        <div class="flex justify-end gap-3 pt-4">
+          <button type="button" onclick="closeModal('article-modal')" class="px-4 py-2 bg-gray-200 hover:bg-gray-300 rounded-lg transition">取消</button>
+          <button type="submit" class="px-6 py-2 text-white rounded-lg transition" style="background: linear-gradient(135deg, #B8860B, #DAA520);">保存</button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <!-- 案例编辑弹窗 -->
+  <div id="case-modal" class="fixed inset-0 z-50 hidden overflow-y-auto">
+    <div class="modal-overlay absolute inset-0" onclick="closeModal('case-modal')"></div>
+    <div class="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 bg-white rounded-xl p-6 w-full max-w-lg shadow-xl" style="margin-top: -200px;">
+      <h3 class="text-xl font-bold mb-4" id="case-modal-title">新增案例</h3>
+      <form id="case-form" class="space-y-4">
+        <input type="hidden" id="case-id">
+        <div class="grid grid-cols-2 gap-4">
+          <div>
+            <label class="block text-sm font-medium text-gray-700 mb-1">案例标题 *</label>
+            <input type="text" id="case-title" required class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-amber-500">
+          </div>
+          <div>
+            <label class="block text-sm font-medium text-gray-700 mb-1">案例分类 *</label>
+            <select id="case-category" required class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-amber-500">
+              <option value="">请选择分类</option>
+              <option value="上市公司服务">上市公司服务</option>
+              <option value="企业摆账">企业摆账</option>
+              <option value="银行存款">银行存款</option>
+              <option value="应收账款融资">应收账款融资</option>
+            </select>
+          </div>
+        </div>
+        <div>
+          <label class="block text-sm font-medium text-gray-700 mb-1">案例图片URL</label>
+          <input type="url" id="case-image" class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-amber-500" placeholder="https://...">
+        </div>
+        <div>
+          <label class="block text-sm font-medium text-gray-700 mb-1">排序</label>
+          <input type="number" id="case-sort" class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-amber-500" value="0" min="0">
+        </div>
+        <div>
+          <label class="block text-sm font-medium text-gray-700 mb-1">案例描述</label>
+          <textarea id="case-description" rows="3" class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-amber-500"></textarea>
+        </div>
+        <div class="flex justify-end gap-3 pt-4">
+          <button type="button" onclick="closeModal('case-modal')" class="px-4 py-2 bg-gray-200 hover:bg-gray-300 rounded-lg transition">取消</button>
+          <button type="submit" class="px-6 py-2 text-white rounded-lg transition" style="background: linear-gradient(135deg, #B8860B, #DAA520);">保存</button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <!-- Toast 提示 -->
+  <div id="toast" class="fixed bottom-4 right-4 px-6 py-3 rounded-lg text-white transform translate-y-20 opacity-0 transition-all duration-300 z-50"></div>
+
   <script>
     const API_BASE = '/api';
 
-    // Check login
-    if (!sessionStorage.getItem('adminLoggedIn')) {
-      window.location.href = '/admin/index.html';
+    // 检查登录状态
+    function checkAuth() {
+      const loggedIn = sessionStorage.getItem('admin_logged_in');
+      if (!loggedIn) {
+        window.location.href = 'index.html';
+      }
     }
 
-    // Logout
     function logout() {
-      sessionStorage.removeItem('adminLoggedIn');
-      window.location.href = '/admin/index.html';
+      sessionStorage.removeItem('admin_logged_in');
+      window.location.href = 'index.html';
     }
 
-    // Navigation
-    document.querySelectorAll('.sidebar-item[data-page]').forEach(item => {
-      item.addEventListener('click', (e) => {
-        e.preventDefault();
-        const page = item.dataset.page;
-        
-        // Update active state
-        document.querySelectorAll('.sidebar-item').forEach(i => i.classList.remove('active'));
-        item.classList.add('active');
-        
-        // Show page
-        document.querySelectorAll('.page-content').forEach(p => p.classList.add('hidden'));
-        document.getElementById(`page-${page}`).classList.remove('hidden');
-        
-        // Load data
-        if (page === 'dashboard') loadDashboard();
-        if (page === 'consultations') loadConsultations();
-        if (page === 'articles') loadArticles();
-        if (page === 'cases') loadCases();
+    // Tab 切换
+    function switchTab(tab) {
+      document.querySelectorAll('[id^="section-"]').forEach(el => el.classList.add('hidden'));
+      document.getElementById('section-' + tab).classList.remove('hidden');
+
+      document.querySelectorAll('.sidebar-item').forEach(el => el.classList.remove('active'));
+      document.getElementById('tab-' + tab).classList.add('active');
+
+      if (tab === 'dashboard') loadStats();
+      if (tab === 'consultations') loadConsultations();
+      if (tab === 'articles') loadArticles();
+      if (tab === 'cases') loadCases();
+    }
+
+    // Toast 提示
+    function showToast(message, type = 'success') {
+      const toast = document.getElementById('toast');
+      toast.textContent = message;
+      toast.className = 'fixed bottom-4 right-4 px-6 py-3 rounded-lg text-white transform transition-all duration-300 z-50';
+      toast.style.background = type === 'success' ? '#10B981' : '#EF4444';
+      toast.style.transform = 'translateY(0)';
+      toast.style.opacity = '1';
+      setTimeout(() => {
+        toast.style.transform = 'translateY(20px)';
+        toast.style.opacity = '0';
+      }, 3000);
+    }
+
+    // 模态框
+    function closeModal(id) {
+      document.getElementById(id).classList.add('hidden');
+    }
+
+    // ============ 数据统计 ============
+    async function loadStats() {
+      try {
+        const res = await fetch(API_BASE + '/consultations');
+        const json = await res.json();
+        if (json.success) {
+          const data = json.data;
+          document.getElementById('stat-total').textContent = data.length;
+          document.getElementById('stat-pending').textContent = data.filter(d => d.status === 'pending').length;
+          document.getElementById('stat-contacted').textContent = data.filter(d => d.status === 'contacted').length;
+          document.getElementById('stat-completed').textContent = data.filter(d => d.status === 'completed').length;
+        }
+      } catch (e) {
+        console.error('加载统计数据失败', e);
+      }
+    }
+
+    // ============ 用户咨询 ============
+    let currentFilter = 'all';
+
+    async function loadConsultations(filter = currentFilter) {
+      try {
+        const url = filter === 'all' ? API_BASE + '/consultations' : API_BASE + '/consultations?status=' + filter;
+        const res = await fetch(url);
+        const json = await res.json();
+        if (json.success) {
+          renderConsultations(json.data);
+        }
+      } catch (e) {
+        console.error('加载咨询数据失败', e);
+      }
+    }
+
+    function filterConsultations(filter) {
+      currentFilter = filter;
+      document.querySelectorAll('.consultation-filter').forEach(btn => {
+        btn.className = 'consultation-filter px-4 py-2 rounded-lg bg-gray-100 hover:bg-gray-200 transition text-sm';
+        if (btn.dataset.filter === filter) {
+          btn.className = 'consultation-filter px-4 py-2 rounded-lg text-white transition text-sm';
+          btn.style.background = '#B8860B';
+        }
       });
-    });
-
-    // API helpers
-    async function api(url, options = {}) {
-      const res = await fetch(API_BASE + url);
-      const data = await res.json();
-      if (!data.success) throw new Error(data.error);
-      return data;
+      loadConsultations(filter);
     }
 
-    // Load Dashboard
-    async function loadDashboard() {
-      try {
-        const data = await api('/consultations');
-        const consultations = data.data || [];
-        
-        document.getElementById('stat-total').textContent = consultations.length;
-        document.getElementById('stat-pending').textContent = consultations.filter(c => c.status === 'pending').length;
-        document.getElementById('stat-contacted').textContent = consultations.filter(c => c.status === 'contacted').length;
-        document.getElementById('stat-completed').textContent = consultations.filter(c => c.status === 'completed').length;
-        
-        const recentList = document.getElementById('recent-list');
-        const recent = consultations.slice(0, 5);
-        
-        if (recent.length === 0) {
-          recentList.innerHTML = '<p class="text-gray-500 text-center py-8">暂无数据</p>';
-        } else {
-          recentList.innerHTML = recent.map(c => `
-            <div class="flex items-center justify-between p-4 rounded-lg bg-gray-50">
-              <div>
-                <p class="font-medium" style="color: #1F2937;">${c.name || '匿名用户'}</p>
-                <p class="text-sm text-gray-500">${c.phone || ''} ${c.company ? '- ' + c.company : ''}</p>
-                <p class="text-sm text-gray-400 mt-1">${c.message || ''}</p>
-              </div>
-              <span class="px-3 py-1 text-xs rounded-full ${getStatusClass(c.status)}">${getStatusText(c.status)}</span>
-            </div>
-          `).join('');
-        }
-      } catch (err) {
-        console.error('Failed to load dashboard:', err);
+    function renderConsultations(data) {
+      const tbody = document.getElementById('consultations-table');
+      if (!data.length) {
+        tbody.innerHTML = '<tr><td colspan="8" class="px-6 py-8 text-center text-gray-500">暂无数据</td></tr>';
+        return;
       }
+      tbody.innerHTML = data.map(item => {
+        const statusMap = {
+          pending: { label: '待处理', class: 'bg-yellow-100 text-yellow-800' },
+          contacted: { label: '已联系', class: 'bg-blue-100 text-blue-800' },
+          completed: { label: '已完成', class: 'bg-green-100 text-green-800' }
+        };
+        const status = statusMap[item.status] || statusMap.pending;
+        return `
+          <tr class="hover:bg-gray-50">
+            <td class="px-6 py-4 whitespace-nowrap font-medium">${item.name || '-'}</td>
+            <td class="px-6 py-4 whitespace-nowrap">
+              <div>${item.phone || '-'}</div>
+              <div class="text-sm text-gray-500">${item.email || ''}</div>
+            </td>
+            <td class="px-6 py-4 whitespace-nowrap">${item.company || '-'}</td>
+            <td class="px-6 py-4 whitespace-nowrap">${item.business_type || '-'}</td>
+            <td class="px-6 py-4 max-w-xs truncate">${item.message || '-'}</td>
+            <td class="px-6 py-4 whitespace-nowrap">
+              <select onchange="updateConsultationStatus(${item.id}, this.value)" class="text-xs px-2 py-1 rounded ${status.class} cursor-pointer">
+                <option value="pending" ${item.status === 'pending' ? 'selected' : ''}>待处理</option>
+                <option value="contacted" ${item.status === 'contacted' ? 'selected' : ''}>已联系</option>
+                <option value="completed" ${item.status === 'completed' ? 'selected' : ''}>已完成</option>
+              </select>
+            </td>
+            <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">${new Date(item.created_at).toLocaleString('zh-CN')}</td>
+            <td class="px-6 py-4 whitespace-nowrap">
+              <button onclick="showConsultationDetail(${item.id})" class="text-blue-600 hover:text-blue-800 mr-2">详情</button>
+            </td>
+          </tr>
+        `;
+      }).join('');
     }
 
-    // Load Consultations
-    async function loadConsultations(status = 'all') {
+    async function updateConsultationStatus(id, status) {
       try {
-        const url = status === 'all' ? '/consultations' : `/consultations?status=${status}`;
-        const data = await api(url);
-        const consultations = data.data || [];
-        
-        const tbody = document.getElementById('consultations-table');
-        if (consultations.length === 0) {
-          tbody.innerHTML = '<tr><td colspan="8" class="px-6 py-8 text-center text-gray-500">暂无数据</td></tr>';
-        } else {
-          tbody.innerHTML = consultations.map(c => `
-            <tr class="hover:bg-gray-50">
-              <td class="px-6 py-4">${c.name || '-'}</td>
-              <td class="px-6 py-4">${c.phone || '-'}</td>
-              <td class="px-6 py-4">${c.email || '-'}</td>
-              <td class="px-6 py-4">${c.company || '-'}</td>
-              <td class="px-6 py-4">${c.business_type || '-'}</td>
-              <td class="px-6 py-4">
-                <select onchange="updateStatus(${c.id}, this.value)" class="px-2 py-1 text-xs rounded border ${getStatusClass(c.status)} cursor-pointer">
-                  <option value="pending" ${c.status === 'pending' ? 'selected' : ''}>待处理</option>
-                  <option value="contacted" ${c.status === 'contacted' ? 'selected' : ''}>已联系</option>
-                  <option value="completed" ${c.status === 'completed' ? 'selected' : ''}>已完成</option>
-                </select>
-              </td>
-              <td class="px-6 py-4 text-sm text-gray-500">${new Date(c.created_at).toLocaleDateString()}</td>
-              <td class="px-6 py-4">
-                <button onclick="showConsultDetail(${c.id})" class="text-yellow-600 hover:text-yellow-700 text-sm">详情</button>
-              </td>
-            </tr>
-          `).join('');
-        }
-      } catch (err) {
-        console.error('Failed to load consultations:', err);
-      }
-    }
-
-    // Update consultation status
-    async function updateStatus(id, status) {
-      try {
-        await api(`/consultations/${id}`, {
+        const res = await fetch(API_BASE + '/consultations/' + id, {
           method: 'PATCH',
           headers: { 'Content-Type': 'application/json' },
           body: JSON.stringify({ status })
         });
-        loadDashboard();
-      } catch (err) {
-        alert('更新失败: ' + err.message);
+        const json = await res.json();
+        if (json.success) {
+          showToast('状态更新成功');
+          loadStats();
+        } else {
+          showToast(json.error, 'error');
+          loadConsultations();
+        }
+      } catch (e) {
+        showToast('更新失败', 'error');
       }
     }
 
-    // Show consultation detail
-    async function showConsultDetail(id) {
-      try {
-        const data = await api('/consultations');
-        const c = data.data.find(item => item.id === id);
-        if (!c) return;
-        
-        showModal('咨询详情', `
-          <div class="space-y-4">
-            <div class="grid grid-cols-2 gap-4">
-              <div>
-                <label class="text-sm text-gray-500">姓名</label>
-                <p class="font-medium">${c.name || '-'}</p>
-              </div>
-              <div>
-                <label class="text-sm text-gray-500">电话</label>
-                <p class="font-medium">${c.phone || '-'}</p>
-              </div>
-              <div>
-                <label class="text-sm text-gray-500">邮箱</label>
-                <p class="font-medium">${c.email || '-'}</p>
-              </div>
-              <div>
-                <label class="text-sm text-gray-500">公司</label>
-                <p class="font-medium">${c.company || '-'}</p>
-              </div>
-            </div>
-            <div>
-              <label class="text-sm text-gray-500">业务类型</label>
-              <p class="font-medium">${c.business_type || '-'}</p>
-            </div>
-            <div>
-              <label class="text-sm text-gray-500">留言内容</label>
-              <p class="p-3 bg-gray-50 rounded-lg">${c.message || '-'}</p>
-            </div>
-            <div>
-              <label class="text-sm text-gray-500">提交时间</label>
-              <p class="font-medium">${new Date(c.created_at).toLocaleString()}</p>
-            </div>
-          </div>
-        `);
-      } catch (err) {
-        alert('加载失败: ' + err.message);
-      }
+    function showConsultationDetail(id) {
+      fetch(API_BASE + '/consultations')
+        .then(r => r.json())
+        .then(json => {
+          if (json.success) {
+            const item = json.data.find(d => d.id === id);
+            if (item) {
+              document.getElementById('consultation-detail').innerHTML = `
+                <div class="flex justify-between"><span class="text-gray-500">姓名：</span><span>${item.name || '-'}</span></div>
+                <div class="flex justify-between"><span class="text-gray-500">电话：</span><span>${item.phone || '-'}</span></div>
+                <div class="flex justify-between"><span class="text-gray-500">邮箱：</span><span>${item.email || '-'}</span></div>
+                <div class="flex justify-between"><span class="text-gray-500">公司：</span><span>${item.company || '-'}</span></div>
+                <div class="flex justify-between"><span class="text-gray-500">咨询类型：</span><span>${item.business_type || '-'}</span></div>
+                <div class="flex justify-between"><span class="text-gray-500">留言内容：</span><span class="text-right max-w-xs">${item.message || '-'}</span></div>
+                <div class="flex justify-between"><span class="text-gray-500">状态：</span><span>${item.status === 'pending' ? '待处理' : item.status === 'contacted' ? '已联系' : '已完成'}</span></div>
+                <div class="flex justify-between"><span class="text-gray-500">提交时间：</span><span>${new Date(item.created_at).toLocaleString('zh-CN')}</span></div>
+              `;
+              document.getElementById('consultation-modal').classList.remove('hidden');
+            }
+          }
+        });
     }
 
-    // Load Articles
+    // ============ 文章管理 ============
+    let categories = [];
+
     async function loadArticles() {
       try {
-        const data = await api('/articles');
-        const articles = data.data || [];
-        
-        const tbody = document.getElementById('articles-table');
-        if (articles.length === 0) {
-          tbody.innerHTML = '<tr><td colspan="6" class="px-6 py-8 text-center text-gray-500">暂无数据</td></tr>';
-        } else {
-          tbody.innerHTML = articles.map(a => `
-            <tr class="hover:bg-gray-50">
-              <td class="px-6 py-4">${a.id}</td>
-              <td class="px-6 py-4">${a.title}</td>
-              <td class="px-6 py-4">${a.article_categories?.name || '-'}</td>
-              <td class="px-6 py-4">${a.views}</td>
-              <td class="px-6 py-4 text-sm text-gray-500">${new Date(a.created_at).toLocaleDateString()}</td>
-              <td class="px-6 py-4">
-                <button onclick="showArticleDetail(${a.id})" class="text-yellow-600 hover:text-yellow-700 text-sm mr-2">查看</button>
-                <button onclick="deleteArticle(${a.id})" class="text-red-600 hover:text-red-700 text-sm">删除</button>
-              </td>
-            </tr>
-          `).join('');
+        const res = await fetch(API_BASE + '/articles?published=false');
+        const json = await res.json();
+        if (json.success) {
+          renderArticles(json.data);
         }
-      } catch (err) {
-        console.error('Failed to load articles:', err);
+      } catch (e) {
+        console.error('加载文章数据失败', e);
       }
     }
 
-    // Show article detail
-    async function showArticleDetail(id) {
+    async function loadCategories() {
       try {
-        const data = await api(`/articles/${id}`);
-        const a = data.data;
-        
-        showModal(a.title, `
-          <div class="space-y-4">
-            <img src="${a.image}" alt="${a.title}" class="w-full h-48 object-cover rounded-lg">
-            <div class="grid grid-cols-2 gap-4">
-              <div>
-                <label class="text-sm text-gray-500">分类</label>
-                <p class="font-medium">${a.article_categories?.name || '-'}</p>
-              </div>
-              <div>
-                <label class="text-sm text-gray-500">作者</label>
-                <p class="font-medium">${a.author || '-'}</p>
-              </div>
-              <div>
-                <label class="text-sm text-gray-500">浏览量</label>
-                <p class="font-medium">${a.views}</p>
-              </div>
-              <div>
-                <label class="text-sm text-gray-500">发布时间</label>
-                <p class="font-medium">${new Date(a.created_at).toLocaleDateString()}</p>
-              </div>
-            </div>
-            <div>
-              <label class="text-sm text-gray-500">摘要</label>
-              <p class="p-3 bg-gray-50 rounded-lg">${a.excerpt || '-'}</p>
-            </div>
-            <div>
-              <label class="text-sm text-gray-500">正文</label>
-              <p class="p-3 bg-gray-50 rounded-lg whitespace-pre-wrap">${a.content || '-'}</p>
-            </div>
-          </div>
-        `);
-      } catch (err) {
-        alert('加载失败: ' + err.message);
+        const res = await fetch(API_BASE + '/article-categories');
+        const json = await res.json();
+        if (json.success) {
+          categories = json.data;
+        }
+      } catch (e) {
+        console.error('加载分类失败', e);
       }
     }
 
-    // Load Cases
+    function getCategoryName(id) {
+      const cat = categories.find(c => c.id === id);
+      return cat ? cat.name : '-';
+    }
+
+    function renderArticles(data) {
+      const tbody = document.getElementById('articles-table');
+      if (!data.length) {
+        tbody.innerHTML = '<tr><td colspan="8" class="px-6 py-8 text-center text-gray-500">暂无数据</td></tr>';
+        return;
+      }
+      tbody.innerHTML = data.map(item => `
+        <tr class="hover:bg-gray-50">
+          <td class="px-6 py-4 whitespace-nowrap">${item.id}</td>
+          <td class="px-6 py-4">
+            <div class="font-medium">${item.title}</div>
+            <div class="text-sm text-gray-500 max-w-xs truncate">${item.excerpt || ''}</div>
+          </td>
+          <td class="px-6 py-4 whitespace-nowrap">${getCategoryName(item.category_id)}</td>
+          <td class="px-6 py-4 whitespace-nowrap">${item.author || '-'}</td>
+          <td class="px-6 py-4 whitespace-nowrap">${item.views || 0}</td>
+          <td class="px-6 py-4 whitespace-nowrap">
+            <button onclick="toggleArticlePublish(${item.id}, ${!item.is_published})" class="px-2 py-1 rounded text-xs ${item.is_published ? 'bg-green-100 text-green-800' : 'bg-gray-100 text-gray-800'}">
+              ${item.is_published ? '已发布' : '未发布'}
+            </button>
+          </td>
+          <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">${new Date(item.created_at).toLocaleDateString('zh-CN')}</td>
+          <td class="px-6 py-4 whitespace-nowrap">
+            <button onclick="editArticle(${item.id})" class="text-blue-600 hover:text-blue-800 mr-2">编辑</button>
+            <button onclick="deleteArticle(${item.id})" class="text-red-600 hover:text-red-800">删除</button>
+          </td>
+        </tr>
+      `).join('');
+    }
+
+    function openArticleModal(article = null) {
+      document.getElementById('article-id').value = article ? article.id : '';
+      document.getElementById('article-title').value = article ? article.title : '';
+      document.getElementById('article-category').value = article ? (article.category_id || '') : '';
+      document.getElementById('article-author').value = article ? (article.author || '') : '';
+      document.getElementById('article-published').value = article ? (article.is_published ? 'true' : 'false') : 'true';
+      document.getElementById('article-image').value = article ? (article.image || '') : '';
+      document.getElementById('article-excerpt').value = article ? (article.excerpt || '') : '';
+      document.getElementById('article-content').value = article ? (article.content || '') : '';
+      document.getElementById('article-modal-title').textContent = article ? '编辑文章' : '新增文章';
+
+      // 填充分类选项
+      const select = document.getElementById('article-category');
+      select.innerHTML = '<option value="">请选择分类</option>' + categories.map(c =>
+        `<option value="${c.id}">${c.name}</option>`
+      ).join('');
+      if (article) select.value = article.category_id || '';
+
+      document.getElementById('article-modal').classList.remove('hidden');
+    }
+
+    async function editArticle(id) {
+      try {
+        const res = await fetch(API_BASE + '/articles/' + id);
+        const json = await res.json();
+        if (json.success) {
+          openArticleModal(json.data);
+        }
+      } catch (e) {
+        showToast('加载文章失败', 'error');
+      }
+    }
+
+    async function deleteArticle(id) {
+      if (!confirm('确定要删除这篇文章吗？')) return;
+      try {
+        const res = await fetch(API_BASE + '/articles/' + id, { method: 'DELETE' });
+        const json = await res.json();
+        if (json.success) {
+          showToast('删除成功');
+          loadArticles();
+        } else {
+          showToast(json.error, 'error');
+        }
+      } catch (e) {
+        showToast('删除失败', 'error');
+      }
+    }
+
+    async function toggleArticlePublish(id, isPublished) {
+      try {
+        const res = await fetch(API_BASE + '/articles/' + id);
+        const json = await res.json();
+        if (json.success) {
+          const article = json.data;
+          const updateRes = await fetch(API_BASE + '/articles/' + id, {
+            method: 'PUT',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({
+              ...article,
+              is_published: isPublished
+            })
+          });
+          const updateJson = await updateRes.json();
+          if (updateJson.success) {
+            showToast(isPublished ? '发布成功' : '已取消发布');
+            loadArticles();
+          }
+        }
+      } catch (e) {
+        showToast('操作失败', 'error');
+      }
+    }
+
+    document.getElementById('article-form').addEventListener('submit', async (e) => {
+      e.preventDefault();
+      const id = document.getElementById('article-id').value;
+      const data = {
+        title: document.getElementById('article-title').value,
+        category_id: document.getElementById('article-category').value || null,
+        author: document.getElementById('article-author').value || '管理员',
+        is_published: document.getElementById('article-published').value === 'true',
+        image: document.getElementById('article-image').value || null,
+        excerpt: document.getElementById('article-excerpt').value || null,
+        content: document.getElementById('article-content').value || null
+      };
+
+      try {
+        const url = id ? API_BASE + '/articles/' + id : API_BASE + '/articles';
+        const method = id ? 'PUT' : 'POST';
+        const res = await fetch(url, {
+          method,
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify(data)
+        });
+        const json = await res.json();
+        if (json.success) {
+          showToast(id ? '更新成功' : '创建成功');
+          closeModal('article-modal');
+          loadArticles();
+        } else {
+          showToast(json.error, 'error');
+        }
+      } catch (e) {
+        showToast('保存失败', 'error');
+      }
+    });
+
+    // ============ 案例管理 ============
     async function loadCases() {
       try {
-        const data = await api('/cases');
-        const cases = data.data || [];
-        
-        const grid = document.getElementById('cases-grid');
-        if (cases.length === 0) {
-          grid.innerHTML = '<p class="text-gray-500 col-span-full text-center py-8">暂无数据</p>';
-        } else {
-          grid.innerHTML = cases.map(c => `
-            <div class="bg-white rounded-xl overflow-hidden shadow-sm" style="border: 1px solid rgba(184, 134, 11, 0.1);">
-              <div class="aspect-[4/3] overflow-hidden">
-                <img src="${c.image}" alt="${c.title}" class="w-full h-full object-cover">
-              </div>
-              <div class="p-4">
-                <span class="px-2 py-1 text-xs rounded-full bg-yellow-100 text-yellow-700">${c.category}</span>
-                <h4 class="font-bold mt-2" style="color: #1F2937;">${c.title}</h4>
-                <p class="text-sm text-gray-500 mt-1">${c.description || ''}</p>
-              </div>
-            </div>
-          `).join('');
+        const res = await fetch(API_BASE + '/cases');
+        const json = await res.json();
+        if (json.success) {
+          renderCases(json.data);
         }
-      } catch (err) {
-        console.error('Failed to load cases:', err);
+      } catch (e) {
+        console.error('加载案例数据失败', e);
       }
     }
 
-    // Status helpers
-    function getStatusClass(status) {
-      const classes = {
-        pending: 'bg-orange-100 text-orange-700',
-        contacted: 'bg-blue-100 text-blue-700',
-        completed: 'bg-green-100 text-green-700'
+    function renderCases(data) {
+      const grid = document.getElementById('cases-grid');
+      if (!data.length) {
+        grid.innerHTML = '<div class="text-center text-gray-500 col-span-4 py-12">暂无数据</div>';
+        return;
+      }
+      grid.innerHTML = data.map(item => `
+        <div class="bg-white rounded-xl overflow-hidden shadow-sm hover:shadow-lg transition">
+          <div class="aspect-[4/3] bg-gray-200">
+            ${item.image ? `<img src="${item.image}" alt="${item.title}" class="w-full h-full object-cover">` : '<div class="w-full h-full flex items-center justify-center text-gray-400">暂无图片</div>'}
+          </div>
+          <div class="p-4">
+            <span class="text-xs px-2 py-1 rounded" style="background: rgba(184, 134, 11, 0.1); color: #B8860B;">${item.category}</span>
+            <h3 class="font-bold mt-2">${item.title}</h3>
+            <p class="text-sm text-gray-500 mt-1 line-clamp-2">${item.description || ''}</p>
+            <div class="flex justify-end gap-2 mt-4">
+              <button onclick="editCase(${item.id})" class="text-blue-600 hover:text-blue-800 text-sm">编辑</button>
+              <button onclick="deleteCase(${item.id})" class="text-red-600 hover:text-red-800 text-sm">删除</button>
+            </div>
+          </div>
+        </div>
+      `).join('');
+    }
+
+    function openCaseModal(item = null) {
+      document.getElementById('case-id').value = item ? item.id : '';
+      document.getElementById('case-title').value = item ? item.title : '';
+      document.getElementById('case-category').value = item ? item.category : '';
+      document.getElementById('case-image').value = item ? (item.image || '') : '';
+      document.getElementById('case-sort').value = item ? item.sort_order : 0;
+      document.getElementById('case-description').value = item ? (item.description || '') : '';
+      document.getElementById('case-modal-title').textContent = item ? '编辑案例' : '新增案例';
+      document.getElementById('case-modal').classList.remove('hidden');
+    }
+
+    async function editCase(id) {
+      try {
+        const res = await fetch(API_BASE + '/cases');
+        const json = await res.json();
+        if (json.success) {
+          const item = json.data.find(c => c.id === id);
+          if (item) openCaseModal(item);
+        }
+      } catch (e) {
+        showToast('加载案例失败', 'error');
+      }
+    }
+
+    async function deleteCase(id) {
+      if (!confirm('确定要删除这个案例吗？')) return;
+      try {
+        const res = await fetch(API_BASE + '/cases/' + id, { method: 'DELETE' });
+        const json = await res.json();
+        if (json.success) {
+          showToast('删除成功');
+          loadCases();
+        } else {
+          showToast(json.error, 'error');
+        }
+      } catch (e) {
+        showToast('删除失败', 'error');
+      }
+    }
+
+    document.getElementById('case-form').addEventListener('submit', async (e) => {
+      e.preventDefault();
+      const id = document.getElementById('case-id').value;
+      const data = {
+        title: document.getElementById('case-title').value,
+        category: document.getElementById('case-category').value,
+        image: document.getElementById('case-image').value || null,
+        sort_order: parseInt(document.getElementById('case-sort').value) || 0,
+        description: document.getElementById('case-description').value || null
       };
-      return classes[status] || 'bg-gray-100 text-gray-700';
-    }
 
-    function getStatusText(status) {
-      const texts = {
-        pending: '待处理',
-        contacted: '已联系',
-        completed: '已完成'
-      };
-      return texts[status] || status;
-    }
-
-    // Modal helpers
-    function showModal(title, content) {
-      document.getElementById('modal-title').textContent = title;
-      document.getElementById('modal-content').innerHTML = content;
-      document.getElementById('modal').classList.remove('hidden');
-      document.getElementById('modal').classList.add('flex');
-    }
-
-    function hideModal() {
-      document.getElementById('modal').classList.add('hidden');
-      document.getElementById('modal').classList.remove('flex');
-    }
-
-    document.getElementById('modal').addEventListener('click', (e) => {
-      if (e.target.id === 'modal') hideModal();
+      try {
+        const url = id ? API_BASE + '/cases/' + id : API_BASE + '/cases';
+        const method = id ? 'PUT' : 'POST';
+        const res = await fetch(url, {
+          method,
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify(data)
+        });
+        const json = await res.json();
+        if (json.success) {
+          showToast(id ? '更新成功' : '创建成功');
+          closeModal('case-modal');
+          loadCases();
+        } else {
+          showToast(json.error, 'error');
+        }
+      } catch (e) {
+        showToast('保存失败', 'error');
+      }
     });
 
-    // Filter status
-    document.getElementById('filter-status').addEventListener('change', (e) => {
-      loadConsultations(e.target.value);
-    });
-
-    // Initial load
-    loadDashboard();
+    // 初始化
+    async function init() {
+      checkAuth();
+      await loadCategories();
+      loadStats();
+    }
+    init();
   </script>
 </body>
 </html>

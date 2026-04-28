@@ -14,6 +14,13 @@ const app = express();
 const server = createServer(app);
 
 async function startServer(): Promise<Server> {
+  // 添加请求体解析
+  app.use(express.json());
+  app.use(express.urlencoded({ extended: true }));
+
+  // 注册 API 路由 - 必须在 Vite 之前注册，这样 API 请求会被优先处理
+  app.use(router);
+
   // 请求日志（仅开发环境）
   if (isDev) {
     app.use((req, res, next) => {
@@ -26,21 +33,18 @@ async function startServer(): Promise<Server> {
     });
   }
 
-  // 添加请求体解析
-  app.use(express.json());
-  app.use(express.urlencoded({ extended: true }));
-
-  // 注册 API 路由
-  app.use(router);
-
   // 集成 Vite（开发模式）或静态文件服务（生产模式）
   await setupVite(app);
 
   // 全局错误处理
-  app.use((err: Error, req: express.Request, res: express.Response) => {
+  app.use((err: Error, req: express.Request, res: express.Response, _next: express.NextFunction) => {
     console.error('Server error:', err);
-    // eslint-disable-next-line @typescript-eslint/no-explicit-any
-    const status = 'status' in err ? (err as any).status || 500 : 500;
+    // 确保 res 是 Express Response 对象
+    if (typeof res.status !== 'function') {
+      console.error('Invalid response object, skipping error handler');
+      return;
+    }
+    const status = 'status' in err ? (err as { status?: number }).status || 500 : 500;
     res.status(status).json({
       error: err.message || 'Internal server error',
     });
