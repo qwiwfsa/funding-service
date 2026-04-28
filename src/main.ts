@@ -1090,13 +1090,23 @@ function renderArticleDetail(articleId: number): void {
     <!-- 文章详情页 -->
     <main style="max-width: 900px; margin: 0 auto; padding: 40px 20px;">
       <!-- 返回按钮 -->
-      <a href="/" onclick="event.preventDefault(); window.location.hash=''; location.reload();" 
-         style="display: inline-flex; align-items: center; gap: 8px; color: #6B7280; text-decoration: none; margin-bottom: 24px; transition: color 0.3s;">
-        <svg style="width: 20px; height: 20px;" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7"></path>
-        </svg>
-        返回首页
-      </a>
+      <div style="display: flex; align-items: center; gap: 12px; margin-bottom: 24px;">
+        <button onclick="history.back()" style="display: inline-flex; align-items: center; gap: 8px; padding: 10px 16px; background: #F3F4F6; color: #4B5563; border: none; border-radius: 8px; cursor: pointer; font-size: 14px; transition: all 0.3s;">
+          <svg style="width: 16px; height: 16px;" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7"></path>
+          </svg>
+          返回上一级
+        </button>
+        <span style="color: #D1D5DB;">|</span>
+        <a href="/" onclick="event.preventDefault(); window.location.hash=''; location.reload();" 
+           style="display: inline-flex; align-items: center; gap: 8px; color: #6B7280; text-decoration: none; font-size: 14px; transition: color 0.3s;"
+           onmouseover="this.style.color='#B8860B';" onmouseout="this.style.color='#6B7280';">
+          <svg style="width: 16px; height: 16px;" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6"></path>
+          </svg>
+          返回首页
+        </a>
+      </div>
       
       <!-- 文章卡片 -->
       <article style="background: white; border-radius: 16px; box-shadow: 0 4px 20px rgba(0,0,0,0.08); overflow: hidden;">
