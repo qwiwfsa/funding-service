@@ -997,17 +997,28 @@ export function initApp(): void {
     ${renderFooter()}
   `;
   
-  // Scroll Navigation logic
-  function navigateTo(page: string) {
-    const targetSection = document.getElementById(`page-${page}`);
-    if (targetSection) {
-      targetSection.scrollIntoView({ behavior: 'smooth', block: 'start' });
-    }
-    
-    // Close mobile menu
-    const mobileMenu = document.getElementById('mobile-menu');
-    if (mobileMenu) mobileMenu.classList.add('hidden');
-  }
+	  // Navigation logic
+	  function navigateTo(page: string) {
+	    const sections = document.querySelectorAll('.page-section');
+	    
+	    if (page === 'home') {
+	      // 首页：显示全部页面
+	      sections.forEach(section => section.classList.remove('hidden'));
+	      window.scrollTo({ top: 0, behavior: 'smooth' });
+	    } else {
+	      // 其他页面：只显示对应页面，隐藏其他
+	      sections.forEach(section => section.classList.add('hidden'));
+	      const targetSection = document.getElementById(`page-${page}`);
+	      if (targetSection) {
+	        targetSection.classList.remove('hidden');
+	        window.scrollTo({ top: 0, behavior: 'smooth' });
+	      }
+	    }
+	    
+	    // Close mobile menu
+	    const mobileMenu = document.getElementById('mobile-menu');
+	    if (mobileMenu) mobileMenu.classList.add('hidden');
+	  }
   
   // Add click handlers to nav links
   document.querySelectorAll('nav a[data-page]').forEach(link => {
