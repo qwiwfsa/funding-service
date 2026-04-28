@@ -388,7 +388,7 @@ function renderNavbar(): string {
             <a href="#" data-page="contact" class="nav-link text-gray-700 hover:text-yellow-600 transition-colors">联系我们</a>
           </div>
           
-          <button class="btn-gold hidden md:block" onclick="showContactModal(); return false;">
+          <button class="btn-gold hidden md:block">
             立即咨询
           </button>
           
@@ -407,7 +407,7 @@ function renderNavbar(): string {
           <a href="#" data-page="agent" class="nav-link block text-gray-700 hover:text-yellow-600 py-2">代理加盟</a>
           <a href="#" data-page="articles" class="nav-link block text-gray-700 hover:text-yellow-600 py-2">文章资讯</a>
           <a href="#" data-page="contact" class="nav-link block text-gray-700 hover:text-yellow-600 py-2">联系我们</a>
-          <button class="btn-gold w-full mt-4" onclick="showContactModal(); return false;">立即咨询</button>
+          <button class="btn-gold w-full mt-4">立即咨询</button>
         </div>
       </div>
     </nav>
@@ -445,7 +445,7 @@ function renderHero(): string {
               了解更多服务
               <span class="ml-2 inline-block">${icons.arrow}</span>
             </a>
-            <a href="javascript:void(0)" onclick="showContactModal(); return false;" class="btn-outline text-lg px-10 py-4">
+            <a href="#contact" class="btn-outline text-lg px-10 py-4">
               立即咨询
             </a>
           </div>
@@ -1205,7 +1205,7 @@ export function initApp(): void {
         <p class="text-sm" style="color: #6B7280;">
           声明：本文仅供参考，不构成投资建议。如有业务需求，请联系我们的专业顾问。
         </p>
-        <a href="javascript:void(0)" class="btn-gold inline-flex items-center gap-2 mt-4" onclick="closeModal(); showContactModal(); return false;">
+        <a href="#contact" class="btn-gold inline-flex items-center gap-2 mt-4" onclick="document.getElementById('article-modal').classList.add('hidden');">
           立即咨询
           ${icons.arrow}
         </a>
@@ -1271,20 +1271,13 @@ export function initApp(): void {
   }
 
   // Add click events to all "立即咨询" buttons
-  console.log('Setting up click handlers for 立即咨询 buttons...');
-  const consultBtns = document.querySelectorAll('.btn-gold, button');
-  console.log('Found buttons:', consultBtns.length);
-  consultBtns.forEach((btn: Element) => {
-    const text = (btn as HTMLElement).textContent?.trim();
-    console.log('Button text:', text);
-    if (text && text.trim() === '立即咨询') {
-      console.log('Adding click handler to:', btn);
-      btn.addEventListener('click', (e: Event) => {
-        console.log('立即咨询 clicked!');
+  document.querySelectorAll('.btn-gold, button').forEach(btn => {
+    const text = btn.textContent?.trim();
+    if (text === '立即咨询') {
+      btn.addEventListener('click', (e) => {
         e.preventDefault();
         e.stopPropagation();
         showContactModal();
       });
     }
   });
-  console.log('Click handlers setup complete');
