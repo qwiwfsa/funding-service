@@ -393,9 +393,14 @@ function renderNavbar(): string {
             <a href="#" data-page="contact" class="nav-link text-gray-700 hover:text-yellow-600 transition-colors">联系我们</a>
           </div>
           
-          <button class="btn-gold hidden md:block" onclick="window.showModal135(); return false;">
-            立即咨询
-          </button>
+          <div class="relative flex items-center">
+            <button class="btn-gold hidden md:block" onclick="window.showModal135(); return false;">
+              立即咨询
+            </button>
+            <div id="phone-display-nav" class="hidden absolute right-0 top-full mt-2 px-4 py-2 bg-white rounded-lg shadow-xl border border-[#D4AF37] whitespace-nowrap z-50">
+              <span class="text-[#D4AF37] font-bold text-base">13552883008</span>
+            </div>
+          </div>
           
           <button class="md:hidden text-gray-700" id="mobile-menu-btn">
             ${icons.menu}
@@ -413,6 +418,9 @@ function renderNavbar(): string {
           <a href="#" data-page="articles" class="nav-link block text-gray-700 hover:text-yellow-600 py-2">文章资讯</a>
           <a href="#" data-page="contact" class="nav-link block text-gray-700 hover:text-yellow-600 py-2">联系我们</a>
           <button class="btn-gold w-full mt-4" onclick="window.showModal135(); return false;">立即咨询</button>
+          <div id="phone-display-mobile" class="hidden mx-2 mt-2 px-4 py-2 bg-white rounded-lg shadow-xl border border-[#D4AF37] text-center z-50">
+            <span class="text-[#D4AF37] font-bold text-base">13552883008</span>
+          </div>
         </div>
       </div>
     </nav>
