@@ -600,11 +600,6 @@ function renderArticles(): string {
                   style="transition: transform 0.3s ease;"
                   onerror="this.src='https://images.unsplash.com/photo-1486406146926-c627a92ad1ab?w=800&h=400&fit=crop'"
                 >
-                <div class="absolute top-4 left-4">
-                  <span class="px-3 py-1 rounded-full text-xs font-medium" style="background: rgba(184, 134, 11, 0.9); color: white;">
-                    ${article.category}
-                  </span>
-                </div>
               </div>
               <div class="p-6">
                 <h3 class="text-lg font-bold mb-3 line-clamp-2 hover:text-yellow-600 transition-colors" style="color: #1F2937;">
