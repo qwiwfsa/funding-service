@@ -1271,13 +1271,20 @@ export function initApp(): void {
   }
 
   // Add click events to all "立即咨询" buttons
-  document.querySelectorAll('.btn-gold, button').forEach(btn => {
-    const text = btn.textContent?.trim();
+  console.log('Setting up click handlers for 立即咨询 buttons...');
+  const consultBtns = document.querySelectorAll('.btn-gold, button');
+  console.log('Found buttons:', consultBtns.length);
+  consultBtns.forEach((btn: Element) => {
+    const text = (btn as HTMLElement).textContent?.trim();
+    console.log('Button text:', text);
     if (text === '立即咨询') {
-      btn.addEventListener('click', (e) => {
+      console.log('Adding click handler to:', btn);
+      btn.addEventListener('click', (e: Event) => {
+        console.log('立即咨询 clicked!');
         e.preventDefault();
         e.stopPropagation();
         showContactModal();
       });
     }
   });
+  console.log('Click handlers setup complete');
