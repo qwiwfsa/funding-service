@@ -1127,10 +1127,19 @@ export function initApp(): void {
   }
 
   // Smooth scroll for anchor links
+  // Handle anchor link clicks - but not for consult buttons
   document.querySelectorAll('a[href^="#"]').forEach(anchor => {
     anchor.addEventListener('click', (e: Event) => {
+      const anchorEl = anchor as HTMLAnchorElement;
+      const href = anchorEl.getAttribute('href');
+      
+      // Check if this is a consult button - if so, don't scroll
+      if (anchorEl.textContent?.includes('咨询') || anchorEl.textContent?.includes('立即')) {
+        // Let the consult button handler show the modal, don't scroll
+        return;
+      }
+      
       e.preventDefault();
-      const href = (anchor as HTMLAnchorElement).getAttribute('href');
       if (href) {
         const target = document.querySelector(href);
         if (target) {
