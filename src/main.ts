@@ -1064,9 +1064,9 @@ export function initApp(): void {
     modal.id = 'success-modal';
     modal.innerHTML = `
       <div style="position: fixed; top: 0; left: 0; right: 0; bottom: 0; background: rgba(0,0,0,0.6); z-index: 9999; display: flex; align-items: center; justify-content: center;">
-        <div style="background: white; padding: 50px 60px; border-radius: 16px; max-width: 450px; width: 90%; text-align: center; animation: modalFadeIn 0.3s ease;">
-          <div style="background: #fef9e7; padding: 30px; border-radius: 12px; border: 2px solid #D4AF37;">
-            <p style="margin: 0; font-size: 42px; font-weight: bold; color: #D4AF37; letter-spacing: 2px;">135-5288-3008</p>
+        <div style="background: white; padding: 40px 50px; border-radius: 16px; max-width: 500px; width: 90%; text-align: center; animation: modalFadeIn 0.3s ease;">
+          <div style="background: #fef9e7; padding: 25px 40px; border-radius: 12px; border: 2px solid #D4AF37; display: inline-block;">
+            <p style="margin: 0; font-size: 36px; font-weight: bold; color: #D4AF37; letter-spacing: 4px; white-space: nowrap;">135-5288-3008</p>
           </div>
           <button id="close-modal" style="margin-top: 30px; padding: 12px 50px; background: #D4AF37; color: white; border: none; border-radius: 8px; font-size: 16px; cursor: pointer;">
             关闭
