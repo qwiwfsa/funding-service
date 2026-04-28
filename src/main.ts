@@ -523,7 +523,7 @@ function renderServiceCard(data: typeof businessData.listed, index: number): str
 }
 
 function renderServices(): string {
-  // 案例图片数据
+  // 案例图片数据（8个）
   const caseImages = [
     {
       image: 'https://coze-coding-project.tos.coze.site/coze_storage_7633780595134529586/image/generate_image_ec5f19a9-bbf1-4d7b-980e-cd8929d436ba.jpeg?sign=1808917820-e84aa2e065-0-f1db7189951cc64ca3dcddb327d2c350c0e5871cb720a0d20b070fd0c99124e5',
@@ -544,6 +544,26 @@ function renderServices(): string {
       image: 'https://coze-coding-project.tos.coze.site/coze_storage_7633780595134529586/image/generate_image_a8176964-74f6-4c40-96de-aff36964eb1a.jpeg?sign=1808917825-064d04ccaf-0-7168882115b63ec8b086963b1e72868527c1bf4f488d858be6c51b21305d25c5',
       title: '应收账款融资',
       desc: '云信票据置换，快速变现，加速企业资金周转'
+    },
+    {
+      image: 'https://coze-coding-project.tos.coze.site/coze_storage_7633780595134529586/image/generate_image_834df348-bf9e-44df-baaf-25a354b0327d.jpeg?sign=1808918005-9e5813ebd3-0-db76c5b16e121104f3fea593701bf5cf8b3c699b71700d3bdaf68d4261100b02',
+      title: '股票质押融资',
+      desc: '股票质押、定增、协议转让，专业法律合规服务'
+    },
+    {
+      image: 'https://coze-coding-project.tos.coze.site/coze_storage_7633780595134529586/image/generate_image_9aadb54b-cf78-4093-ba57-7b96145cb044.jpeg?sign=1808918022-a2ca12e87d-0-1dbc95c45107926d65d2aaaaa28b9a98c325aa74b4cd9d337bbf16e21b22a154',
+      title: '募集账户归还',
+      desc: '募集账户归还过桥，产业基金备案过桥服务'
+    },
+    {
+      image: 'https://coze-coding-project.tos.coze.site/coze_storage_7633780595134529586/image/generate_image_ffda8da3-5372-49d7-856b-f2ff4a7b7e6c.jpeg?sign=1808918020-f08e65046e-0-a53aa940ac3d94132e8efd69e5df223e571f5e8c2d277d5376c3940f01ff3b93',
+      title: '云信票据实摆',
+      desc: '云信票据实摆服务，可拆分流转，替代现金支付'
+    },
+    {
+      image: 'https://coze-coding-project.tos.coze.site/coze_storage_7633780595134529586/image/generate_image_a58d4ef9-d2e9-4112-81de-0d253c2e9294.jpeg?sign=1808918005-48e418dba9-0-b36162129ecfde4a7b5f742e06e03ed99e0288e0b5b3b04a2e75db417308142c',
+      title: '资金证明服务',
+      desc: '银行保函、资金证明、显账亮资，一站式金融服务'
     }
   ];
 
@@ -561,7 +581,7 @@ function renderServices(): string {
         </div>
         
         <!-- 案例图片卡片 -->
-        <div class="grid md:grid-cols-2 lg:grid-cols-4 gap-6 mb-16">
+        <div class="grid grid-cols-2 md:grid-cols-4 gap-4 mb-16">
           ${caseImages.map((item, index) => `
             <div class="group rounded-2xl overflow-hidden card-hover bg-white" style="border: 1px solid rgba(184, 134, 11, 0.1); box-shadow: 0 4px 20px rgba(0, 0, 0, 0.06); animation-delay: ${index * 0.1}s;">
               <div class="aspect-[4/3] overflow-hidden">
