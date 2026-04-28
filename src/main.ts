@@ -847,16 +847,7 @@ function renderArticles(): string {
   return `
     <section id="articles" class="py-24 relative" style="background: #ffffff;">
       <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div class="text-center mb-16">
-          <span class="font-medium mb-4 block" style="color: #B8860B;">知识中心</span>
-          <h2 class="text-3xl md:text-5xl font-bold mb-6" style="color: #1F2937;">
-            文章资讯
-          </h2>
-          <p class="mb-8" style="color: #6B7280;">
-            专业解读资金业务知识，助您更好地了解行业动态
-          </p>
-          
-          <!-- Category Filter -->
+        <!-- Category Filter -->
           <div class="flex flex-wrap justify-center gap-3" id="article-filters">
             ${categories.map((cat, i) => `
               <button 
@@ -867,7 +858,6 @@ function renderArticles(): string {
               </button>
             `).join('')}
           </div>
-        </div>
         
         <!-- Articles Grid -->
         <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-8" id="articles-grid">
