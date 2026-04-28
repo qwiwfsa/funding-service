@@ -23,10 +23,16 @@ export async function setupViteMiddleware(app: Application) {
     appType: 'spa',
   });
 
-  // 使用 Vite middleware，但排除 /api/ 路径让 Express 路由处理
+  // 服务 admin 目录的静态文件
+  const adminPath = path.resolve(process.cwd(), 'admin');
+  if (fs.existsSync(adminPath)) {
+    app.use('/admin', express.static(adminPath));
+  }
+
+  // 使用 Vite middleware，但排除 /api/ 和 /admin/ 路径
   app.use((req, _res, next) => {
-    if (req.url.startsWith('/api/')) {
-      // API 请求跳过 Vite 中间件，让 Express 路由处理
+    if (req.url.startsWith('/api/') || req.url.startsWith('/admin/')) {
+      // API 和 Admin 请求跳过 Vite 中间件
       return next();
     }
     // 其他请求使用 Vite 中间件
