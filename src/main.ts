@@ -268,8 +268,8 @@ function renderNavbar(): string {
           <div class="hidden md:flex items-center gap-8">
             <a href="#" data-page="home" class="nav-link text-gray-700 hover:text-yellow-600 transition-colors">首页</a>
             <a href="#" data-page="services" class="nav-link text-gray-700 hover:text-yellow-600 transition-colors">业务范围</a>
-            <a href="#" data-page="articles" class="nav-link text-gray-700 hover:text-yellow-600 transition-colors">文章资讯</a>
             <a href="#" data-page="advantages" class="nav-link text-gray-700 hover:text-yellow-600 transition-colors">核心优势</a>
+            <a href="#" data-page="articles" class="nav-link text-gray-700 hover:text-yellow-600 transition-colors">行业资讯</a>
             <a href="#" data-page="agent" class="nav-link text-gray-700 hover:text-yellow-600 transition-colors">代理加盟</a>
             <a href="#" data-page="contact" class="nav-link text-gray-700 hover:text-yellow-600 transition-colors">联系我们</a>
           </div>
@@ -289,8 +289,8 @@ function renderNavbar(): string {
         <div class="px-4 py-4 space-y-3">
           <a href="#" data-page="home" class="nav-link block text-gray-700 hover:text-yellow-600 py-2">首页</a>
           <a href="#" data-page="services" class="nav-link block text-gray-700 hover:text-yellow-600 py-2">业务范围</a>
-          <a href="#" data-page="articles" class="nav-link block text-gray-700 hover:text-yellow-600 py-2">文章资讯</a>
           <a href="#" data-page="advantages" class="nav-link block text-gray-700 hover:text-yellow-600 py-2">核心优势</a>
+          <a href="#" data-page="articles" class="nav-link block text-gray-700 hover:text-yellow-600 py-2">行业资讯</a>
           <a href="#" data-page="agent" class="nav-link block text-gray-700 hover:text-yellow-600 py-2">代理加盟</a>
           <a href="#" data-page="contact" class="nav-link block text-gray-700 hover:text-yellow-600 py-2">联系我们</a>
           <button class="btn-gold w-full mt-4">立即咨询</button>
@@ -628,7 +628,7 @@ function renderArticles(): string {
         <div class="text-center mb-16">
           <span class="font-medium mb-4 block" style="color: #B8860B;">知识中心</span>
           <h2 class="text-3xl md:text-5xl font-bold mb-6" style="color: #1F2937;">
-            文章资讯
+            行业资讯
           </h2>
           <p class="mb-8" style="color: #6B7280;">
             专业解读资金业务知识，助您更好地了解行业动态
@@ -821,7 +821,7 @@ function renderFooter(): string {
           <div class="flex flex-wrap justify-center gap-6 text-sm" style="color: rgba(255,255,255,0.6);">
             <a href="#home" class="hover:text-yellow-500 transition-colors">首页</a>
             <a href="#services" class="hover:text-yellow-500 transition-colors">业务范围</a>
-            <a href="#articles" class="hover:text-yellow-500 transition-colors">文章资讯</a>
+            <a href="#articles" class="hover:text-yellow-500 transition-colors">行业资讯</a>
             <a href="#advantages" class="hover:text-yellow-500 transition-colors">核心优势</a>
             <a href="#agent" class="hover:text-yellow-500 transition-colors">代理加盟</a>
             <a href="#contact" class="hover:text-yellow-500 transition-colors">联系我们</a>
