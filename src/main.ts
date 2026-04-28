@@ -1247,15 +1247,9 @@ export function initApp(): void {
       <div class="prose max-w-none" style="line-height: 1.8;">
         ${paragraphs}
       </div>
-      <div class="mt-8 pt-8" style="border-top: 1px solid rgba(184, 134, 11, 0.1);">
-        <p class="text-sm" style="color: #6B7280;">
-          声明：本文仅供参考，不构成投资建议。如有业务需求，请联系我们的专业顾问。
-        </p>
-        <button class="btn-gold inline-flex items-center gap-2 mt-4" onclick="showConsultModal();">
-          立即咨询
-          ${icons.arrow}
-        </button>
-      </div>
+      <p class="text-sm mt-6" style="color: #6B7280;">
+        声明：本文仅供参考，不构成投资建议。如有业务需求，请联系我们的专业顾问。
+      </p>
     `;
 
     articleModal?.classList.remove('hidden');
@@ -1267,11 +1261,22 @@ export function initApp(): void {
     document.body.style.overflow = '';
   }
 
-  // Add click handlers to article cards
+  // Add click handlers to article cards - scroll to contact and show phone
   articleCards.forEach(card => {
     card.addEventListener('click', () => {
-      const id = parseInt(card.getAttribute('data-id') || '0');
-      openArticleModal(id);
+      // Close article modal
+      closeModal();
+      // Navigate to home (show all sections)
+      navigateTo('home');
+      // Scroll to contact section after a short delay
+      setTimeout(() => {
+        const contactSection = document.getElementById('page-contact');
+        if (contactSection) {
+          contactSection.scrollIntoView({ behavior: 'smooth', block: 'start' });
+        }
+        // Show phone modal
+        showConsultModal();
+      }, 100);
     });
   });
 
