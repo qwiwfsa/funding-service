@@ -681,15 +681,15 @@ function renderArticles(): string {
           </div>
         </div>
         
-        <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-8" id="articles-grid">
+        <div class="space-y-4" id="articles-grid">
           ${(dbArticles.length > 0 ? dbArticles : articles).map((article, i) => `
             <article 
-              class="article-card rounded-2xl overflow-hidden card-hover bg-white cursor-pointer" 
-              style="border: 1px solid rgba(184, 134, 11, 0.1); box-shadow: 0 4px 24px rgba(0, 0, 0, 0.06);"
+              class="article-card rounded-xl overflow-hidden cursor-pointer transition-all duration-300 hover:shadow-lg flex" 
+              style="border: 1px solid rgba(184, 134, 11, 0.15); background: #ffffff; height: 140px;"
               data-id="${article.id}"
               data-category="${article.category}"
             >
-              <div class="relative" style="height: 200px; overflow: hidden;">
+              <div class="relative flex-shrink-0" style="width: 200px; overflow: hidden;">
                 <img 
                   src="${article.image}" 
                   alt="${article.title}" 
@@ -698,24 +698,22 @@ function renderArticles(): string {
                   onerror="this.src='https://images.unsplash.com/photo-1486406146926-c627a92ad1ab?w=800&h=400&fit=crop'"
                 >
               </div>
-              <div class="p-6">
-                <h3 class="text-lg font-bold mb-3 line-clamp-2 hover:text-yellow-600 transition-colors" style="color: #1F2937;">
+              <div class="flex flex-col justify-center flex-1 p-6">
+                <h3 class="text-lg font-bold mb-2 hover:text-yellow-600 transition-colors line-clamp-1" style="color: #1F2937;">
                   ${article.title}
                 </h3>
-                <p class="text-sm mb-4 line-clamp-2" style="color: #6B7280;">
+                <p class="text-sm line-clamp-2" style="color: #6B7280;">
                   ${article.excerpt}
                 </p>
-                <div class="flex items-center justify-between text-xs" style="color: #9CA3AF;">
-                  <div class="flex items-center gap-4">
-                    <span class="flex items-center gap-1">
-                      ${icons.calendar}
-                      ${article.date}
-                    </span>
-                    <span class="flex items-center gap-1">
-                      ${icons.eye}
-                      ${article.views.toLocaleString()}
-                    </span>
-                  </div>
+                <div class="flex items-center gap-4 mt-3 text-xs" style="color: #9CA3AF;">
+                  <span class="flex items-center gap-1">
+                    ${icons.calendar}
+                    ${article.date}
+                  </span>
+                  <span class="flex items-center gap-1">
+                    ${icons.eye}
+                    ${article.views.toLocaleString()} 阅读
+                  </span>
                 </div>
               </div>
             </article>
