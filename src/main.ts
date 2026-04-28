@@ -108,257 +108,75 @@ const advantages = [
 interface Article {
   id: number;
   title: string;
+  category: string;
   excerpt: string;
   content: string;
-  category: string;
-  date: string;
   views: number;
-  author: string;
-  cover: string;
+  date: string;
+  image: string;
 }
 
 const articles: Article[] = [
   {
     id: 1,
-    title: '上市公司短拆业务详解：快速解决资金周转难题',
-    excerpt: '上市公司短拆是指为上市公司提供的短期资金拆借服务，主要用于解决企业在日常经营中的短期资金缺口。',
-    content: `上市公司短拆是指为上市公司提供的短期资金拆借服务，主要用于解决企业在日常经营中的短期资金缺口。
-
-**业务特点：**
-
-1. **额度灵活**：根据企业实际需求，灵活调配资金额度，从数千万到数亿元均可操作。
-
-2. **放款快速**：材料齐全情况下，最快48小时内完成放款，解决企业燃眉之急。
-
-3. **期限短**：一般为1-6个月，满足企业短期资金周转需求。
-
-4. **用途广泛**：可用于补充流动资金、偿还到期债务、采购原材料等多种用途。
-
-**适用场景：**
-
-- 季末、年末银行信贷续贷前的过渡资金
-- 重大合同履约前的保证金需求
-- 并购重组过程中的过桥资金需求
-- 日常经营中的季节性资金缺口
-
-**合作流程：**
-
-1. 需求沟通与材料提交
-2. 风控审核与额度审批
-3. 合同签订与手续办理
-4. 资金放款与使用
-5. 到期还款与后续服务
-
-我们拥有丰富的上市公司短拆经验，已成功为数百家上市公司提供专业服务，是您值得信赖的资金合作伙伴。`,
+    title: '上市公司短拆业务详解',
     category: '上市公司服务',
-    date: '2024-01-15',
-    views: 2580,
-    author: '鼎丰资金研究院',
-    cover: 'https://images.unsplash.com/photo-1486406146926-c627a92ad1ab?w=800&h=400&fit=crop',
+    excerpt: '专业为上市公司提供短期资金拆借服务，解决临时资金周转需求',
+    content: '上市公司短拆业务是针对上市公司的一种短期融资服务。我们拥有充足的资金池和专业的操作团队，能够快速响应上市公司的资金需求。业务范围包括：短期资金拆借、股票解质押过桥、募集账户归还过桥等。我们的服务优势在于：额度充足、审批快速、操作规范、资金到账迅速。',
+    views: 1256,
+    date: '2024-12-15',
+    image: 'https://coze-coding-project.tos.coze.site/coze_storage_7633780595134529586/image/generate_image_ec5f19a9-bbf1-4d7b-980e-cd8929d436ba.jpeg?sign=1808917820-e84aa2e065-0-f1db7189951cc64ca3dcddb327d2c350c0e5871cb720a0d20b070fd0c99124e5'
   },
   {
     id: 2,
-    title: '云信票据实摆：企业资金实力展示的新选择',
-    excerpt: '云信票据实摆是一种创新的资金证明方式，通过云信平台出具真实有效的票据，为企业展示资金实力。',
-    content: `云信票据实摆是一种创新的资金证明方式，通过云信平台出具真实有效的票据，为企业展示资金实力。
-
-**什么是云信票据：**
-
-云信是由大型企业或金融机构发行的电子付款承诺函，可以在平台上进行拆分、流转、持有到期等多种操作。
-
-**实摆服务优势：**
-
-1. **真实性强**：云信票据可在官网查验，确保真实有效
-2. **灵活性高**：票据可拆分，满足不同金额需求
-3. **流通性好**：可在云信平台进行转让、融资
-4. **成本较低**：相比传统摆账，成本更加可控
-
-**适用场景：**
-
-- 参与大型项目招标
-- 企业实力证明与宣传
-- 供应链融资与结算
-- 商业谈判中的信用背书
-
-**操作流程：**
-
-1. 提交企业资质材料
-2. 评估可开立额度
-3. 签订服务协议
-4. 开立云信票据
-5. 票据交付与查验
-
-选择云信票据实摆，让您的资金实力说话！`,
+    title: '企业摆账验资全流程指南',
     category: '企业摆账',
-    date: '2024-01-10',
-    views: 1860,
-    author: '鼎丰资金研究院',
-    cover: 'https://images.unsplash.com/photo-1554224155-6726b3ff858f?w=800&h=400&fit=crop',
+    excerpt: '为企业提供1-6月定存摆账、实缴验资等全方位资金服务',
+    content: '企业摆账验资服务是我们为各类企业提供的专业资金服务。主要包括：企业1-6月定存摆账、云信票据实摆、过账实趴、抵押类过桥、实缴验资、资金证明、银行保函、贸易增量、显账或现金亮资等。我们拥有丰富的操作经验和充足的资源储备，能够满足各类企业的不同需求。',
+    views: 984,
+    date: '2024-12-10',
+    image: 'https://coze-coding-project.tos.coze.site/coze_storage_7633780595134529586/image/generate_image_514696d5-9d87-471c-bfc7-7921255ed88e.jpeg?sign=1808917819-af1217cad5-0-76d1bab2d9dbfca22753f0ca1ec0e475af6d7745d0f3830366877fc727bca079'
   },
   {
     id: 3,
-    title: '银行冲量业务指南：如何选择靠谱服务商',
-    excerpt: '银行冲量是银行揽储的重要方式，选择靠谱的服务商至关重要。本文教您如何辨别优质服务商。',
-    content: `银行冲量是银行揽储的重要方式，选择靠谱的服务商至关重要。
-
-**什么是银行冲量：**
-
-银行冲量是指在月末、季末、年末等关键时点，将资金存入指定银行并承诺一定期限后取出，以帮助银行完成存款指标的业务。
-
-**服务类型：**
-
-1. **时点冲量**：仅要求在特定时点达到存款金额
-2. **日均冲量**：要求在考核期内日均存款达到一定水平
-3. **月底冲量**：专门针对月末存款指标的冲量服务
-
-**如何选择服务商：**
-
-1. **资质审查**：确认服务商具有相关经营资质
-2. **资金安全**：了解资金安全保障措施
-3. **价格合理**：对比市场行情，选择合理报价
-4. **口碑评价**：查看过往客户评价与合作案例
-5. **合同规范**：签订正规合同，明确双方权利义务
-
-**风险提示：**
-
-- 警惕超低价诱惑，可能存在资金安全隐患
-- 确认银行合作渠道是否正规
-- 仔细阅读合同条款，避免隐性费用
-
-我们拥有多年银行冲量服务经验，与多家银行建立稳定合作关系，值得您的信赖。`,
+    title: '银行存款冲量业务解析',
     category: '银行存款',
-    date: '2024-01-05',
-    views: 3240,
-    author: '鼎丰资金研究院',
-    cover: 'https://images.unsplash.com/photo-1563986768494-4dee2763ff3f?w=800&h=400&fit=crop',
+    excerpt: '银行时点、日均、月底冲量，一年期和三年期定期存款',
+    content: '银行存款业务主要服务于企业和个人客户的银行相关资金需求。我们的业务范围包括：银行时点冲量、银行日均冲量、月底银行冲量、银行一年内定期存款、银行三年内定期存款等。我们与多家银行保持良好合作关系，能够为客户提供优质的服务和优惠的利率。',
+    views: 756,
+    date: '2024-12-05',
+    image: 'https://coze-coding-project.tos.coze.site/coze_storage_7633780595134529586/image/generate_image_4b13c86c-f4c4-458e-a952-3bf9e3ddb51a.jpeg?sign=1808917817-e921d570cc-0-6d35cfd2492ebb2e58b3b29c1228e8295449fa6ee5995874642360a2dec28383'
   },
   {
     id: 4,
-    title: '应收账款买断融资：盘活企业应收账款的利器',
-    excerpt: '应收账款买断融资是一种高效的融资方式，可以帮助企业快速回笼资金，改善现金流状况。',
-    content: `应收账款买断融资是一种高效的融资方式，可以帮助企业快速回笼资金，改善现金流状况。
-
-**业务原理：**
-
-企业将应收账款转让给资金方，资金方按照应收账款面值的一定比例提前支付现金，到期后由付款方直接还款给资金方。
-
-**核心优势：**
-
-1. **快速回款**：最快当天完成应收账款变现
-2. **不看征信**：不要求买方或卖方提供征信报告
-3. **门槛灵活**：不挑企业规模，只要有真实应收账款即可
-4. **操作便捷**：材料简单，流程简化
-
-**应用场景：**
-
-- **收购矿产**：解决矿产资源收购中的资金缺口
-- **替代保证金/保函**：用应收账款置换保证金或银行保函
-- **清理三角债**：通过应收账款买断解决多方债务问题
-- **平应收应付**：优化企业资产负债表
-- **归还股东占款**：快速筹集资金归还关联方借款
-- **增资产降负债**：优化财务结构，提升企业评级
-
-**置换为云信票据：**
-
-应收账款可等价置换为云信票据，票据可拆分、可流转、可支付、可融资贴现，一票多用，灵活便捷。
-
-立即咨询，了解您的应收账款融资方案！`,
+    title: '应收账款买断融资方案',
     category: '应收账款融资',
-    date: '2024-01-01',
-    views: 4120,
-    author: '鼎丰资金研究院',
-    cover: 'https://images.unsplash.com/photo-1454165804606-c3d57bc86b40?w=800&h=400&fit=crop',
+    excerpt: '应收账款等价置换云信票据，可拆分、可流转、可融资贴现',
+    content: '应收账款买断融资是我们的核心业务之一。主要特点：应收账款等价置换云信票据，代替现金使用；可拆分、可流转、可支付、可融资贴现；不挑企业、不看征信、执行诉讼也能做。应用场景广泛：收购矿产、替代保证金/保函、清理三角债、平应收应付、归还股东占款、增资产降负债。',
+    views: 1589,
+    date: '2024-11-28',
+    image: 'https://coze-coding-project.tos.coze.site/coze_storage_7633780595134529586/image/generate_image_a8176964-74f6-4c40-96de-aff36964eb1a.jpeg?sign=1808917825-064d04ccaf-0-7168882115b63ec8b086963b1e72868527c1bf4f488d858be6c51b21305d25c5'
   },
   {
     id: 5,
-    title: '股票质押融资：上市公司股东融资新渠道',
-    excerpt: '股票质押融资是上市公司股东以所持股票作为质押物获取资金的方式，是常见的股权融资手段。',
-    content: `股票质押融资是上市公司股东以所持股票作为质押物获取资金的方式，是常见的股权融资手段。
-
-**业务模式：**
-
-1. **质押式回购**：将股票质押给资金方，获得资金，约定未来回购股票
-2. **质押式转让**：将股票转让给资金方，获得资金，约定未来购回
-3. **场外质押**：在交易所以外进行的股票质押融资
-
-**准入条件：**
-
-- 上市公司股票（主板、中小板、创业板、科创板均可）
-- 股票有一定流动性
-- 股东无重大违规记录
-- 质押比例符合监管要求
-
-**融资要素：**
-
-- **额度**：根据股票市值及质押率确定，一般为市值的30%-60%
-- **期限**：1个月至3年不等，可灵活选择
-- **利率**：年化利率根据市场情况而定
-- **用途**：无严格限制，可用于企业经营、投资、减持税筹等
-
-**服务流程：**
-
-1. 提交股票及股东材料
-2. 评估可融资额度
-3. 签订质押合同
-4. 办理质押登记
-5. 资金放款
-
-我们提供专业的股票质押融资服务，助力股东盘活股权价值！`,
+    title: '股票质押融资操作指引',
     category: '上市公司服务',
-    date: '2023-12-28',
-    views: 1980,
-    author: '鼎丰资金研究院',
-    cover: 'https://images.unsplash.com/photo-1590283603385-17ffb3a7f29f?w=800&h=400&fit=crop',
+    excerpt: '专业股票质押融资服务，助力上市公司股东资金周转',
+    content: '股票质押融资是针对上市公司股东的融资服务。我们提供：股票质押、定增、协议转让、代持等全方位服务。业务流程规范、风险控制完善、资金到位迅速。适合有长期持股意愿但短期需要资金周转的上市公司股东。',
+    views: 632,
+    date: '2024-11-20',
+    image: 'https://coze-coding-project.tos.coze.site/coze_storage_7633780595134529586/image/generate_image_834df348-bf9e-44df-baaf-25a354b0327d.jpeg?sign=1808918005-9e5813ebd3-0-db76c5b16e121104f3fea593701bf5cf8b3c699b71700d3bdaf68d4261100b02'
   },
   {
     id: 6,
-    title: '企业实缴验资：注册资本金的正确打开方式',
-    excerpt: '实缴验资是企业发展过程中的重要环节，本文详细介绍实缴验资的流程、注意事项及常见问题。',
-    content: `实缴验资是企业发展过程中的重要环节，本文详细介绍实缴验资的流程、注意事项及常见问题。
-
-**什么是实缴验资：**
-
-实缴验资是指企业股东按照公司章程约定的注册资本金额度，将资金实际存入公司账户，并由会计师事务所出具验资报告的过程。
-
-**为什么要实缴验资：**
-
-- 响应国家注册资本实缴制要求
-- 提升企业信用和公信力
-- 参与招投标项目的资质要求
-- 申请金融牌照的必要条件
-- 吸引投资和合作伙伴
-
-**验资流程：**
-
-1. 开设企业验资账户
-2. 股东按比例缴付出资
-3. 取得银行入账凭证
-4. 委托会计师事务所审计
-5. 出具验资报告
-6. 工商变更登记
-
-**注意事项：**
-
-- 确保资金来源合法合规
-- 出资方式需符合公司章程
-- 注意出资时间节点
-- 保留完整的出资凭证
-- 选择有资质的会计师事务所
-
-**我们的服务：**
-
-- 全程指导验资流程
-- 协助准备工商材料
-- 快速出具验资报告
-- 提供资金过桥（如需）
-
-选择专业团队，让验资更简单！`,
+    title: '云信票据实摆实务',
     category: '企业摆账',
-    date: '2023-12-20',
-    views: 2150,
-    author: '鼎丰资金研究院',
-    cover: 'https://images.unsplash.com/photo-1554224155-6726b3ff858f?w=800&h=400&fit=crop',
-  },
+    excerpt: '云信票据实摆业务详解，安全可靠的资金服务',
+    content: '云信票据实摆是我们为解决企业资金问题提供的创新服务。特点：操作灵活、安全可靠、资金沉淀少、费用透明。适用场景：企业日常经营周转、项目投标保证金、供应链资金安排等。我们拥有专业的票据团队，能够提供从咨询到执行的全流程服务。',
+    views: 548,
+    date: '2024-11-15',
+    image: 'https://coze-coding-project.tos.coze.site/coze_storage_7633780595134529586/image/generate_image_9aadb54b-cf78-4093-ba57-7b96145cb044.jpeg?sign=1808918022-a2ca12e87d-0-1dbc95c45107926d65d2aaaaa28b9a98c325aa74b4cd9d337bbf16e21b22a154'
+  }
 ];
 
 const categories = ['全部', '上市公司服务', '企业摆账', '银行存款', '应收账款融资'];
@@ -382,9 +200,9 @@ function renderNavbar(): string {
           <div class="hidden md:flex items-center gap-8">
             <a href="#" data-page="home" class="nav-link text-gray-700 hover:text-yellow-600 transition-colors">首页</a>
             <a href="#" data-page="services" class="nav-link text-gray-700 hover:text-yellow-600 transition-colors">业务范围</a>
+            <a href="#" data-page="articles" class="nav-link text-gray-700 hover:text-yellow-600 transition-colors">文章资讯</a>
             <a href="#" data-page="advantages" class="nav-link text-gray-700 hover:text-yellow-600 transition-colors">核心优势</a>
             <a href="#" data-page="agent" class="nav-link text-gray-700 hover:text-yellow-600 transition-colors">代理加盟</a>
-            <a href="#" data-page="articles" class="nav-link text-gray-700 hover:text-yellow-600 transition-colors">文章资讯</a>
             <a href="#" data-page="contact" class="nav-link text-gray-700 hover:text-yellow-600 transition-colors">联系我们</a>
           </div>
           
@@ -403,9 +221,9 @@ function renderNavbar(): string {
         <div class="px-4 py-4 space-y-3">
           <a href="#" data-page="home" class="nav-link block text-gray-700 hover:text-yellow-600 py-2">首页</a>
           <a href="#" data-page="services" class="nav-link block text-gray-700 hover:text-yellow-600 py-2">业务范围</a>
+          <a href="#" data-page="articles" class="nav-link block text-gray-700 hover:text-yellow-600 py-2">文章资讯</a>
           <a href="#" data-page="advantages" class="nav-link block text-gray-700 hover:text-yellow-600 py-2">核心优势</a>
           <a href="#" data-page="agent" class="nav-link block text-gray-700 hover:text-yellow-600 py-2">代理加盟</a>
-          <a href="#" data-page="articles" class="nav-link block text-gray-700 hover:text-yellow-600 py-2">文章资讯</a>
           <a href="#" data-page="contact" class="nav-link block text-gray-700 hover:text-yellow-600 py-2">联系我们</a>
           <button class="btn-gold w-full mt-4">立即咨询</button>
         </div>
@@ -732,6 +550,37 @@ function renderAgent(): string {
   `;
 }
 
+function renderArticles(): string {
+  const articles = [
+    { id: 1, title: '上市公司短拆业务详解', category: '上市公司', date: '2024-01-15', reads: 1234, summary: '深入解析上市公司短期拆借业务模式、操作流程及注意事项...' },
+    { id: 2, title: '企业摆账验资全攻略', category: '企业摆账', date: '2024-01-10', reads: 892, summary: '企业摆账验资是快速提升企业实力的有效方式...' },
+    { id: 3, title: '银行冲量业务指南', category: '银行存款', date: '2024-01-05', reads: 1567, summary: '银行时点、日均、月底冲量业务的区别与选择...' },
+    { id: 4, title: '应收账款买断融资', category: '应收账款', date: '2024-01-01', reads: 2103, summary: '应收账款等价置换云信票据，替代现金流转...' },
+    { id: 5, title: '股票质押融资要点', category: '上市公司', date: '2023-12-28', reads: 756, summary: '股票质押融资的风控要点和操作流程...' },
+    { id: 6, title: '云信票据实摆技巧', category: '企业摆账', date: '2023-12-25', reads: 1089, summary: '云信票据实摆的操作要点和注意事项...' },
+  ];
+  
+  return `
+    <section id="articles-page" class="py-20" style="background: white;">
+      <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+          ${articles.map(article => `
+            <div class="group rounded-xl overflow-hidden cursor-pointer" style="background: #FAFAFA; box-shadow: 0 2px 8px rgba(0,0,0,0.06); transition: all 0.3s;" onmouseover="this.style.boxShadow='0 8px 25px rgba(184,134,11,0.15)'" onmouseout="this.style.boxShadow='0 2px 8px rgba(0,0,0,0.06)'">
+              <div class="h-48" style="background: linear-gradient(135deg, #D4AF37 0%, #C9A227 100%); display: flex; align-items: center; justify-content: center;">
+                <span class="text-white text-4xl font-bold opacity-30">${article.id}</span>
+              </div>
+              <div class="p-6">
+                <p class="text-sm mb-3" style="color: #B8860B;">${article.date} · ${article.reads} 阅读</p>
+                <p class="text-sm leading-relaxed" style="color: #4B5563;">${article.summary}</p>
+              </div>
+            </div>
+          `).join('')}
+        </div>
+      </div>
+    </section>
+  `;
+}
+
 function renderContact(): string {
   return `
     <section id="contact" class="py-24 relative" style="background: #F8FAFC;">
@@ -843,82 +692,6 @@ function renderContact(): string {
   `;
 }
 
-function renderArticles(): string {
-  return `
-    <section id="articles" class="py-24 relative" style="background: #ffffff;">
-      <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <!-- Category Filter -->
-          <div class="flex flex-wrap justify-center gap-3" id="article-filters">
-            ${categories.map((cat, i) => `
-              <button 
-                class="article-filter-btn px-5 py-2 rounded-full text-sm font-medium transition-all ${i === 0 ? 'bg-yellow-600 text-white' : 'bg-gray-100 text-gray-600 hover:bg-yellow-600 hover:text-white'}"
-                data-category="${cat}"
-              >
-                ${cat}
-              </button>
-            `).join('')}
-          </div>
-        
-        <!-- Articles Grid -->
-        <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-8" id="articles-grid">
-          ${articles.map((article, i) => `
-            <article 
-              class="article-card rounded-2xl overflow-hidden card-hover bg-white cursor-pointer" 
-              style="border: 1px solid rgba(184, 134, 11, 0.1); box-shadow: 0 4px 24px rgba(0, 0, 0, 0.06);"
-              data-id="${article.id}"
-              data-category="${article.category}"
-            >
-              <div class="relative" style="height: 200px; overflow: hidden;">
-                <img 
-                  src="${article.cover}" 
-                  alt="${article.title}" 
-                  class="w-full h-full object-cover"
-                  style="transition: transform 0.3s ease;"
-                  onerror="this.src='https://images.unsplash.com/photo-1486406146926-c627a92ad1ab?w=800&h=400&fit=crop'"
-                >
-              </div>
-              <div class="p-6">
-                <p class="text-sm mb-4 line-clamp-2" style="color: #6B7280;">
-                  ${article.excerpt}
-                </p>
-                <div class="flex items-center justify-between text-xs" style="color: #9CA3AF;">
-                  <div class="flex items-center gap-4">
-                    <span class="flex items-center gap-1">
-                      ${icons.calendar}
-                      ${article.date}
-                    </span>
-                    <span class="flex items-center gap-1">
-                      ${icons.eye}
-                      ${article.views.toLocaleString()}
-                    </span>
-                  </div>
-                </div>
-              </div>
-            </article>
-          `).join('')}
-        </div>
-      </div>
-    </section>
-    
-    <!-- Article Detail Modal -->
-    <div id="article-modal" class="fixed inset-0 z-[100] hidden">
-      <div class="absolute inset-0 bg-black/60 backdrop-blur-sm" id="modal-overlay"></div>
-      <div class="relative h-full overflow-y-auto">
-        <div class="min-h-full flex items-start justify-center py-8 px-4">
-          <div class="relative bg-white rounded-3xl max-w-4xl w-full shadow-2xl" style="margin-top: 60px;">
-            <button id="close-modal" class="absolute top-4 right-4 w-10 h-10 rounded-full bg-gray-100 flex items-center justify-center hover:bg-gray-200 transition-colors z-10" style="color: #6B7280;">
-              ${icons.close}
-            </button>
-            <div id="modal-content" class="p-8 md:p-12">
-              <!-- Content will be injected by JS -->
-            </div>
-          </div>
-        </div>
-      </div>
-    </div>
-  `;
-}
-
 function renderFooter(): string {
   const year = new Date().getFullYear();
   return `
@@ -938,9 +711,9 @@ function renderFooter(): string {
           <div class="flex flex-wrap justify-center gap-6 text-sm" style="color: rgba(255,255,255,0.6);">
             <a href="#home" class="hover:text-yellow-500 transition-colors">首页</a>
             <a href="#services" class="hover:text-yellow-500 transition-colors">业务范围</a>
+            <a href="#articles" class="hover:text-yellow-500 transition-colors">文章资讯</a>
             <a href="#advantages" class="hover:text-yellow-500 transition-colors">核心优势</a>
             <a href="#agent" class="hover:text-yellow-500 transition-colors">代理加盟</a>
-            <a href="#articles" class="hover:text-yellow-500 transition-colors">文章资讯</a>
             <a href="#contact" class="hover:text-yellow-500 transition-colors">联系我们</a>
           </div>
           
@@ -973,8 +746,8 @@ export function initApp(): void {
     <div id="page-home" class="page-section">${renderHero()}</div>
     <div id="page-services" class="page-section">${renderServices()}</div>
     <div id="page-advantages" class="page-section">${renderAdvantages()}</div>
-    <div id="page-agent" class="page-section">${renderAgent()}</div>
     <div id="page-articles" class="page-section">${renderArticles()}</div>
+    <div id="page-agent" class="page-section">${renderAgent()}</div>
     <div id="page-contact" class="page-section">${renderContact()}</div>
     ${renderFooter()}
   `;
@@ -1174,100 +947,5 @@ export function initApp(): void {
     }
   });
 
-  // Article filtering
-  const filterBtns = document.querySelectorAll('.article-filter-btn');
-  const articleCards = document.querySelectorAll('.article-card');
-
-  filterBtns.forEach(btn => {
-    btn.addEventListener('click', () => {
-      const category = btn.getAttribute('data-category');
-      
-      // Update active button
-      filterBtns.forEach(b => {
-        b.classList.remove('bg-yellow-600', 'text-white');
-        b.classList.add('bg-gray-100', 'text-gray-600');
-      });
-      btn.classList.remove('bg-gray-100', 'text-gray-600');
-      btn.classList.add('bg-yellow-600', 'text-white');
-      
-      // Filter articles
-      articleCards.forEach(card => {
-        const cardCategory = card.getAttribute('data-category');
-        if (category === '全部' || cardCategory === category) {
-          (card as HTMLElement).style.display = 'block';
-          card.classList.add('animate-fade-in-up');
-        } else {
-          (card as HTMLElement).style.display = 'none';
-        }
-      });
-    });
-  });
-
-  // Article modal
-  const articleModal = document.getElementById('article-modal');
-  const modalContent = document.getElementById('modal-content');
-  const closeModalBtn = document.getElementById('close-modal');
-  const modalOverlay = document.getElementById('modal-overlay');
-
-  function openArticleModal(articleId: number): void {
-    const article = articles.find(a => a.id === articleId);
-    if (!article || !modalContent) return;
-
-    const paragraphs = article.content.split('\n').map(p => {
-      if (p.trim().startsWith('**') && p.trim().endsWith('**')) {
-        return `<h3 class="text-xl font-bold mt-6 mb-3" style="color: #1F2937;">${p.replace(/\*\*/g, '')}</h3>`;
-      } else if (p.trim().startsWith('-') || p.trim().startsWith('1.') || p.trim().startsWith('2.') || p.trim().startsWith('3.') || p.trim().startsWith('4.') || p.trim().startsWith('5.')) {
-        return `<li class="ml-4 mb-2" style="color: #4B5563;">${p.trim().replace(/^[-*] /, '')}</li>`;
-      } else if (p.trim() === '') {
-        return '';
-      } else {
-        return `<p class="mb-4" style="color: #4B5563;">${p}</p>`;
-      }
-    }).join('');
-
-    modalContent.innerHTML = `
-      <div class="mb-6">
-        <span class="inline-block px-3 py-1 rounded-full text-xs font-medium mb-4" style="background: rgba(184, 134, 11, 0.1); color: #B8860B;">
-          ${article.category}
-        </span>
-        <h2 class="text-2xl md:text-3xl font-bold mb-4" style="color: #1F2937;">${article.title}</h2>
-        <div class="flex items-center gap-6 text-sm" style="color: #9CA3AF;">
-          <span class="flex items-center gap-2">
-            ${icons.calendar}
-            ${article.date}
-          </span>
-          <span class="flex items-center gap-2">
-            ${icons.eye}
-            ${article.views.toLocaleString()} 阅读
-          </span>
-          <span class="flex items-center gap-2">
-            ${icons.article}
-            ${article.author}
-          </span>
-        </div>
-      </div>
-      <div class="prose max-w-none" style="line-height: 1.8;">
-        ${paragraphs}
-      </div>
-      <p class="text-sm mt-6" style="color: #6B7280;">
-        声明：本文仅供参考，不构成投资建议。如有业务需求，请联系我们的专业顾问。
-      </p>
-    `;
-
-    articleModal?.classList.remove('hidden');
-    document.body.style.overflow = 'hidden';
-  }
-
-  function closeModal(): void {
-    articleModal?.classList.add('hidden');
-    document.body.style.overflow = '';
-  }
-
-  closeModalBtn?.addEventListener('click', closeModal);
-  modalOverlay?.addEventListener('click', closeModal);
-
-  // Close modal on escape key
-  document.addEventListener('keydown', (e: KeyboardEvent) => {
-    if (e.key === 'Escape') closeModal();
-  });
+  
 }
