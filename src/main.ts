@@ -1,5 +1,66 @@
 // 资金业务展示平台 - 主入口
 
+// API 基础 URL
+const API_BASE = '/api';
+
+// 从数据库获取的文章数据
+let dbArticles: Article[] = [];
+// 从数据库获取的案例数据
+let dbCases: any[] = [];
+// 分类映射
+const categoryMap: Record<string, string> = {
+  'listed-company': '上市公司服务',
+  'enterprise-setup': '企业摆账',
+  'bank-deposit': '银行存款',
+  'receivable-financing': '应收账款融资'
+};
+
+// API 获取函数
+async function fetchArticles(): Promise<Article[]> {
+  try {
+    const res = await fetch(`${API_BASE}/articles?is_published=true`);
+    const json = await res.json();
+    if (json.success && json.data) {
+      return json.data.map((item: any) => ({
+        id: item.id,
+        title: item.title,
+        category: item.article_categories?.name || categoryMap[item.category_id] || '其他',
+        excerpt: item.excerpt || '',
+        content: item.content || '',
+        views: item.views || 0,
+        date: item.created_at ? new Date(item.created_at).toISOString().split('T')[0] : '',
+        author: item.author || '鼎丰资金',
+        image: item.image || 'https://images.unsplash.com/photo-1486406146926-c627a92ad1ab?w=800&h=400&fit=crop'
+      }));
+    }
+  } catch (e) {
+    console.error('获取文章失败:', e);
+  }
+  return [];
+}
+
+async function fetchCases(): Promise<any[]> {
+  try {
+    const res = await fetch(`${API_BASE}/cases`);
+    const json = await res.json();
+    if (json.success && json.data) {
+      return json.data.map((item: any) => ({
+        image: item.image || 'https://images.unsplash.com/photo-1486406146926-c627a92ad1ab?w=800&h=600&fit=crop',
+        title: item.title,
+        desc: item.description || ''
+      }));
+    }
+  } catch (e) {
+    console.error('获取案例失败:', e);
+  }
+  return [];
+}
+
+// 初始化数据
+async function initData() {
+  [dbArticles, dbCases] = await Promise.all([fetchArticles(), fetchCases()]);
+}
+
 // SVG Icons as components
 const icons = {
   building: `<svg xmlns="http://www.w3.org/2000/svg" width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="4" y="2" width="16" height="20" rx="2" ry="2"></rect><path d="M9 22v-4h6v4"></path><path d="M8 6h.01"></path><path d="M16 6h.01"></path><path d="M12 6h.01"></path><path d="M12 10h.01"></path><path d="M12 14h.01"></path><path d="M16 10h.01"></path><path d="M16 14h.01"></path><path d="M8 10h.01"></path><path d="M8 14h.01"></path></svg>`,
@@ -348,8 +409,8 @@ function renderServiceCard(data: typeof businessData.listed & { scenarios?: stri
 }
 
 function renderServices(): string {
-  // 案例图片数据（8个）
-  const caseImages = [
+  // 使用数据库案例数据，如果没有则使用默认数据
+  const displayCases = dbCases.length > 0 ? dbCases : [
     {
       image: 'https://coze-coding-project.tos.coze.site/coze_storage_7633780595134529586/image/generate_image_ec5f19a9-bbf1-4d7b-980e-cd8929d436ba.jpeg?sign=1808917820-e84aa2e065-0-f1db7189951cc64ca3dcddb327d2c350c0e5871cb720a0d20b070fd0c99124e5',
       title: '上市公司短拆业务',
@@ -407,13 +468,14 @@ function renderServices(): string {
         
         <!-- 案例图片卡片 -->
         <div class="grid grid-cols-2 md:grid-cols-4 gap-4 mb-16">
-          ${caseImages.map((item, index) => `
+          ${displayCases.map((item, index) => `
             <div class="group rounded-2xl overflow-hidden card-hover bg-white" style="border: 1px solid rgba(184, 134, 11, 0.1); box-shadow: 0 4px 20px rgba(0, 0, 0, 0.06); animation-delay: ${index * 0.1}s;">
               <div class="aspect-[4/3] overflow-hidden">
                 <img 
                   src="${item.image}" 
                   alt="${item.title}"
                   class="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110"
+                  onerror="this.src='https://images.unsplash.com/photo-1486406146926-c627a92ad1ab?w=800&h=600&fit=crop'"
                 />
               </div>
               <div class="p-5">
@@ -585,7 +647,7 @@ function renderArticles(): string {
         </div>
         
         <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-8" id="articles-grid">
-          ${articles.map((article, i) => `
+          ${(dbArticles.length > 0 ? dbArticles : articles).map((article, i) => `
             <article 
               class="article-card rounded-2xl overflow-hidden card-hover bg-white cursor-pointer" 
               style="border: 1px solid rgba(184, 134, 11, 0.1); box-shadow: 0 4px 24px rgba(0, 0, 0, 0.06);"
@@ -781,7 +843,7 @@ function renderFooter(): string {
 }
 
 // Main app initialization
-export function initApp(): void {
+export async function initApp(): Promise<void> {
   const app = document.getElementById('app');
 
   if (!app) {
@@ -789,6 +851,21 @@ export function initApp(): void {
     return;
   }
 
+  // 显示加载状态
+  app.innerHTML = `
+    <div style="display: flex; justify-content: center; align-items: center; min-height: 100vh; flex-direction: column;">
+      <div style="text-align: center;">
+        <div style="width: 40px; height: 40px; border: 4px solid #B8860B; border-top-color: transparent; border-radius: 50%; animation: spin 1s linear infinite; margin: 0 auto 20px;"></div>
+        <p style="color: #6B7280;">加载中...</p>
+      </div>
+    </div>
+    <style>@keyframes spin { to { transform: rotate(360deg); } }</style>
+  `;
+
+  // 初始化数据（从 API 获取）
+  await initData();
+
+  // 重新渲染页面
   app.innerHTML = `
     ${renderNavbar()}
     <div id="page-home" class="page-section">${renderHero()}</div>

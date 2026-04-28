@@ -3,8 +3,8 @@ import './index.css';
 import { initApp } from './main';
 
 // Initialize the app when DOM is ready
-document.addEventListener('DOMContentLoaded', () => {
-  initApp();
+document.addEventListener('DOMContentLoaded', async () => {
+  await initApp();
 });
 
 // Also try to initialize immediately in case DOMContentLoaded already fired
