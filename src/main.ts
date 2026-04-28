@@ -1,5 +1,4 @@
 // 资金业务展示平台 - 主入口
-import './admin';
 
 // SVG Icons as components
 const icons = {
@@ -387,9 +386,6 @@ function renderNavbar(): string {
             <a href="#" data-page="agent" class="nav-link text-gray-700 hover:text-yellow-600 transition-colors">代理加盟</a>
             <a href="#" data-page="articles" class="nav-link text-gray-700 hover:text-yellow-600 transition-colors">文章资讯</a>
             <a href="#" data-page="contact" class="nav-link text-gray-700 hover:text-yellow-600 transition-colors">联系我们</a>
-            <button onclick="window.openAdmin()" class="px-4 py-2 bg-gradient-to-r from-gray-700 to-gray-600 text-white rounded-lg hover:from-gray-800 hover:to-gray-700 transition-all text-sm font-medium">
-              管理后台
-            </button>
           </div>
           
           <button class="btn-gold hidden md:block">
@@ -411,9 +407,6 @@ function renderNavbar(): string {
           <a href="#" data-page="agent" class="nav-link block text-gray-700 hover:text-yellow-600 py-2">代理加盟</a>
           <a href="#" data-page="articles" class="nav-link block text-gray-700 hover:text-yellow-600 py-2">文章资讯</a>
           <a href="#" data-page="contact" class="nav-link block text-gray-700 hover:text-yellow-600 py-2">联系我们</a>
-          <button onclick="window.openAdmin()" class="w-full py-3 bg-gray-700 text-white rounded-lg mt-4 font-medium">
-            管理后台
-          </button>
           <button class="btn-gold w-full mt-4">立即咨询</button>
         </div>
       </div>
