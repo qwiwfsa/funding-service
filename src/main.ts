@@ -1,7 +1,7 @@
 // 资金业务展示平台 - 主入口
 
 // API 基础 URL
-const API_BASE = '/api';
+const API_BASE = window.location.origin + '/api';
 
 // 从数据库获取的文章数据
 let dbArticles: Article[] = [];
