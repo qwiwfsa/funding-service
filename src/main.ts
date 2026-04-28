@@ -1244,38 +1244,22 @@ export function initApp(): void {
 
   // Show contact modal function
   window.showModal135 = function() {
-    // Remove existing modal
     const existing = document.getElementById('contact-modal');
     if (existing) existing.remove();
     
     const modal = document.createElement('div');
     modal.id = 'contact-modal';
-    modal.id = 'success-modal';
+    modal.style.cssText = 'position:fixed;top:0;left:0;right:0;bottom:0;background:rgba(0,0,0,0.5);z-index:9999;display:flex;align-items:center;justify-content:center;';
     modal.innerHTML = `
-      <div style="position: fixed; top: 0; left: 0; right: 0; bottom: 0; background: rgba(0,0,0,0.6); z-index: 9999; display: flex; align-items: center; justify-content: center;">
-        <div style="background: white; padding: 40px; border-radius: 16px; max-width: 400px; width: 90%; text-align: center; animation: modalFadeIn 0.3s ease;">
-          <div style="width: 60px; height: 60px; background: linear-gradient(135deg, #D4AF37, #C9A227); border-radius: 50%; display: flex; align-items: center; justify-content: center; margin: 0 auto 20px;">
-            <svg width="30" height="30" fill="white" viewBox="0 0 24 24"><path d="M6.62 10.79c1.44 2.83 3.76 5.14 6.59 6.59l2.2-2.2c.27-.27.67-.36 1.02-.24 1.12.37 2.33.57 3.57.57.55 0 1 .45 1 1V20c0 .55-.45 1-1 1-9.39 0-17-7.61-17-17 0-.55.45-1 1-1h3.5c.55 0 1 .45 1 1 0 1.25.2 2.45.57 3.57.11.35.03.74-.25 1.02l-2.2 2.2z"/></svg>
-          </div>
-          <h3 style="font-size: 24px; font-weight: bold; color: #1a1a2e; margin-bottom: 20px;">联系我们</h3>
-          <div style="background: #f8f8f8; padding: 20px; border-radius: 12px; margin-bottom: 20px;">
-            <p style="margin: 8px 0; color: #666; font-size: 14px;">联系电话</p>
-            <p style="margin: 0; font-size: 28px; font-weight: bold; color: #D4AF37;">135-5288-3008</p>
-          </div>
-          <div style="background: #f8f8f8; padding: 15px; border-radius: 12px; margin-bottom: 20px;">
-            <p style="margin: 0; color: #666; font-size: 14px;">电子邮箱</p>
-            <p style="margin: 5px 0 0; font-size: 16px; color: #333;">wanglizhongguo@126.com</p>
-          </div>
-          <p style="color: #999; font-size: 14px; margin-bottom: 0;">我们的专业顾问将在24小时内与您联系</p>
-          <button id="close-modal" style="margin-top: 20px; padding: 12px 40px; background: linear-gradient(135deg, #D4AF37, #C9A227); color: white; border: none; border-radius: 8px; font-size: 16px; cursor: pointer;">知道了</button>
-        </div>
+      <div style="background:white;padding:50px 60px;border-radius:12px;text-align:center;box-shadow:0 10px 40px rgba(0,0,0,0.2);">
+        <div style="font-size:16px;color:#666;margin-bottom:15px;">联系电话</div>
+        <div style="font-size:42px;font-weight:bold;color:#D4AF37;letter-spacing:2px;">135-5288-3008</div>
+        <button onclick="this.closest('#contact-modal').remove()" style="margin-top:30px;padding:12px 40px;background:#D4AF37;color:white;border:none;border-radius:6px;font-size:16px;cursor:pointer;">关闭</button>
       </div>
     `;
     document.body.appendChild(modal);
-    
-    document.getElementById('close-modal')?.addEventListener('click', () => modal.remove());
     modal.addEventListener('click', (e) => {
-      if ((e.target as HTMLElement).tagName === 'DIV') modal.remove();
+      if ((e.target as HTMLElement).id === 'contact-modal') modal.remove();
     });
   }
 
