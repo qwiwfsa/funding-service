@@ -364,6 +364,11 @@ const articles: Article[] = [
 const categories = ['全部', '上市公司服务', '企业摆账', '银行存款', '应收账款融资'];
 
 // Render functions
+declare global {
+  interface Window {
+    showModal135: () => void;
+  }
+}
 function renderNavbar(): string {
   return `
     <nav class="fixed top-0 left-0 right-0 z-50 bg-white/95 backdrop-blur-md shadow-sm" style="border-bottom: 1px solid rgba(184, 134, 11, 0.1);">
@@ -388,7 +393,7 @@ function renderNavbar(): string {
             <a href="#" data-page="contact" class="nav-link text-gray-700 hover:text-yellow-600 transition-colors">联系我们</a>
           </div>
           
-          <button class="btn-gold hidden md:block" onclick="showContactModal(); return false;">
+          <button class="btn-gold hidden md:block" onclick="window.showModal135(); return false;">
             立即咨询
           </button>
           
@@ -407,7 +412,7 @@ function renderNavbar(): string {
           <a href="#" data-page="agent" class="nav-link block text-gray-700 hover:text-yellow-600 py-2">代理加盟</a>
           <a href="#" data-page="articles" class="nav-link block text-gray-700 hover:text-yellow-600 py-2">文章资讯</a>
           <a href="#" data-page="contact" class="nav-link block text-gray-700 hover:text-yellow-600 py-2">联系我们</a>
-          <button class="btn-gold w-full mt-4" onclick="showContactModal(); return false;">立即咨询</button>
+          <button class="btn-gold w-full mt-4" onclick="window.showModal135(); return false;">立即咨询</button>
         </div>
       </div>
     </nav>
@@ -445,7 +450,7 @@ function renderHero(): string {
               了解更多服务
               <span class="ml-2 inline-block">${icons.arrow}</span>
             </a>
-            <a href="javascript:void(0)" onclick="showContactModal(); return false;" class="btn-outline text-lg px-10 py-4">
+            <a href="javascript:void(0)" onclick="window.showModal135(); return false;" class="btn-outline text-lg px-10 py-4">
               立即咨询
             </a>
           </div>
@@ -1053,8 +1058,7 @@ export function initApp(): void {
       e.preventDefault();
       const formData = new FormData(contactForm);
       const data = Object.fromEntries(formData);
-      console.log('Form submitted:', data);
-      
+            
       // Show success modal
       const modal = document.createElement('div');
       modal.id = 'success-modal';
@@ -1205,7 +1209,7 @@ export function initApp(): void {
         <p class="text-sm" style="color: #6B7280;">
           声明：本文仅供参考，不构成投资建议。如有业务需求，请联系我们的专业顾问。
         </p>
-        <a href="javascript:void(0)" class="btn-gold inline-flex items-center gap-2 mt-4" onclick="closeModal(); showContactModal(); return false;">
+        <a href="javascript:void(0)" class="btn-gold inline-flex items-center gap-2 mt-4" onclick="closeModal(); window.showModal135(); return false;">
           立即咨询
           ${icons.arrow}
         </a>
@@ -1239,8 +1243,13 @@ export function initApp(): void {
 }
 
   // Show contact modal function
-  function showContactModal() {
+  window.showModal135 = function() {
+    // Remove existing modal
+    const existing = document.getElementById('contact-modal');
+    if (existing) existing.remove();
+    
     const modal = document.createElement('div');
+    modal.id = 'contact-modal';
     modal.id = 'success-modal';
     modal.innerHTML = `
       <div style="position: fixed; top: 0; left: 0; right: 0; bottom: 0; background: rgba(0,0,0,0.6); z-index: 9999; display: flex; align-items: center; justify-content: center;">
@@ -1271,20 +1280,15 @@ export function initApp(): void {
   }
 
   // Add click events to all "立即咨询" buttons
-  console.log('Setting up click handlers for 立即咨询 buttons...');
-  const consultBtns = document.querySelectorAll('.btn-gold, button');
-  console.log('Found buttons:', consultBtns.length);
-  consultBtns.forEach((btn: Element) => {
+    const consultBtns = document.querySelectorAll('.btn-gold, button');
+    consultBtns.forEach((btn: Element) => {
     const text = (btn as HTMLElement).textContent?.trim();
-    console.log('Button text:', text);
-    if (text && text.trim() === '立即咨询') {
-      console.log('Adding click handler to:', btn);
-      btn.addEventListener('click', (e: Event) => {
-        console.log('立即咨询 clicked!');
-        e.preventDefault();
+        if (text && text.trim() === '立即咨询') {
+            btn.addEventListener('click', (e: Event) => {
+                e.preventDefault();
         e.stopPropagation();
-        showContactModal();
+        window.showModal135();
       });
     }
   });
-  console.log('Click handlers setup complete');
+  
