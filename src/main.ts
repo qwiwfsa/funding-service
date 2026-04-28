@@ -1095,12 +1095,11 @@ export function initApp(): void {
   // Smooth scroll for anchor links
   document.querySelectorAll('a[href^="#"]').forEach(anchor => {
     anchor.addEventListener('click', (e: Event) => {
+      e.preventDefault();
       const href = (anchor as HTMLAnchorElement).getAttribute('href');
-      // Skip if href is just "#" or invalid
-      if (href && href.length > 1) {
+      if (href) {
         const target = document.querySelector(href);
         if (target) {
-          e.preventDefault();
           target.scrollIntoView({ behavior: 'smooth', block: 'start' });
         }
       }
@@ -1237,47 +1236,3 @@ export function initApp(): void {
     if (e.key === 'Escape') closeModal();
   });
 }
-
-  // Show contact modal function
-  function showContactModal() {
-    const modal = document.createElement('div');
-    modal.id = 'success-modal';
-    modal.innerHTML = `
-      <div style="position: fixed; top: 0; left: 0; right: 0; bottom: 0; background: rgba(0,0,0,0.6); z-index: 9999; display: flex; align-items: center; justify-content: center;">
-        <div style="background: white; padding: 40px; border-radius: 16px; max-width: 400px; width: 90%; text-align: center; animation: modalFadeIn 0.3s ease;">
-          <div style="width: 60px; height: 60px; background: linear-gradient(135deg, #D4AF37, #C9A227); border-radius: 50%; display: flex; align-items: center; justify-content: center; margin: 0 auto 20px;">
-            <svg width="30" height="30" fill="white" viewBox="0 0 24 24"><path d="M6.62 10.79c1.44 2.83 3.76 5.14 6.59 6.59l2.2-2.2c.27-.27.67-.36 1.02-.24 1.12.37 2.33.57 3.57.57.55 0 1 .45 1 1V20c0 .55-.45 1-1 1-9.39 0-17-7.61-17-17 0-.55.45-1 1-1h3.5c.55 0 1 .45 1 1 0 1.25.2 2.45.57 3.57.11.35.03.74-.25 1.02l-2.2 2.2z"/></svg>
-          </div>
-          <h3 style="font-size: 24px; font-weight: bold; color: #1a1a2e; margin-bottom: 20px;">联系我们</h3>
-          <div style="background: #f8f8f8; padding: 20px; border-radius: 12px; margin-bottom: 20px;">
-            <p style="margin: 8px 0; color: #666; font-size: 14px;">联系电话</p>
-            <p style="margin: 0; font-size: 28px; font-weight: bold; color: #D4AF37;">135-5288-3008</p>
-          </div>
-          <div style="background: #f8f8f8; padding: 15px; border-radius: 12px; margin-bottom: 20px;">
-            <p style="margin: 0; color: #666; font-size: 14px;">电子邮箱</p>
-            <p style="margin: 5px 0 0; font-size: 16px; color: #333;">wanglizhongguo@126.com</p>
-          </div>
-          <p style="color: #999; font-size: 14px; margin-bottom: 0;">我们的专业顾问将在24小时内与您联系</p>
-          <button id="close-modal" style="margin-top: 20px; padding: 12px 40px; background: linear-gradient(135deg, #D4AF37, #C9A227); color: white; border: none; border-radius: 8px; font-size: 16px; cursor: pointer;">知道了</button>
-        </div>
-      </div>
-    `;
-    document.body.appendChild(modal);
-    
-    document.getElementById('close-modal')?.addEventListener('click', () => modal.remove());
-    modal.addEventListener('click', (e) => {
-      if ((e.target as HTMLElement).tagName === 'DIV') modal.remove();
-    });
-  }
-
-  // Add click events to all "立即咨询" buttons
-  document.querySelectorAll('.btn-gold, button').forEach(btn => {
-    const text = btn.textContent?.trim();
-    if (text === '立即咨询') {
-      btn.addEventListener('click', (e) => {
-        e.preventDefault();
-        e.stopPropagation();
-        showContactModal();
-      });
-    }
-  });
