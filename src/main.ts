@@ -244,6 +244,7 @@ interface Article {
   author: string;
   image: string;
   created_at?: string;
+  article_categories?: { name: string; slug: string };
 }
 
 const articles: Article[] = [
@@ -709,7 +710,7 @@ function renderAgent(): string {
 }
 
 function renderArticles(): string {
-  const categories = ['全部', '上市公司', '企业摆账', '银行存款', '应收账款'];
+  const categories = ['全部', '上市公司服务', '企业摆账', '银行存款', '应收账款融资'];
 
   return `
     <section id="articles" class="py-24 relative" style="background: #ffffff;">
@@ -1073,28 +1074,28 @@ export async function initApp(): Promise<void> {
       // Filter articles
       const filteredArticles = category === '全部' 
         ? articles 
-        : articles.filter(a => a.category === category);
+        : articles.filter(a => a.article_categories?.name === category);
       
       // Update article grid
       const articlesGrid = document.getElementById('articles-grid');
       if (articlesGrid) {
         articlesGrid.innerHTML = filteredArticles.map(article => `
-          <div class="bg-white rounded-xl overflow-hidden shadow-md hover:shadow-xl transition-all duration-300 cursor-pointer article-card group"
+          <div class="bg-white rounded-xl overflow-hidden shadow-md hover:shadow-xl transition-all duration-300 cursor-pointer article-card group flex items-center gap-4 p-4"
                onclick="openArticleModal(${article.id})">
-            <div class="aspect-[4/3] overflow-hidden">
+            <div class="w-48 h-32 flex-shrink-0 overflow-hidden rounded-lg">
               <img src="${article.image}" alt="${article.title}" 
                    class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500">
             </div>
-            <div class="p-6">
-              <h3 class="text-lg font-bold mb-3 group-hover:text-yellow-600 transition-colors" style="color: #1F2937;">
+            <div class="flex-1 min-w-0">
+              <h3 class="text-lg font-bold mb-2 group-hover:text-yellow-600 transition-colors line-clamp-1" style="color: #1F2937;">
                 ${article.title}
               </h3>
-              <p class="text-sm mb-4 line-clamp-2" style="color: #6B7280;">
+              <p class="text-sm line-clamp-2" style="color: #6B7280;">
                 ${article.excerpt}
               </p>
-              <div class="flex items-center justify-between text-xs" style="color: #9CA3AF;">
-                <span>${article.date}</span>
-                <span>${article.views} 阅读</span>
+              <div class="flex items-center gap-4 mt-2 text-xs" style="color: #9CA3AF;">
+                <span>${article.date || '暂无日期'}</span>
+                <span>${article.views || 0} 阅读</span>
               </div>
             </div>
           </div>
