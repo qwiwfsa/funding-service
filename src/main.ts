@@ -523,6 +523,30 @@ function renderServiceCard(data: typeof businessData.listed, index: number): str
 }
 
 function renderServices(): string {
+  // 案例图片数据
+  const caseImages = [
+    {
+      image: 'https://coze-coding-project.tos.coze.site/coze_storage_7633780595134529586/image/generate_image_ec5f19a9-bbf1-4d7b-980e-cd8929d436ba.jpeg?sign=1808917820-e84aa2e065-0-f1db7189951cc64ca3dcddb327d2c350c0e5871cb720a0d20b070fd0c99124e5',
+      title: '上市公司短拆业务',
+      desc: '为上市公司提供短期拆借服务，快速解决资金周转需求'
+    },
+    {
+      image: 'https://coze-coding-project.tos.coze.site/coze_storage_7633780595134529586/image/generate_image_514696d5-9d87-471c-bfc7-7921255ed88e.jpeg?sign=1808917819-af1217cad5-0-76d1bab2d9dbfca22753f0ca1ec0e475af6d7745d0f3830366877fc727bca079',
+      title: '企业摆账验资',
+      desc: '专业企业摆账服务，助您完成实缴验资与资金证明'
+    },
+    {
+      image: 'https://coze-coding-project.tos.coze.site/coze_storage_7633780595134529586/image/generate_image_4b13c86c-f4c4-458e-a952-3bf9e3ddb51a.jpeg?sign=1808917817-e921d570cc-0-6d35cfd2492ebb2e58b3b29c1228e8295449fa6ee5995874642360a2dec28383',
+      title: '银行存款冲量',
+      desc: '银行时点、日均、月底冲量，一年期/三年期定期存款'
+    },
+    {
+      image: 'https://coze-coding-project.tos.coze.site/coze_storage_7633780595134529586/image/generate_image_a8176964-74f6-4c40-96de-aff36964eb1a.jpeg?sign=1808917825-064d04ccaf-0-7168882115b63ec8b086963b1e72868527c1bf4f488d858be6c51b21305d25c5',
+      title: '应收账款融资',
+      desc: '云信票据置换，快速变现，加速企业资金周转'
+    }
+  ];
+
   return `
     <section id="services" class="py-24 relative" style="background: #ffffff;">
       <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
@@ -534,6 +558,25 @@ function renderServices(): string {
           <p class="mb-6" style="color: #6B7280;">
             专业团队提供一站式资金服务，覆盖上市公司、企业个人、银行存款及应收账款融资等多领域
           </p>
+        </div>
+        
+        <!-- 案例图片卡片 -->
+        <div class="grid md:grid-cols-2 lg:grid-cols-4 gap-6 mb-16">
+          ${caseImages.map((item, index) => `
+            <div class="group rounded-2xl overflow-hidden card-hover bg-white" style="border: 1px solid rgba(184, 134, 11, 0.1); box-shadow: 0 4px 20px rgba(0, 0, 0, 0.06); animation-delay: ${index * 0.1}s;">
+              <div class="aspect-[4/3] overflow-hidden">
+                <img 
+                  src="${item.image}" 
+                  alt="${item.title}"
+                  class="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110"
+                />
+              </div>
+              <div class="p-5">
+                <h3 class="font-bold text-lg mb-2" style="color: #1F2937;">${item.title}</h3>
+                <p class="text-sm leading-relaxed" style="color: #6B7280;">${item.desc}</p>
+              </div>
+            </div>
+          `).join('')}
         </div>
         
         <div class="space-y-8">
@@ -892,7 +935,7 @@ function renderFooter(): string {
           
           <div class="flex flex-wrap justify-center gap-6 text-sm" style="color: rgba(255,255,255,0.6);">
             <a href="#home" class="hover:text-yellow-500 transition-colors">首页</a>
-            <a href="#services" class="hover:text-yellow-500 transition-colors">业务服务</a>
+            <a href="#services" class="hover:text-yellow-500 transition-colors">业务范围</a>
             <a href="#advantages" class="hover:text-yellow-500 transition-colors">核心优势</a>
             <a href="#agent" class="hover:text-yellow-500 transition-colors">代理加盟</a>
             <a href="#articles" class="hover:text-yellow-500 transition-colors">文章资讯</a>
