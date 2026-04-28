@@ -989,23 +989,19 @@ export function initApp(): void {
   app.innerHTML = `
     ${renderNavbar()}
     <div id="page-home" class="page-section">${renderHero()}</div>
-    <div id="page-services" class="page-section hidden">${renderServices()}</div>
-    <div id="page-advantages" class="page-section hidden">${renderAdvantages()}</div>
-    <div id="page-agent" class="page-section hidden">${renderAgent()}</div>
-    <div id="page-articles" class="page-section hidden">${renderArticles()}</div>
-    <div id="page-contact" class="page-section hidden">${renderContact()}</div>
+    <div id="page-services" class="page-section">${renderServices()}</div>
+    <div id="page-advantages" class="page-section">${renderAdvantages()}</div>
+    <div id="page-agent" class="page-section">${renderAgent()}</div>
+    <div id="page-articles" class="page-section">${renderArticles()}</div>
+    <div id="page-contact" class="page-section">${renderContact()}</div>
     ${renderFooter()}
   `;
   
-  // SPA Navigation logic
+  // Scroll Navigation logic
   function navigateTo(page: string) {
-    const sections = document.querySelectorAll('.page-section');
-    sections.forEach(section => section.classList.add('hidden'));
-    
     const targetSection = document.getElementById(`page-${page}`);
     if (targetSection) {
-      targetSection.classList.remove('hidden');
-      window.scrollTo({ top: 0, behavior: 'smooth' });
+      targetSection.scrollIntoView({ behavior: 'smooth', block: 'start' });
     }
     
     // Close mobile menu
