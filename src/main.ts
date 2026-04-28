@@ -1055,9 +1055,40 @@ export function initApp(): void {
       const data = Object.fromEntries(formData);
       console.log('Form submitted:', data);
       
-      // Show success message
-      alert('感谢您的咨询！\n\n联系电话：13552883008\n邮箱：wanglizhongguo@126.com\n\n我们的专业顾问将在24小时内与您联系。');
+      // Show success modal
+      const modal = document.createElement('div');
+      modal.id = 'success-modal';
+      modal.innerHTML = `
+        <div style="position: fixed; top: 0; left: 0; right: 0; bottom: 0; background: rgba(0,0,0,0.6); z-index: 9999; display: flex; align-items: center; justify-content: center;">
+          <div style="background: white; padding: 40px; border-radius: 16px; max-width: 400px; width: 90%; text-align: center; animation: modalFadeIn 0.3s ease;">
+            <div style="width: 60px; height: 60px; background: linear-gradient(135deg, #D4AF37, #C9A227); border-radius: 50%; display: flex; align-items: center; justify-content: center; margin: 0 auto 20px;">
+              <svg width="30" height="30" fill="white" viewBox="0 0 24 24"><path d="M9 16.17L4.83 12l-1.42 1.41L9 19 21 7l-1.41-1.41L9 16.17z"/></svg>
+            </div>
+            <h3 style="font-size: 24px; font-weight: bold; color: #1a1a2e; margin-bottom: 20px;">感谢您的咨询！</h3>
+            <div style="background: #f8f8f8; padding: 20px; border-radius: 12px; margin-bottom: 20px;">
+              <p style="margin: 8px 0; color: #666; font-size: 14px;">联系电话</p>
+              <p style="margin: 0; font-size: 28px; font-weight: bold; color: #D4AF37;">135-5288-3008</p>
+            </div>
+            <div style="background: #f8f8f8; padding: 15px; border-radius: 12px; margin-bottom: 20px;">
+              <p style="margin: 0; color: #666; font-size: 14px;">电子邮箱</p>
+              <p style="margin: 5px 0 0; font-size: 16px; color: #333;">wanglizhongguo@126.com</p>
+            </div>
+            <p style="color: #999; font-size: 14px; margin-bottom: 0;">我们的专业顾问将在24小时内与您联系</p>
+            <button id="close-modal" style="margin-top: 20px; padding: 12px 40px; background: linear-gradient(135deg, #D4AF37, #C9A227); color: white; border: none; border-radius: 8px; font-size: 16px; cursor: pointer; transition: transform 0.2s;">
+              知道了
+            </button>
+          </div>
+        </div>
+      `;
+      document.body.appendChild(modal);
       contactForm.reset();
+      
+      document.getElementById('close-modal')?.addEventListener('click', () => {
+        modal.remove();
+      });
+      modal.addEventListener('click', (e) => {
+        if ((e.target as HTMLElement).tagName === 'DIV') modal.remove();
+      });
     });
   }
 
