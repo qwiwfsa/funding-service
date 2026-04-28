@@ -830,6 +830,7 @@ export function initApp(): void {
       const page = (link as HTMLElement).dataset.page || 'home';
       navigateTo(page);
     });
+  });
 
   // Hero consult button - show modal directly
   const heroConsultBtn = document.getElementById('hero-consult-btn');
@@ -839,6 +840,52 @@ export function initApp(): void {
       showConsultModal();
     });
   }
+
+  // Article filter functionality
+  const filterBtns = document.querySelectorAll('.article-filter-btn');
+  filterBtns.forEach(btn => {
+    btn.addEventListener('click', () => {
+      const category = (btn as HTMLElement).dataset.category || '全部';
+      
+      // Update active state
+      filterBtns.forEach(b => {
+        b.classList.remove('bg-yellow-600', 'text-white');
+        b.classList.add('bg-gray-100', 'text-gray-600');
+      });
+      btn.classList.remove('bg-gray-100', 'text-gray-600');
+      btn.classList.add('bg-yellow-600', 'text-white');
+      
+      // Filter articles
+      const filteredArticles = category === '全部' 
+        ? articles 
+        : articles.filter(a => a.category === category);
+      
+      // Update article grid
+      const articlesGrid = document.getElementById('articles-grid');
+      if (articlesGrid) {
+        articlesGrid.innerHTML = filteredArticles.map(article => `
+          <div class="bg-white rounded-xl overflow-hidden shadow-md hover:shadow-xl transition-all duration-300 cursor-pointer article-card group"
+               onclick="openArticleModal(${article.id})">
+            <div class="aspect-[4/3] overflow-hidden">
+              <img src="${article.image}" alt="${article.title}" 
+                   class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500">
+            </div>
+            <div class="p-6">
+              <h3 class="text-lg font-bold mb-3 group-hover:text-yellow-600 transition-colors" style="color: #1F2937;">
+                ${article.title}
+              </h3>
+              <p class="text-sm mb-4 line-clamp-2" style="color: #6B7280;">
+                ${article.excerpt}
+              </p>
+              <div class="flex items-center justify-between text-xs" style="color: #9CA3AF;">
+                <span>${article.date}</span>
+                <span>${article.views} 阅读</span>
+              </div>
+            </div>
+          </div>
+        `).join('');
+      }
+    });
   });
 
   // Initialize mobile menu toggle
