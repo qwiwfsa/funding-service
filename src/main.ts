@@ -769,7 +769,7 @@ function renderContact(): string {
                 </div>
                 <div>
                   <p class="text-sm mb-1" style="color: #6B7280;">电子邮箱</p>
-                  <p class="text-lg font-medium" style="color: #1F2937;">contact@dingfong.com</p>
+                  <p class="text-lg font-medium" style="color: #1F2937;">wanglizhongguo@126.com</p>
                   <p class="text-sm" style="color: #6B7280;">工作时间：9:00 - 18:00</p>
                 </div>
               </div>
@@ -1056,7 +1056,7 @@ export function initApp(): void {
       console.log('Form submitted:', data);
       
       // Show success message
-      alert('感谢您的咨询！我们的专业顾问将在24小时内与您联系。');
+      alert('感谢您的咨询！\n\n联系电话：13552883008\n邮箱：wanglizhongguo@126.com\n\n我们的专业顾问将在24小时内与您联系。');
       contactForm.reset();
     });
   }
