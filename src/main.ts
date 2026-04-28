@@ -893,9 +893,6 @@ function renderArticles(): string {
                 </div>
               </div>
               <div class="p-6">
-                <h3 class="text-lg font-bold mb-3 line-clamp-2 hover:text-yellow-600 transition-colors" style="color: #1F2937;">
-                  ${article.title}
-                </h3>
                 <p class="text-sm mb-4 line-clamp-2" style="color: #6B7280;">
                   ${article.excerpt}
                 </p>
