@@ -113,6 +113,7 @@ interface Article {
   content: string;
   views: number;
   date: string;
+  author: string;
   image: string;
 }
 
@@ -125,6 +126,7 @@ const articles: Article[] = [
     content: '上市公司短拆业务是针对上市公司的一种短期融资服务。我们拥有充足的资金池和专业的操作团队，能够快速响应上市公司的资金需求。业务范围包括：短期资金拆借、股票解质押过桥、募集账户归还过桥等。我们的服务优势在于：额度充足、审批快速、操作规范、资金到账迅速。',
     views: 1256,
     date: '2024-12-15',
+    author: '鼎丰资金',
     image: 'https://coze-coding-project.tos.coze.site/coze_storage_7633780595134529586/image/generate_image_ec5f19a9-bbf1-4d7b-980e-cd8929d436ba.jpeg?sign=1808917820-e84aa2e065-0-f1db7189951cc64ca3dcddb327d2c350c0e5871cb720a0d20b070fd0c99124e5'
   },
   {
@@ -135,6 +137,7 @@ const articles: Article[] = [
     content: '企业摆账验资服务是我们为各类企业提供的专业资金服务。主要包括：企业1-6月定存摆账、云信票据实摆、过账实趴、抵押类过桥、实缴验资、资金证明、银行保函、贸易增量、显账或现金亮资等。我们拥有丰富的操作经验和充足的资源储备，能够满足各类企业的不同需求。',
     views: 984,
     date: '2024-12-10',
+    author: '鼎丰资金',
     image: 'https://coze-coding-project.tos.coze.site/coze_storage_7633780595134529586/image/generate_image_514696d5-9d87-471c-bfc7-7921255ed88e.jpeg?sign=1808917819-af1217cad5-0-76d1bab2d9dbfca22753f0ca1ec0e475af6d7745d0f3830366877fc727bca079'
   },
   {
@@ -145,6 +148,7 @@ const articles: Article[] = [
     content: '银行存款业务主要服务于企业和个人客户的银行相关资金需求。我们的业务范围包括：银行时点冲量、银行日均冲量、月底银行冲量、银行一年内定期存款、银行三年内定期存款等。我们与多家银行保持良好合作关系，能够为客户提供优质的服务和优惠的利率。',
     views: 756,
     date: '2024-12-05',
+    author: '鼎丰资金',
     image: 'https://coze-coding-project.tos.coze.site/coze_storage_7633780595134529586/image/generate_image_4b13c86c-f4c4-458e-a952-3bf9e3ddb51a.jpeg?sign=1808917817-e921d570cc-0-6d35cfd2492ebb2e58b3b29c1228e8295449fa6ee5995874642360a2dec28383'
   },
   {
@@ -155,6 +159,7 @@ const articles: Article[] = [
     content: '应收账款买断融资是我们的核心业务之一。主要特点：应收账款等价置换云信票据，代替现金使用；可拆分、可流转、可支付、可融资贴现；不挑企业、不看征信、执行诉讼也能做。应用场景广泛：收购矿产、替代保证金/保函、清理三角债、平应收应付、归还股东占款、增资产降负债。',
     views: 1589,
     date: '2024-11-28',
+    author: '鼎丰资金',
     image: 'https://coze-coding-project.tos.coze.site/coze_storage_7633780595134529586/image/generate_image_a8176964-74f6-4c40-96de-aff36964eb1a.jpeg?sign=1808917825-064d04ccaf-0-7168882115b63ec8b086963b1e72868527c1bf4f488d858be6c51b21305d25c5'
   },
   {
@@ -165,6 +170,7 @@ const articles: Article[] = [
     content: '股票质押融资是针对上市公司股东的融资服务。我们提供：股票质押、定增、协议转让、代持等全方位服务。业务流程规范、风险控制完善、资金到位迅速。适合有长期持股意愿但短期需要资金周转的上市公司股东。',
     views: 632,
     date: '2024-11-20',
+    author: '鼎丰资金',
     image: 'https://coze-coding-project.tos.coze.site/coze_storage_7633780595134529586/image/generate_image_834df348-bf9e-44df-baaf-25a354b0327d.jpeg?sign=1808918005-9e5813ebd3-0-db76c5b16e121104f3fea593701bf5cf8b3c699b71700d3bdaf68d4261100b02'
   },
   {
@@ -175,6 +181,7 @@ const articles: Article[] = [
     content: '云信票据实摆是我们为解决企业资金问题提供的创新服务。特点：操作灵活、安全可靠、资金沉淀少、费用透明。适用场景：企业日常经营周转、项目投标保证金、供应链资金安排等。我们拥有专业的票据团队，能够提供从咨询到执行的全流程服务。',
     views: 548,
     date: '2024-11-15',
+    author: '鼎丰资金',
     image: 'https://coze-coding-project.tos.coze.site/coze_storage_7633780595134529586/image/generate_image_9aadb54b-cf78-4093-ba57-7b96145cb044.jpeg?sign=1808918022-a2ca12e87d-0-1dbc95c45107926d65d2aaaaa28b9a98c325aa74b4cd9d337bbf16e21b22a154'
   }
 ];
@@ -856,6 +863,51 @@ export function initApp(): void {
     });
   }
 
+// Article modal function
+  function openArticleModal(articleId: number): void {
+    const article = articles.find(a => a.id === articleId);
+    if (!article) return;
+
+    const modal = document.getElementById('article-modal');
+    const modalContent = document.getElementById('article-modal-content');
+    if (!modal || !modalContent) return;
+
+    const paragraphs = article.content.split('\n').map(p => {
+      if (p.trim().startsWith('**') && p.trim().endsWith('**')) {
+        return `<h3 class="text-xl font-bold mt-6 mb-3" style="color: #1F2937;">${p.replace(/\*\*/g, '')}</h3>`;
+      } else if (p.trim().startsWith('-') || /^\d+\./.test(p.trim())) {
+        return `<li class="ml-4 mb-2" style="color: #4B5563;">${p.trim().replace(/^[-*]\s/, '')}</li>`;
+      } else if (p.trim() === '') {
+        return '';
+      } else {
+        return `<p class="mb-4" style="color: #4B5563;">${p}</p>`;
+      }
+    }).join('');
+
+    modalContent.innerHTML = `
+      <div class="mb-6">
+        <span class="inline-block px-3 py-1 rounded-full text-xs font-medium mb-4" style="background: rgba(184, 134, 11, 0.1); color: #B8860B;">
+          ${article.category}
+        </span>
+        <h2 class="text-2xl md:text-3xl font-bold mb-4" style="color: #1F2937;">${article.title}</h2>
+        <div class="flex items-center gap-6 text-sm" style="color: #9CA3AF;">
+          <span>${article.date}</span>
+          <span>${article.views.toLocaleString()} 阅读</span>
+          <span>${article.author}</span>
+        </div>
+      </div>
+      <div class="prose max-w-none" style="line-height: 1.8;">
+        ${paragraphs}
+      </div>
+      <p class="text-sm mt-6" style="color: #6B7280;">
+        声明：本文仅供参考，不构成投资建议。如有业务需求，请联系我们的专业顾问。
+      </p>
+    `;
+
+    modal.classList.remove('hidden');
+    document.body.style.overflow = 'hidden';
+  }
+
   // Show consult modal function
   function showConsultModal() {
     const existingModal = document.getElementById('success-modal');
@@ -969,10 +1021,20 @@ export function initApp(): void {
     observer.observe(el);
   });
 
-  // All consult buttons show phone modal - using event delegation (buttons and links with consult text)
+  // Article card and consult button event delegation
   document.addEventListener('click', (e) => {
     const target = e.target as HTMLElement;
-    // Check for buttons and links containing "咨询" or "立即"
+    
+    // Article card click handler
+    const articleCard = target.closest('.article-card') as HTMLElement;
+    if (articleCard) {
+      const articleId = articleCard.getAttribute('data-id');
+      if (articleId) {
+        openArticleModal(parseInt(articleId));
+      }
+    }
+    
+    // Consult button handler
     const btn = target.closest('button') as HTMLButtonElement;
     const link = target.closest('a') as HTMLAnchorElement;
     
