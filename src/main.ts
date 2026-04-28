@@ -1281,15 +1281,6 @@ export function initApp(): void {
     document.body.style.overflow = '';
   }
 
-  // Add click handlers to article cards - show phone modal
-  articleCards.forEach(card => {
-    card.addEventListener('click', () => {
-      // Close article modal and show phone modal
-      closeModal();
-      showConsultModal();
-    });
-  });
-
   closeModalBtn?.addEventListener('click', closeModal);
   modalOverlay?.addEventListener('click', closeModal);
 
