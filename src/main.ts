@@ -918,6 +918,39 @@ export async function initApp(): Promise<void> {
     renderArticleDetail(parseInt(articleId));
     return;
   }
+  
+  // 检查是否是文章列表（滚动到文章区域）
+  if (hash === '#articles' || hash === '#/articles') {
+    // 渲染全部页面
+    app.innerHTML = `
+      ${renderNavbar()}
+      <div id="page-home" class="page-section">${renderHero()}</div>
+      <div id="page-services" class="page-section">${renderServices()}</div>
+      <div id="page-advantages" class="page-section">${renderAdvantages()}</div>
+      <div id="page-articles" class="page-section">${renderArticles()}</div>
+      <div id="page-agent" class="page-section">${renderAgent()}</div>
+      <div id="page-contact" class="page-section">${renderContact()}</div>
+      ${renderFooter()}
+    `;
+    // 滚动到文章区域
+    setTimeout(() => {
+      const articlesSection = document.getElementById('page-articles');
+      if (articlesSection) {
+        articlesSection.scrollIntoView({ behavior: 'smooth' });
+      }
+    }, 100);
+    // 更新导航状态
+    setTimeout(() => {
+      const navLinks = document.querySelectorAll('.nav-link');
+      navLinks.forEach(link => {
+        link.classList.remove('active');
+        if (link.getAttribute('data-page') === 'articles') {
+          link.classList.add('active');
+        }
+      });
+    }, 150);
+    return;
+  }
 
   // 重新渲染页面
   app.innerHTML = `
@@ -1091,11 +1124,17 @@ function renderArticleDetail(articleId: number): void {
     <main style="max-width: 900px; margin: 0 auto; padding: 40px 20px;">
       <!-- 返回按钮 -->
       <div style="display: flex; align-items: center; gap: 12px; margin-bottom: 24px;">
+        <button onclick="window.location.hash='#articles'; location.reload();" style="display: inline-flex; align-items: center; gap: 8px; padding: 10px 16px; background: #B8860B; color: white; border: none; border-radius: 8px; cursor: pointer; font-size: 14px; transition: all 0.3s; font-weight: 500;">
+          <svg style="width: 16px; height: 16px;" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 11H5m14 0a2 2 0 012 2v6a2 2 0 01-2 2H5a2 2 0 01-2-2v-6a2 2 0 012-2m14 0V9a2 2 0 00-2-2M5 11V9a2 2 0 012-2m0 0V5a2 2 0 012-2h6a2 2 0 012 2v2M7 7h10"></path>
+          </svg>
+          文章列表
+        </button>
         <button onclick="history.back()" style="display: inline-flex; align-items: center; gap: 8px; padding: 10px 16px; background: #F3F4F6; color: #4B5563; border: none; border-radius: 8px; cursor: pointer; font-size: 14px; transition: all 0.3s;">
           <svg style="width: 16px; height: 16px;" fill="none" stroke="currentColor" viewBox="0 0 24 24">
             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7"></path>
           </svg>
-          返回上一级
+          返回
         </button>
         <span style="color: #D1D5DB;">|</span>
         <a href="/" onclick="event.preventDefault(); window.location.hash=''; location.reload();" 
@@ -1104,7 +1143,7 @@ function renderArticleDetail(articleId: number): void {
           <svg style="width: 16px; height: 16px;" fill="none" stroke="currentColor" viewBox="0 0 24 24">
             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6"></path>
           </svg>
-          返回首页
+          首页
         </a>
       </div>
       
