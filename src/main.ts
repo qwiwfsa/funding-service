@@ -1095,11 +1095,12 @@ export function initApp(): void {
   // Smooth scroll for anchor links
   document.querySelectorAll('a[href^="#"]').forEach(anchor => {
     anchor.addEventListener('click', (e: Event) => {
-      e.preventDefault();
       const href = (anchor as HTMLAnchorElement).getAttribute('href');
-      if (href) {
+      // Skip if href is just "#" or invalid
+      if (href && href.length > 1) {
         const target = document.querySelector(href);
         if (target) {
+          e.preventDefault();
           target.scrollIntoView({ behavior: 'smooth', block: 'start' });
         }
       }
