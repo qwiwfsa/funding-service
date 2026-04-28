@@ -381,7 +381,7 @@ function renderNavbar(): string {
           
           <div class="hidden md:flex items-center gap-8">
             <a href="#home" class="text-gray-700 hover:text-yellow-600 transition-colors">首页</a>
-            <a href="#services" class="text-gray-700 hover:text-yellow-600 transition-colors">业务服务</a>
+            <a href="#services" class="text-gray-700 hover:text-yellow-600 transition-colors">业务范围</a>
             <a href="#advantages" class="text-gray-700 hover:text-yellow-600 transition-colors">核心优势</a>
             <a href="#agent" class="text-gray-700 hover:text-yellow-600 transition-colors">代理加盟</a>
             <a href="#articles" class="text-gray-700 hover:text-yellow-600 transition-colors">文章资讯</a>
@@ -402,7 +402,7 @@ function renderNavbar(): string {
       <div class="hidden md:hidden bg-white border-t border-gray-100" id="mobile-menu">
         <div class="px-4 py-4 space-y-3">
           <a href="#home" class="block text-gray-700 hover:text-yellow-600 py-2">首页</a>
-          <a href="#services" class="block text-gray-700 hover:text-yellow-600 py-2">业务服务</a>
+          <a href="#services" class="block text-gray-700 hover:text-yellow-600 py-2">业务范围</a>
           <a href="#advantages" class="block text-gray-700 hover:text-yellow-600 py-2">核心优势</a>
           <a href="#agent" class="block text-gray-700 hover:text-yellow-600 py-2">代理加盟</a>
           <a href="#articles" class="block text-gray-700 hover:text-yellow-600 py-2">文章资讯</a>
