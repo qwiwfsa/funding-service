@@ -364,11 +364,6 @@ const articles: Article[] = [
 const categories = ['全部', '上市公司服务', '企业摆账', '银行存款', '应收账款融资'];
 
 // Render functions
-declare global {
-  interface Window {
-    showModal135: () => void;
-  }
-}
 function renderNavbar(): string {
   return `
     <nav class="fixed top-0 left-0 right-0 z-50 bg-white/95 backdrop-blur-md shadow-sm" style="border-bottom: 1px solid rgba(184, 134, 11, 0.1);">
@@ -393,14 +388,9 @@ function renderNavbar(): string {
             <a href="#" data-page="contact" class="nav-link text-gray-700 hover:text-yellow-600 transition-colors">联系我们</a>
           </div>
           
-          <div class="relative flex items-center">
-            <button class="btn-gold hidden md:block" onclick="window.showModal135(); return false;">
-              立即咨询
-            </button>
-            <div id="phone-display-nav" class="hidden absolute right-0 top-full mt-2 px-4 py-2 bg-white rounded-lg shadow-xl border border-[#D4AF37] whitespace-nowrap z-50">
-              <span class="text-[#D4AF37] font-bold text-base">13552883008</span>
-            </div>
-          </div>
+          <button class="btn-gold hidden md:block" onclick="showContactModal(); return false;">
+            立即咨询
+          </button>
           
           <button class="md:hidden text-gray-700" id="mobile-menu-btn">
             ${icons.menu}
@@ -417,10 +407,7 @@ function renderNavbar(): string {
           <a href="#" data-page="agent" class="nav-link block text-gray-700 hover:text-yellow-600 py-2">代理加盟</a>
           <a href="#" data-page="articles" class="nav-link block text-gray-700 hover:text-yellow-600 py-2">文章资讯</a>
           <a href="#" data-page="contact" class="nav-link block text-gray-700 hover:text-yellow-600 py-2">联系我们</a>
-          <button class="btn-gold w-full mt-4" onclick="window.showModal135(); return false;">立即咨询</button>
-          <div id="phone-display-mobile" class="hidden mx-2 mt-2 px-4 py-2 bg-white rounded-lg shadow-xl border border-[#D4AF37] text-center z-50">
-            <span class="text-[#D4AF37] font-bold text-base">13552883008</span>
-          </div>
+          <button class="btn-gold w-full mt-4" onclick="showContactModal(); return false;">立即咨询</button>
         </div>
       </div>
     </nav>
@@ -458,7 +445,7 @@ function renderHero(): string {
               了解更多服务
               <span class="ml-2 inline-block">${icons.arrow}</span>
             </a>
-            <a href="javascript:void(0)" onclick="window.showModal135(); return false;" class="btn-outline text-lg px-10 py-4">
+            <a href="javascript:void(0)" onclick="showContactModal(); return false;" class="btn-outline text-lg px-10 py-4">
               立即咨询
             </a>
           </div>
@@ -1066,7 +1053,8 @@ export function initApp(): void {
       e.preventDefault();
       const formData = new FormData(contactForm);
       const data = Object.fromEntries(formData);
-            
+      console.log('Form submitted:', data);
+      
       // Show success modal
       const modal = document.createElement('div');
       modal.id = 'success-modal';
@@ -1217,7 +1205,7 @@ export function initApp(): void {
         <p class="text-sm" style="color: #6B7280;">
           声明：本文仅供参考，不构成投资建议。如有业务需求，请联系我们的专业顾问。
         </p>
-        <a href="javascript:void(0)" class="btn-gold inline-flex items-center gap-2 mt-4" onclick="closeModal(); window.showModal135(); return false;">
+        <a href="javascript:void(0)" class="btn-gold inline-flex items-center gap-2 mt-4" onclick="closeModal(); showContactModal(); return false;">
           立即咨询
           ${icons.arrow}
         </a>
@@ -1250,36 +1238,53 @@ export function initApp(): void {
   });
 }
 
-  // Show phone number below button
-  window.showModal135 = function() {
-    // Toggle desktop phone display
-    const navDisplay = document.getElementById('phone-display-nav');
-    const mobileDisplay = document.getElementById('phone-display-mobile');
+  // Show contact modal function
+  function showContactModal() {
+    const modal = document.createElement('div');
+    modal.id = 'success-modal';
+    modal.innerHTML = `
+      <div style="position: fixed; top: 0; left: 0; right: 0; bottom: 0; background: rgba(0,0,0,0.6); z-index: 9999; display: flex; align-items: center; justify-content: center;">
+        <div style="background: white; padding: 40px; border-radius: 16px; max-width: 400px; width: 90%; text-align: center; animation: modalFadeIn 0.3s ease;">
+          <div style="width: 60px; height: 60px; background: linear-gradient(135deg, #D4AF37, #C9A227); border-radius: 50%; display: flex; align-items: center; justify-content: center; margin: 0 auto 20px;">
+            <svg width="30" height="30" fill="white" viewBox="0 0 24 24"><path d="M6.62 10.79c1.44 2.83 3.76 5.14 6.59 6.59l2.2-2.2c.27-.27.67-.36 1.02-.24 1.12.37 2.33.57 3.57.57.55 0 1 .45 1 1V20c0 .55-.45 1-1 1-9.39 0-17-7.61-17-17 0-.55.45-1 1-1h3.5c.55 0 1 .45 1 1 0 1.25.2 2.45.57 3.57.11.35.03.74-.25 1.02l-2.2 2.2z"/></svg>
+          </div>
+          <h3 style="font-size: 24px; font-weight: bold; color: #1a1a2e; margin-bottom: 20px;">联系我们</h3>
+          <div style="background: #f8f8f8; padding: 20px; border-radius: 12px; margin-bottom: 20px;">
+            <p style="margin: 8px 0; color: #666; font-size: 14px;">联系电话</p>
+            <p style="margin: 0; font-size: 28px; font-weight: bold; color: #D4AF37;">135-5288-3008</p>
+          </div>
+          <div style="background: #f8f8f8; padding: 15px; border-radius: 12px; margin-bottom: 20px;">
+            <p style="margin: 0; color: #666; font-size: 14px;">电子邮箱</p>
+            <p style="margin: 5px 0 0; font-size: 16px; color: #333;">wanglizhongguo@126.com</p>
+          </div>
+          <p style="color: #999; font-size: 14px; margin-bottom: 0;">我们的专业顾问将在24小时内与您联系</p>
+          <button id="close-modal" style="margin-top: 20px; padding: 12px 40px; background: linear-gradient(135deg, #D4AF37, #C9A227); color: white; border: none; border-radius: 8px; font-size: 16px; cursor: pointer;">知道了</button>
+        </div>
+      </div>
+    `;
+    document.body.appendChild(modal);
     
-    if (navDisplay) {
-      navDisplay.classList.toggle('hidden');
-    }
-    if (mobileDisplay) {
-      mobileDisplay.classList.toggle('hidden');
-    }
-    
-    // Auto hide after 5 seconds
-    setTimeout(() => {
-      navDisplay?.classList.add('hidden');
-      mobileDisplay?.classList.add('hidden');
-    }, 5000);
+    document.getElementById('close-modal')?.addEventListener('click', () => modal.remove());
+    modal.addEventListener('click', (e) => {
+      if ((e.target as HTMLElement).tagName === 'DIV') modal.remove();
+    });
   }
 
   // Add click events to all "立即咨询" buttons
-    const consultBtns = document.querySelectorAll('.btn-gold, button');
-    consultBtns.forEach((btn: Element) => {
+  console.log('Setting up click handlers for 立即咨询 buttons...');
+  const consultBtns = document.querySelectorAll('.btn-gold, button');
+  console.log('Found buttons:', consultBtns.length);
+  consultBtns.forEach((btn: Element) => {
     const text = (btn as HTMLElement).textContent?.trim();
-        if (text && text.trim() === '立即咨询') {
-            btn.addEventListener('click', (e: Event) => {
-                e.preventDefault();
+    console.log('Button text:', text);
+    if (text && text.trim() === '立即咨询') {
+      console.log('Adding click handler to:', btn);
+      btn.addEventListener('click', (e: Event) => {
+        console.log('立即咨询 clicked!');
+        e.preventDefault();
         e.stopPropagation();
-        window.showModal135();
+        showContactModal();
       });
     }
   });
-  
+  console.log('Click handlers setup complete');
