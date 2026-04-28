@@ -380,6 +380,7 @@ function renderNavbar(): string {
           </div>
           
           <div class="hidden md:flex items-center gap-8">
+            <a href="#home" class="text-gray-700 hover:text-yellow-600 transition-colors">首页</a>
             <a href="#services" class="text-gray-700 hover:text-yellow-600 transition-colors">业务服务</a>
             <a href="#articles" class="text-gray-700 hover:text-yellow-600 transition-colors">文章资讯</a>
             <a href="#advantages" class="text-gray-700 hover:text-yellow-600 transition-colors">核心优势</a>
@@ -400,6 +401,7 @@ function renderNavbar(): string {
       <!-- Mobile menu -->
       <div class="hidden md:hidden bg-white border-t border-gray-100" id="mobile-menu">
         <div class="px-4 py-4 space-y-3">
+          <a href="#home" class="block text-gray-700 hover:text-yellow-600 py-2">首页</a>
           <a href="#services" class="block text-gray-700 hover:text-yellow-600 py-2">业务服务</a>
           <a href="#articles" class="block text-gray-700 hover:text-yellow-600 py-2">文章资讯</a>
           <a href="#advantages" class="block text-gray-700 hover:text-yellow-600 py-2">核心优势</a>
@@ -414,7 +416,7 @@ function renderNavbar(): string {
 
 function renderHero(): string {
   return `
-    <section class="relative min-h-screen flex items-center justify-center overflow-hidden pt-20" style="background: linear-gradient(180deg, #ffffff 0%, #F8FAFC 100%);">
+    <section id="home" class="relative min-h-screen flex items-center justify-center overflow-hidden pt-20" style="background: linear-gradient(180deg, #ffffff 0%, #F8FAFC 100%);">
       <!-- Background decorations -->
       <div class="decorative-circle w-96 h-96 -top-20 -left-20" style="background: radial-gradient(circle, rgba(184, 134, 11, 0.08) 0%, transparent 70%);"></div>
       <div class="decorative-circle w-80 h-80 bottom-20 -right-20" style="background: radial-gradient(circle, rgba(218, 165, 32, 0.06) 0%, transparent 70%);"></div>
@@ -889,6 +891,7 @@ function renderFooter(): string {
           </div>
           
           <div class="flex flex-wrap justify-center gap-6 text-sm" style="color: rgba(255,255,255,0.6);">
+            <a href="#home" class="hover:text-yellow-500 transition-colors">首页</a>
             <a href="#services" class="hover:text-yellow-500 transition-colors">业务服务</a>
             <a href="#articles" class="hover:text-yellow-500 transition-colors">文章资讯</a>
             <a href="#advantages" class="hover:text-yellow-500 transition-colors">核心优势</a>
