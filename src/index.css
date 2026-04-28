@@ -230,3 +230,8 @@ input::placeholder, textarea::placeholder {
     font-size: 2rem;
   }
 }
+
+/* Page sections for SPA navigation */
+.page-section {
+  min-height: 100vh;
+}

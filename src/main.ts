@@ -380,12 +380,12 @@ function renderNavbar(): string {
           </div>
           
           <div class="hidden md:flex items-center gap-8">
-            <a href="#home" class="text-gray-700 hover:text-yellow-600 transition-colors">首页</a>
-            <a href="#services" class="text-gray-700 hover:text-yellow-600 transition-colors">业务范围</a>
-            <a href="#advantages" class="text-gray-700 hover:text-yellow-600 transition-colors">核心优势</a>
-            <a href="#agent" class="text-gray-700 hover:text-yellow-600 transition-colors">代理加盟</a>
-            <a href="#articles" class="text-gray-700 hover:text-yellow-600 transition-colors">文章资讯</a>
-            <a href="#contact" class="text-gray-700 hover:text-yellow-600 transition-colors">联系我们</a>
+            <a href="#" data-page="home" class="nav-link text-gray-700 hover:text-yellow-600 transition-colors">首页</a>
+            <a href="#" data-page="services" class="nav-link text-gray-700 hover:text-yellow-600 transition-colors">业务范围</a>
+            <a href="#" data-page="advantages" class="nav-link text-gray-700 hover:text-yellow-600 transition-colors">核心优势</a>
+            <a href="#" data-page="agent" class="nav-link text-gray-700 hover:text-yellow-600 transition-colors">代理加盟</a>
+            <a href="#" data-page="articles" class="nav-link text-gray-700 hover:text-yellow-600 transition-colors">文章资讯</a>
+            <a href="#" data-page="contact" class="nav-link text-gray-700 hover:text-yellow-600 transition-colors">联系我们</a>
           </div>
           
           <button class="btn-gold hidden md:block">
@@ -401,12 +401,12 @@ function renderNavbar(): string {
       <!-- Mobile menu -->
       <div class="hidden md:hidden bg-white border-t border-gray-100" id="mobile-menu">
         <div class="px-4 py-4 space-y-3">
-          <a href="#home" class="block text-gray-700 hover:text-yellow-600 py-2">首页</a>
-          <a href="#services" class="block text-gray-700 hover:text-yellow-600 py-2">业务范围</a>
-          <a href="#advantages" class="block text-gray-700 hover:text-yellow-600 py-2">核心优势</a>
-          <a href="#agent" class="block text-gray-700 hover:text-yellow-600 py-2">代理加盟</a>
-          <a href="#articles" class="block text-gray-700 hover:text-yellow-600 py-2">文章资讯</a>
-          <a href="#contact" class="block text-gray-700 hover:text-yellow-600 py-2">联系我们</a>
+          <a href="#" data-page="home" class="nav-link block text-gray-700 hover:text-yellow-600 py-2">首页</a>
+          <a href="#" data-page="services" class="nav-link block text-gray-700 hover:text-yellow-600 py-2">业务范围</a>
+          <a href="#" data-page="advantages" class="nav-link block text-gray-700 hover:text-yellow-600 py-2">核心优势</a>
+          <a href="#" data-page="agent" class="nav-link block text-gray-700 hover:text-yellow-600 py-2">代理加盟</a>
+          <a href="#" data-page="articles" class="nav-link block text-gray-700 hover:text-yellow-600 py-2">文章资讯</a>
+          <a href="#" data-page="contact" class="nav-link block text-gray-700 hover:text-yellow-600 py-2">联系我们</a>
           <button class="btn-gold w-full mt-4">立即咨询</button>
         </div>
       </div>
@@ -482,7 +482,7 @@ function renderHero(): string {
   `;
 }
 
-function renderServiceCard(data: typeof businessData.listed, index: number): string {
+function renderServiceCard(data: typeof businessData.listed & { scenarios?: string[] }, index: number): string {
   return `
     <div class="rounded-3xl p-8 md:p-10 card-hover" style="background: #ffffff; border: 1px solid rgba(184, 134, 11, 0.15); box-shadow: 0 4px 24px rgba(0, 0, 0, 0.06);" style="animation-delay: ${index * 0.1}s;">
       <div class="flex flex-col lg:flex-row gap-8">
@@ -988,14 +988,39 @@ export function initApp(): void {
 
   app.innerHTML = `
     ${renderNavbar()}
-    ${renderHero()}
-    ${renderServices()}
-    ${renderArticles()}
-    ${renderAdvantages()}
-    ${renderAgent()}
-    ${renderContact()}
+    <div id="page-home" class="page-section">${renderHero()}</div>
+    <div id="page-services" class="page-section hidden">${renderServices()}</div>
+    <div id="page-advantages" class="page-section hidden">${renderAdvantages()}</div>
+    <div id="page-agent" class="page-section hidden">${renderAgent()}</div>
+    <div id="page-articles" class="page-section hidden">${renderArticles()}</div>
+    <div id="page-contact" class="page-section hidden">${renderContact()}</div>
     ${renderFooter()}
   `;
+  
+  // SPA Navigation logic
+  function navigateTo(page: string) {
+    const sections = document.querySelectorAll('.page-section');
+    sections.forEach(section => section.classList.add('hidden'));
+    
+    const targetSection = document.getElementById(`page-${page}`);
+    if (targetSection) {
+      targetSection.classList.remove('hidden');
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+    }
+    
+    // Close mobile menu
+    const mobileMenu = document.getElementById('mobile-menu');
+    if (mobileMenu) mobileMenu.classList.add('hidden');
+  }
+  
+  // Add click handlers to nav links
+  document.querySelectorAll('nav a[data-page]').forEach(link => {
+    link.addEventListener('click', (e) => {
+      e.preventDefault();
+      const page = (link as HTMLElement).dataset.page || 'home';
+      navigateTo(page);
+    });
+  });
 
   // Initialize mobile menu toggle
   const mobileMenuBtn = document.getElementById('mobile-menu-btn');
