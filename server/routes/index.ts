@@ -467,4 +467,144 @@ router.delete('/api/article-categories/:id', async (req, res) => {
   }
 });
 
+// ============ 导航管理 API ================
+
+// 获取导航列表
+router.get('/api/navigation', async (req, res) => {
+  try {
+    const client = getSupabaseClient();
+    const { is_footer } = req.query;
+    
+    let query = client.from('navigation').select('*').order('sort_order', { ascending: true });
+    
+    if (is_footer !== undefined) {
+      query = query.eq('is_footer', is_footer === 'true');
+    }
+    
+    const { data, error } = await query;
+    
+    if (error) throw new Error(`获取失败: ${error.message}`);
+    res.json({ success: true, data: data || [] });
+  } catch (err) {
+    console.error('API Error:', err);
+    res.status(500).json({ success: false, error: (err as Error).message });
+  }
+});
+
+// 创建导航项
+router.post('/api/navigation', async (req, res) => {
+  try {
+    const client = getSupabaseClient();
+    const { name, slug, url, icon, sort_order, is_active, is_footer, parent_id } = req.body;
+    
+    if (!name || !slug) {
+      res.status(400).json({ success: false, error: '名称和标识不能为空' });
+      return;
+    }
+    
+    const { data, error } = await client
+      .from('navigation')
+      .insert({
+        name,
+        slug,
+        url: url || null,
+        icon: icon || null,
+        sort_order: sort_order || 0,
+        is_active: is_active !== false,
+        is_footer: is_footer === true,
+        parent_id: parent_id || null
+      })
+      .select()
+      .single();
+    
+    if (error) throw new Error(`创建失败: ${error.message}`);
+    res.json({ success: true, data, message: '导航项创建成功' });
+  } catch (err) {
+    console.error('API Error:', err);
+    res.status(500).json({ success: false, error: (err as Error).message });
+  }
+});
+
+// 更新导航项
+router.put('/api/navigation/:id', async (req, res) => {
+  try {
+    const client = getSupabaseClient();
+    const { id } = req.params;
+    const { name, slug, url, icon, sort_order, is_active, is_footer, parent_id } = req.body;
+    
+    if (!name || !slug) {
+      res.status(400).json({ success: false, error: '名称和标识不能为空' });
+      return;
+    }
+    
+    const { data, error } = await client
+      .from('navigation')
+      .update({
+        name,
+        slug,
+        url: url || null,
+        icon: icon || null,
+        sort_order: sort_order || 0,
+        is_active: is_active !== false,
+        is_footer: is_footer === true,
+        parent_id: parent_id || null,
+        updated_at: new Date().toISOString()
+      })
+      .eq('id', parseInt(id))
+      .select()
+      .single();
+    
+    if (error) throw new Error(`更新失败: ${error.message}`);
+    res.json({ success: true, data, message: '导航项更新成功' });
+  } catch (err) {
+    console.error('API Error:', err);
+    res.status(500).json({ success: false, error: (err as Error).message });
+  }
+});
+
+// 删除导航项
+router.delete('/api/navigation/:id', async (req, res) => {
+  try {
+    const client = getSupabaseClient();
+    const { id } = req.params;
+    
+    const { error } = await client
+      .from('navigation')
+      .delete()
+      .eq('id', parseInt(id));
+    
+    if (error) throw new Error(`删除失败: ${error.message}`);
+    res.json({ success: true, message: '导航项删除成功' });
+  } catch (err) {
+    console.error('API Error:', err);
+    res.status(500).json({ success: false, error: (err as Error).message });
+  }
+});
+
+// 批量更新导航排序
+router.post('/api/navigation/reorder', async (req, res) => {
+  try {
+    const client = getSupabaseClient();
+    const { items } = req.body;
+    
+    if (!items || !Array.isArray(items)) {
+      res.status(400).json({ success: false, error: '无效的排序数据' });
+      return;
+    }
+    
+    // 批量更新排序
+    for (const item of items) {
+      await client
+        .from('navigation')
+        .update({ sort_order: item.sort_order, updated_at: new Date().toISOString() })
+        .eq('id', item.id);
+    }
+    
+    res.json({ success: true, message: '排序更新成功' });
+  } catch (err) {
+    console.error('API Error:', err);
+    res.status(500).json({ success: false, error: (err as Error).message });
+  }
+});
+
 export default router;

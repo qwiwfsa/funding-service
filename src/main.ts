@@ -3,6 +3,18 @@
 // API 基础 URL
 const API_BASE = window.location.origin + '/api';
 
+// 导航数据
+interface NavItem {
+  id: number;
+  name: string;
+  slug: string;
+  url: string | null;
+  sort_order: number;
+  is_active: boolean;
+  is_footer: boolean;
+}
+let dbNavigation: NavItem[] = [];
+
 // 从数据库获取的文章数据
 let dbArticles: Article[] = [];
 // 从数据库获取的案例数据
@@ -61,7 +73,59 @@ async function fetchCases(): Promise<any[]> {
 
 // 初始化数据
 async function initData() {
-  [dbArticles, dbCases] = await Promise.all([fetchArticles(), fetchCases()]);
+  const [articlesData, casesData, navData] = await Promise.all([
+    fetchArticles(),
+    fetchCases(),
+    fetchNavigation()
+  ]);
+  dbArticles = articlesData;
+  dbCases = casesData;
+  dbNavigation = navData;
+}
+
+// 获取导航数据
+async function fetchNavigation(): Promise<NavItem[]> {
+  try {
+    const res = await fetch(API_BASE + '/navigation');
+    const json = await res.json();
+    if (json.success) {
+      return json.data;
+    }
+  } catch (e) {
+    console.error('获取导航数据失败', e);
+  }
+  return [];
+}
+
+// 渲染导航
+function renderNavigationLinks(): void {
+  const headerContainer = document.getElementById('nav-header-container');
+  const mobileContainer = document.getElementById('nav-mobile-container');
+  const footerContainer = document.getElementById('nav-footer-container');
+  
+  const headerNavs = dbNavigation.filter(n => !n.is_footer && n.is_active).sort((a, b) => a.sort_order - b.sort_order);
+  const footerNavs = dbNavigation.filter(n => n.is_footer && n.is_active).sort((a, b) => a.sort_order - b.sort_order);
+  
+  // 渲染头部导航
+  if (headerContainer) {
+    headerContainer.innerHTML = headerNavs.map(nav => 
+      `<a href="#" data-page="${nav.slug}" class="nav-link text-gray-700 hover:text-yellow-600 transition-colors">${nav.name}</a>`
+    ).join('');
+  }
+  
+  // 渲染移动端导航
+  if (mobileContainer) {
+    mobileContainer.innerHTML = headerNavs.map(nav => 
+      `<a href="#" data-page="${nav.slug}" class="nav-link block text-gray-700 hover:text-yellow-600 py-2">${nav.name}</a>`
+    ).join('') + '<button class="btn-gold w-full mt-4">立即咨询</button>';
+  }
+  
+  // 渲染页脚导航
+  if (footerContainer) {
+    footerContainer.innerHTML = footerNavs.map(nav => 
+      `<a href="${nav.url || '#' + nav.slug}" class="hover:text-yellow-500 transition-colors">${nav.name}</a>`
+    ).join('');
+  }
 }
 
 // SVG Icons as components
@@ -179,6 +243,7 @@ interface Article {
   date: string;
   author: string;
   image: string;
+  created_at?: string;
 }
 
 const articles: Article[] = [
@@ -268,13 +333,8 @@ function renderNavbar(): string {
             </div>
           </div>
           
-          <div class="hidden md:flex items-center gap-8">
-            <a href="#" data-page="home" class="nav-link text-gray-700 hover:text-yellow-600 transition-colors">首页</a>
-            <a href="#" data-page="services" class="nav-link text-gray-700 hover:text-yellow-600 transition-colors">业务范围</a>
-            <a href="#" data-page="advantages" class="nav-link text-gray-700 hover:text-yellow-600 transition-colors">核心优势</a>
-            <a href="#" data-page="articles" class="nav-link text-gray-700 hover:text-yellow-600 transition-colors">行业资讯</a>
-            <a href="#" data-page="agent" class="nav-link text-gray-700 hover:text-yellow-600 transition-colors">代理加盟</a>
-            <a href="#" data-page="contact" class="nav-link text-gray-700 hover:text-yellow-600 transition-colors">联系我们</a>
+          <div class="hidden md:flex items-center gap-8" id="nav-header-container">
+            <!-- 导航将由 JavaScript 动态渲染 -->
           </div>
           
           <button id="hero-consult-btn" class="btn-gold hidden md:block">
@@ -289,14 +349,8 @@ function renderNavbar(): string {
       
       <!-- Mobile menu -->
       <div class="hidden md:hidden bg-white border-t border-gray-100" id="mobile-menu">
-        <div class="px-4 py-4 space-y-3">
-          <a href="#" data-page="home" class="nav-link block text-gray-700 hover:text-yellow-600 py-2">首页</a>
-          <a href="#" data-page="services" class="nav-link block text-gray-700 hover:text-yellow-600 py-2">业务范围</a>
-          <a href="#" data-page="advantages" class="nav-link block text-gray-700 hover:text-yellow-600 py-2">核心优势</a>
-          <a href="#" data-page="articles" class="nav-link block text-gray-700 hover:text-yellow-600 py-2">行业资讯</a>
-          <a href="#" data-page="agent" class="nav-link block text-gray-700 hover:text-yellow-600 py-2">代理加盟</a>
-          <a href="#" data-page="contact" class="nav-link block text-gray-700 hover:text-yellow-600 py-2">联系我们</a>
-          <button class="btn-gold w-full mt-4">立即咨询</button>
+        <div class="px-4 py-4 space-y-3" id="nav-mobile-container">
+          <!-- 导航将由 JavaScript 动态渲染 -->
         </div>
       </div>
     </nav>
@@ -851,13 +905,8 @@ function renderFooter(): string {
             </div>
           </div>
           
-          <div class="flex flex-wrap justify-center gap-6 text-sm" style="color: rgba(255,255,255,0.6);">
-            <a href="#home" class="hover:text-yellow-500 transition-colors">首页</a>
-            <a href="#services" class="hover:text-yellow-500 transition-colors">业务范围</a>
-            <a href="#articles" class="hover:text-yellow-500 transition-colors">行业资讯</a>
-            <a href="#advantages" class="hover:text-yellow-500 transition-colors">核心优势</a>
-            <a href="#agent" class="hover:text-yellow-500 transition-colors">代理加盟</a>
-            <a href="#contact" class="hover:text-yellow-500 transition-colors">联系我们</a>
+          <div class="flex flex-wrap justify-center gap-6 text-sm" style="color: rgba(255,255,255,0.6);" id="nav-footer-container">
+            <!-- 导航将由 JavaScript 动态渲染 -->
           </div>
           
           <p class="text-sm" style="color: rgba(255,255,255,0.4);">
@@ -981,10 +1030,14 @@ export async function initApp(): Promise<void> {
 	    }
 	    
 	    // Close mobile menu
-	    const mobileMenu = document.getElementById('mobile-menu');
-	    if (mobileMenu) mobileMenu.classList.add('hidden');
-	  }
+	    const mobileMenuEl = document.getElementById('mobile-menu');
+	    if (mobileMenuEl) mobileMenuEl.classList.add('hidden');
+
+  }
   
+  // 渲染导航链接
+  renderNavigationLinks();
+
   // Add click handlers to nav links
   document.querySelectorAll('nav a[data-page]').forEach(link => {
     link.addEventListener('click', (e) => {
@@ -1163,7 +1216,7 @@ function renderArticleDetail(articleId: number): void {
           <div style="display: flex; align-items: center; gap: 16px; color: #9CA3AF; font-size: 14px;">
             <span>${article.author || '鼎丰资金'}</span>
             <span>|</span>
-            <span>${new Date(article.created_at).toLocaleDateString('zh-CN')}</span>
+            <span>${new Date(article.created_at || Date.now()).toLocaleDateString('zh-CN')}</span>
             <span>|</span>
             <span>${article.views || 0} 阅读</span>
           </div>
@@ -1193,7 +1246,7 @@ function renderArticleDetail(articleId: number): void {
                       ${a.title}
                     </h4>
                     <p style="color: #9CA3AF; font-size: 14px;">
-                      ${new Date(a.created_at).toLocaleDateString('zh-CN')}
+                      ${new Date(a.created_at || Date.now()).toLocaleDateString('zh-CN')}
                     </p>
                   </div>
                 </div>
