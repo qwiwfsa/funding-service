@@ -382,9 +382,9 @@ function renderNavbar(): string {
           <div class="hidden md:flex items-center gap-8">
             <a href="#home" class="text-gray-700 hover:text-yellow-600 transition-colors">首页</a>
             <a href="#services" class="text-gray-700 hover:text-yellow-600 transition-colors">业务服务</a>
-            <a href="#articles" class="text-gray-700 hover:text-yellow-600 transition-colors">文章资讯</a>
             <a href="#advantages" class="text-gray-700 hover:text-yellow-600 transition-colors">核心优势</a>
             <a href="#agent" class="text-gray-700 hover:text-yellow-600 transition-colors">代理加盟</a>
+            <a href="#articles" class="text-gray-700 hover:text-yellow-600 transition-colors">文章资讯</a>
             <a href="#contact" class="text-gray-700 hover:text-yellow-600 transition-colors">联系我们</a>
           </div>
           
@@ -403,9 +403,9 @@ function renderNavbar(): string {
         <div class="px-4 py-4 space-y-3">
           <a href="#home" class="block text-gray-700 hover:text-yellow-600 py-2">首页</a>
           <a href="#services" class="block text-gray-700 hover:text-yellow-600 py-2">业务服务</a>
-          <a href="#articles" class="block text-gray-700 hover:text-yellow-600 py-2">文章资讯</a>
           <a href="#advantages" class="block text-gray-700 hover:text-yellow-600 py-2">核心优势</a>
           <a href="#agent" class="block text-gray-700 hover:text-yellow-600 py-2">代理加盟</a>
+          <a href="#articles" class="block text-gray-700 hover:text-yellow-600 py-2">文章资讯</a>
           <a href="#contact" class="block text-gray-700 hover:text-yellow-600 py-2">联系我们</a>
           <button class="btn-gold w-full mt-4">立即咨询</button>
         </div>
@@ -893,9 +893,9 @@ function renderFooter(): string {
           <div class="flex flex-wrap justify-center gap-6 text-sm" style="color: rgba(255,255,255,0.6);">
             <a href="#home" class="hover:text-yellow-500 transition-colors">首页</a>
             <a href="#services" class="hover:text-yellow-500 transition-colors">业务服务</a>
-            <a href="#articles" class="hover:text-yellow-500 transition-colors">文章资讯</a>
             <a href="#advantages" class="hover:text-yellow-500 transition-colors">核心优势</a>
             <a href="#agent" class="hover:text-yellow-500 transition-colors">代理加盟</a>
+            <a href="#articles" class="hover:text-yellow-500 transition-colors">文章资讯</a>
             <a href="#contact" class="hover:text-yellow-500 transition-colors">联系我们</a>
           </div>
           
