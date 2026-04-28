@@ -23,8 +23,15 @@ export async function setupViteMiddleware(app: Application) {
     appType: 'spa',
   });
 
-  // 使用 Vite middleware
-  app.use(vite.middlewares);
+  // 使用 Vite middleware，但排除 /api/ 路径让 Express 路由处理
+  app.use((req, _res, next) => {
+    if (req.url.startsWith('/api/')) {
+      // API 请求跳过 Vite 中间件，让 Express 路由处理
+      return next();
+    }
+    // 其他请求使用 Vite 中间件
+    vite.middlewares(req, _res as any, next);
+  });
 
   console.log('🚀 Vite dev server initialized');
 }
