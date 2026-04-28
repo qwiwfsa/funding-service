@@ -720,10 +720,10 @@ function renderAgent(): string {
             </div>
             
             <div class="text-center">
-              <a href="#contact" class="btn-gold text-lg px-12 py-4 inline-flex items-center gap-2">
+              <button class="btn-gold text-lg px-12 py-4 inline-flex items-center gap-2">
                 成为代理伙伴
                 <span>${icons.arrow}</span>
-              </a>
+              </button>
             </div>
           </div>
         </div>
@@ -1159,12 +1159,23 @@ export function initApp(): void {
     observer.observe(el);
   });
 
-  // All consult buttons show phone modal - using event delegation
+  // All consult buttons show phone modal - using event delegation (buttons and links with consult text)
   document.addEventListener('click', (e) => {
     const target = e.target as HTMLElement;
+    // Check for buttons and links containing "咨询" or "立即"
     const btn = target.closest('button') as HTMLButtonElement;
+    const link = target.closest('a') as HTMLAnchorElement;
+    
     if (btn) {
       const text = btn.textContent?.trim() || '';
+      if (text.includes('咨询') || text.includes('立即')) {
+        e.preventDefault();
+        showConsultModal();
+      }
+    }
+    
+    if (link) {
+      const text = link.textContent?.trim() || '';
       if (text.includes('咨询') || text.includes('立即')) {
         e.preventDefault();
         showConsultModal();
