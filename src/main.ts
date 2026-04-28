@@ -911,6 +911,14 @@ export async function initApp(): Promise<void> {
   // 初始化数据（从 API 获取）
   await initData();
 
+  // 检查是否是文章详情页（hash 路由）
+  const hash = window.location.hash;
+  if (hash.startsWith('#/article/')) {
+    const articleId = hash.replace('#/article/', '');
+    renderArticleDetail(parseInt(articleId));
+    return;
+  }
+
   // 重新渲染页面
   app.innerHTML = `
     ${renderNavbar()}
@@ -1047,6 +1055,144 @@ export async function initApp(): Promise<void> {
   }
 
   (window as any).openImageLightbox = openImageLightbox;
+
+// 文章详情页渲染函数（Hash 路由）
+function renderArticleDetail(articleId: number): void {
+  const app = document.getElementById('app');
+  if (!app) return;
+
+  // 查找文章
+  const article = dbArticles.find(a => a.id === articleId);
+  if (!article) {
+    app.innerHTML = `
+      ${renderNavbar()}
+      <div style="min-height: 60vh; display: flex; align-items: center; justify-content: center; flex-direction: column;">
+        <h2 style="font-size: 2rem; color: #6B7280; margin-bottom: 1rem;">文章不存在</h2>
+        <a href="/" onclick="event.preventDefault(); window.location.hash=''; location.reload();">
+          <button style="padding: 12px 24px; background: linear-gradient(135deg, #B8860B, #DAA520); color: white; border-radius: 8px; cursor: pointer;">
+            返回首页
+          </button>
+        </a>
+      </div>
+      ${renderFooter()}
+    `;
+    return;
+  }
+
+  // 获取相关推荐（同分类文章，除去当前文章）
+  const relatedArticles = dbArticles
+    .filter(a => a.id !== articleId && a.category === article.category)
+    .slice(0, 2);
+
+  app.innerHTML = `
+    ${renderNavbar()}
+    
+    <!-- 文章详情页 -->
+    <main style="max-width: 900px; margin: 0 auto; padding: 40px 20px;">
+      <!-- 返回按钮 -->
+      <a href="/" onclick="event.preventDefault(); window.location.hash=''; location.reload();" 
+         style="display: inline-flex; align-items: center; gap: 8px; color: #6B7280; text-decoration: none; margin-bottom: 24px; transition: color 0.3s;">
+        <svg style="width: 20px; height: 20px;" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7"></path>
+        </svg>
+        返回首页
+      </a>
+      
+      <!-- 文章卡片 -->
+      <article style="background: white; border-radius: 16px; box-shadow: 0 4px 20px rgba(0,0,0,0.08); overflow: hidden;">
+        <!-- 封面图 -->
+        ${article.image ? `
+          <img src="${article.image}" alt="${article.title}" style="width: 100%; height: 400px; object-fit: cover;">
+        ` : ''}
+        
+        <!-- 文章头部 -->
+        <div style="padding: 32px 40px; border-bottom: 1px solid #F3F4F6;">
+          <div style="display: inline-block; padding: 6px 16px; border-radius: 20px; font-size: 12px; font-weight: 500; background: rgba(184, 134, 11, 0.1); color: #B8860B; margin-bottom: 16px;">
+            ${article.category}
+          </div>
+          <h1 style="font-size: 2rem; font-weight: bold; margin-bottom: 16px; color: #1F2937; line-height: 1.3;">
+            ${article.title}
+          </h1>
+          <div style="display: flex; align-items: center; gap: 16px; color: #9CA3AF; font-size: 14px;">
+            <span>${article.author || '鼎丰资金'}</span>
+            <span>|</span>
+            <span>${new Date(article.created_at).toLocaleDateString('zh-CN')}</span>
+            <span>|</span>
+            <span>${article.views || 0} 阅读</span>
+          </div>
+        </div>
+        
+        <!-- 文章正文 -->
+        <div style="padding: 40px;">
+          <div style="line-height: 1.8; color: #4B5563;">
+            ${formatArticleContent(article.content)}
+          </div>
+        </div>
+      </article>
+      
+      <!-- 相关推荐 -->
+      ${relatedArticles.length > 0 ? `
+        <div style="margin-top: 48px;">
+          <h3 style="font-size: 1.25rem; font-weight: bold; color: #1F2937; margin-bottom: 24px;">相关推荐</h3>
+          <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 24px;">
+            ${relatedArticles.map(a => `
+              <a href="#/article/${a.id}" onclick="window.location.reload();" style="text-decoration: none;">
+                <div style="background: white; border-radius: 12px; overflow: hidden; box-shadow: 0 2px 12px rgba(0,0,0,0.08); transition: transform 0.3s, box-shadow 0.3s; cursor: pointer;"
+                     onmouseover="this.style.transform='translateY(-4px)'; this.style.boxShadow='0 8px 24px rgba(0,0,0,0.12)';"
+                     onmouseout="this.style.transform='translateY(0)'; this.style.boxShadow='0 2px 12px rgba(0,0,0,0.08)';">
+                  ${a.image ? `<img src="${a.image}" alt="${a.title}" style="width: 100%; height: 180px; object-fit: cover;">` : ''}
+                  <div style="padding: 16px;">
+                    <h4 style="font-weight: 600; color: #1F2937; margin-bottom: 8px; display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden;">
+                      ${a.title}
+                    </h4>
+                    <p style="color: #9CA3AF; font-size: 14px;">
+                      ${new Date(a.created_at).toLocaleDateString('zh-CN')}
+                    </p>
+                  </div>
+                </div>
+              </a>
+            `).join('')}
+          </div>
+        </div>
+      ` : ''}
+    </main>
+    
+    ${renderFooter()}
+  `;
+
+  // 绑定导航链接
+  document.querySelectorAll('nav a[data-page]').forEach(link => {
+    link.addEventListener('click', (e) => {
+      e.preventDefault();
+      const page = (link as HTMLElement).dataset.page || 'home';
+      window.location.hash = page === 'home' ? '' : `#/${page}`;
+      location.reload();
+    });
+  });
+}
+
+// 格式化文章内容
+function formatArticleContent(content: string): string {
+  if (!content) return '';
+  
+  // 如果内容是 HTML 格式，直接返回
+  if (content.includes('<p>') || content.includes('<h') || content.includes('<ul>')) {
+    return content;
+  }
+  
+  // 否则按纯文本处理
+  const paragraphs = content.split('\n').filter(p => p.trim());
+  return paragraphs.map(p => {
+    if (p.trim().startsWith('**') && p.trim().endsWith('**')) {
+      return `<h3 style="font-size: 1.5rem; font-weight: bold; margin: 1.5rem 0 1rem; color: #1F2937;">${p.replace(/\*\*/g, '')}</h3>`;
+    } else if (p.trim().startsWith('-') || /^\d+\./.test(p.trim())) {
+      const items = p.split('\n').filter(line => line.trim().startsWith('-') || /^\d+\./.test(line.trim()));
+      return `<ul style="margin: 1rem 0; padding-left: 1.5rem; list-style: disc;">${items.map(item => `<li style="margin: 0.5rem 0;">${item.replace(/^[-*]\s/, '')}</li>`).join('')}</ul>`;
+    } else {
+      return `<p style="margin: 1rem 0;">${p}</p>`;
+    }
+  }).join('');
+}
 
 // Article modal function
   function openArticleModal(articleId: number): void {
@@ -1231,12 +1377,13 @@ export async function initApp(): Promise<void> {
       return;
     }
     
-    // Article card click handler - 跳转到文章详情页
+    // Article card click handler - 跳转到文章详情页 (Hash 路由)
     const articleCard = target.closest('.article-card') as HTMLElement;
     if (articleCard) {
       const articleId = articleCard.getAttribute('data-id');
       if (articleId) {
-        window.location.href = '/article.html?id=' + articleId;
+        window.location.hash = '#/article/' + articleId;
+        location.reload();
       }
     }
     
