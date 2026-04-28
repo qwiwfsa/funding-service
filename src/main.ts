@@ -7,6 +7,9 @@ const API_BASE = '/api';
 let dbArticles: Article[] = [];
 // 从数据库获取的案例数据
 let dbCases: any[] = [];
+// 案例分页状态
+let casesPage = 1;
+const casesPerPage = 8;
 // 分类映射
 const categoryMap: Record<string, string> = {
   'listed-company': '上市公司服务',
@@ -453,6 +456,12 @@ function renderServices(): string {
     }
   ];
 
+  // 分页计算
+  const totalPages = Math.ceil(displayCases.length / casesPerPage);
+  const startIndex = (casesPage - 1) * casesPerPage;
+  const endIndex = startIndex + casesPerPage;
+  const currentCases = displayCases.slice(startIndex, endIndex);
+
   return `
     <section id="services" class="py-24 relative" style="background: #ffffff;">
       <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
@@ -467,8 +476,8 @@ function renderServices(): string {
         </div>
         
         <!-- 案例图片卡片 -->
-        <div class="grid grid-cols-2 md:grid-cols-4 gap-4 mb-16">
-          ${displayCases.map((item, index) => `
+        <div class="grid grid-cols-2 md:grid-cols-4 gap-4 mb-8">
+          ${currentCases.map((item, index) => `
             <div class="group rounded-2xl overflow-hidden card-hover bg-white" style="border: 1px solid rgba(184, 134, 11, 0.1); box-shadow: 0 4px 20px rgba(0, 0, 0, 0.06); animation-delay: ${index * 0.1}s;">
               <div class="aspect-[4/3] overflow-hidden">
                 <img 
@@ -485,6 +494,27 @@ function renderServices(): string {
             </div>
           `).join('')}
         </div>
+        
+        <!-- 分页 -->
+        ${totalPages > 1 ? `
+        <div class="flex justify-center items-center gap-2 mb-16">
+          <button 
+            onclick="changeCasesPage(${casesPage - 1})" 
+            class="px-4 py-2 rounded-lg transition-all ${casesPage === 1 ? 'bg-gray-100 text-gray-400 cursor-not-allowed' : 'bg-yellow-600 text-white hover:bg-yellow-700'}"
+            ${casesPage === 1 ? 'disabled' : ''}
+          >
+            上一页
+          </button>
+          <span class="px-4 py-2" style="color: #6B7280;">第 ${casesPage} / ${totalPages} 页</span>
+          <button 
+            onclick="changeCasesPage(${casesPage + 1})" 
+            class="px-4 py-2 rounded-lg transition-all ${casesPage === totalPages ? 'bg-gray-100 text-gray-400 cursor-not-allowed' : 'bg-yellow-600 text-white hover:bg-yellow-700'}"
+            ${casesPage === totalPages ? 'disabled' : ''}
+          >
+            下一页
+          </button>
+        </div>
+        ` : '<div class="mb-16"></div>'}
         
         <div class="space-y-8">
           ${Object.values(businessData).map((data, index) => renderServiceCard(data, index)).join('')}
@@ -841,6 +871,17 @@ function renderFooter(): string {
     </footer>
   `;
 }
+
+// 案例分页切换
+function changeCasesPage(page: number): void {
+  const totalPages = Math.ceil(dbCases.length / casesPerPage);
+  if (page < 1 || page > totalPages) return;
+  casesPage = page;
+  initApp();
+}
+
+// 暴露到全局
+(window as any).changeCasesPage = changeCasesPage;
 
 // Main app initialization
 export async function initApp(): Promise<void> {
