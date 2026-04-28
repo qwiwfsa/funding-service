@@ -1,0 +1,242 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>文章详情 - 鼎丰资金</title>
+  <link rel="preconnect" href="https://fonts.googleapis.cn">
+  <link rel="preconnect" href="https://fonts.gstatic.cn" crossorigin>
+  <link href="https://fonts.googleapis.cn/css2?family=Noto+Sans+SC:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          colors: {
+            primary: '#B8860B',
+            secondary: '#DAA520',
+          }
+        }
+      }
+    }
+  </script>
+  <style>
+    body { font-family: 'Noto Sans SC', sans-serif; }
+    .back-btn:hover { background: rgba(184, 134, 11, 0.1); }
+    .content-html { line-height: 1.8; }
+    .content-html h1 { font-size: 2rem; font-weight: bold; margin: 1.5rem 0 1rem; color: #1F2937; }
+    .content-html h2 { font-size: 1.5rem; font-weight: bold; margin: 1.25rem 0 0.75rem; color: #1F2937; }
+    .content-html h3 { font-size: 1.25rem; font-weight: bold; margin: 1rem 0 0.5rem; color: #1F2937; }
+    .content-html p { margin: 0.75rem 0; color: #4B5563; }
+    .content-html ul, .content-html ol { margin: 0.75rem 0; padding-left: 1.5rem; }
+    .content-html li { margin: 0.5rem 0; color: #4B5563; }
+    .content-html img { max-width: 100%; height: auto; border-radius: 8px; margin: 1rem 0; }
+    .content-html a { color: #B8860B; text-decoration: underline; }
+    .content-html blockquote { border-left: 4px solid #B8860B; padding-left: 1rem; margin: 1rem 0; font-style: italic; color: #6B7280; }
+    .fade-in { animation: fadeIn 0.5s ease-out; }
+    @keyframes fadeIn { from { opacity: 0; transform: translateY(20px); } to { opacity: 1; transform: translateY(0); } }
+  </style>
+</head>
+<body class="bg-gray-50">
+  <!-- 导航栏 -->
+  <nav class="bg-white shadow-sm sticky top-0 z-50">
+    <div class="max-w-4xl mx-auto px-4 py-4">
+      <a href="/" class="inline-flex items-center gap-2 text-gray-600 hover:text-primary transition back-btn px-4 py-2 rounded-lg">
+        <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7"></path>
+        </svg>
+        返回首页
+      </a>
+    </div>
+  </nav>
+
+  <!-- 文章内容 -->
+  <main class="max-w-4xl mx-auto px-4 py-12">
+    <article id="article-container" class="bg-white rounded-2xl shadow-lg overflow-hidden fade-in">
+      <!-- 加载中 -->
+      <div id="loading" class="p-12 text-center">
+        <div class="inline-block w-8 h-8 border-4 border-primary border-t-transparent rounded-full animate-spin"></div>
+        <p class="mt-4 text-gray-500">加载中...</p>
+      </div>
+      
+      <!-- 文章内容 -->
+      <div id="article-content" class="hidden">
+        <!-- 封面图 -->
+        <div id="article-image-container" class="hidden">
+          <img id="article-image" src="" alt="" class="w-full h-64 md:h-96 object-cover">
+        </div>
+        
+        <!-- 文章头部 -->
+        <div class="p-6 md:p-10 border-b border-gray-100">
+          <div id="article-category" class="inline-block px-3 py-1 rounded-full text-xs font-medium mb-4" style="background: rgba(184, 134, 11, 0.1); color: #B8860B;"></div>
+          <h1 id="article-title" class="text-2xl md:text-4xl font-bold mb-4" style="color: #1F2937;"></h1>
+          <div class="flex items-center gap-4 text-sm text-gray-500">
+            <span id="article-author"></span>
+            <span>|</span>
+            <span id="article-date"></span>
+            <span>|</span>
+            <span id="article-views"></span>
+          </div>
+        </div>
+        
+        <!-- 文章正文 -->
+        <div class="p-6 md:p-10">
+          <div id="article-body" class="content-html"></div>
+        </div>
+      </div>
+      
+      <!-- 错误/不存在 -->
+      <div id="error-content" class="hidden p-12 text-center">
+        <svg class="w-16 h-16 mx-auto text-gray-300 mb-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"></path>
+        </svg>
+        <h2 class="text-xl font-bold text-gray-700 mb-2">文章不存在或已删除</h2>
+        <p class="text-gray-500 mb-6">抱歉，您访问的文章可能已被删除或移动</p>
+        <a href="/" class="inline-block px-6 py-3 text-white rounded-lg transition" style="background: linear-gradient(135deg, #B8860B, #DAA520);">
+          返回首页
+        </a>
+      </div>
+    </article>
+    
+    <!-- 相关推荐 -->
+    <div id="related-section" class="mt-12 hidden">
+      <h3 class="text-xl font-bold mb-6" style="color: #1F2937;">相关推荐</h3>
+      <div id="related-articles" class="grid grid-cols-1 md:grid-cols-2 gap-6"></div>
+    </div>
+  </main>
+
+  <script>
+    const API_BASE = '/api';
+    
+    // 获取 URL 参数
+    function getArticleId() {
+      const params = new URLSearchParams(window.location.search);
+      return params.get('id');
+    }
+    
+    // 格式化日期
+    function formatDate(dateStr) {
+      const date = new Date(dateStr);
+      return date.toLocaleDateString('zh-CN', { year: 'numeric', month: 'long', day: 'numeric' });
+    }
+    
+    // 加载文章
+    async function loadArticle() {
+      const id = getArticleId();
+      if (!id) {
+        showError();
+        return;
+      }
+      
+      try {
+        const res = await fetch(API_BASE + '/articles/' + id);
+        const json = await res.json();
+        
+        if (json.success && json.data) {
+          renderArticle(json.data);
+          loadRelatedArticles(json.data.category_id);
+        } else {
+          showError();
+        }
+      } catch (e) {
+        console.error('加载文章失败:', e);
+        showError();
+      }
+    }
+    
+    // 渲染文章
+    function renderArticle(article) {
+      document.getElementById('loading').classList.add('hidden');
+      document.getElementById('article-content').classList.remove('hidden');
+      
+      // 更新标题
+      document.title = article.title + ' - 鼎丰资金';
+      
+      // 封面图
+      if (article.image) {
+        document.getElementById('article-image-container').classList.remove('hidden');
+        document.getElementById('article-image').src = article.image;
+        document.getElementById('article-image').alt = article.title;
+      }
+      
+      // 分类
+      if (article.article_categories) {
+        document.getElementById('article-category').textContent = article.article_categories.name;
+      }
+      
+      // 标题
+      document.getElementById('article-title').textContent = article.title;
+      
+      // 作者
+      document.getElementById('article-author').textContent = '作者：' + (article.author || '鼎丰资金');
+      
+      // 日期
+      document.getElementById('article-date').textContent = formatDate(article.created_at);
+      
+      // 阅读量
+      document.getElementById('article-views').textContent = '阅读：' + (article.views || 0);
+      
+      // 内容 - 支持 HTML 和纯文本
+      const bodyEl = document.getElementById('article-body');
+      if (article.content.includes('<') && article.content.includes('>')) {
+        // HTML 内容
+        bodyEl.innerHTML = article.content;
+      } else {
+        // 纯文本内容
+        const paragraphs = article.content.split('\n').map(p => {
+          if (p.trim() === '') return '';
+          if (p.trim().startsWith('**') && p.trim().endsWith('**')) {
+            return `<h3 class="text-xl font-bold mt-6 mb-3" style="color: #1F2937;">${p.replace(/\*\*/g, '')}</h3>`;
+          } else if (p.trim().startsWith('-') || /^\d+\./.test(p.trim())) {
+            const marker = p.trim().startsWith('-') ? '•' : p.trim().match(/^\d+/)[0] + '.';
+            return `<li style="margin-left: 1rem; margin-bottom: 0.5rem;">${p.trim().replace(/^[-*]\s/, '').replace(/^\d+\.\s/, '')}</li>`;
+          } else {
+            return `<p style="margin: 0.75rem 0;">${p}</p>`;
+          }
+        }).join('');
+        bodyEl.innerHTML = paragraphs;
+      }
+    }
+    
+    // 显示错误
+    function showError() {
+      document.getElementById('loading').classList.add('hidden');
+      document.getElementById('error-content').classList.remove('hidden');
+    }
+    
+    // 加载相关文章
+    async function loadRelatedArticles(categoryId) {
+      if (!categoryId) return;
+      
+      try {
+        const res = await fetch(API_BASE + '/articles?category_id=' + categoryId);
+        const json = await res.json();
+        
+        if (json.success && json.data && json.data.length > 1) {
+          const related = json.data.slice(0, 4);
+          const container = document.getElementById('related-articles');
+          container.innerHTML = related.map(article => `
+            <a href="/article.html?id=${article.id}" class="group block bg-white rounded-xl overflow-hidden shadow hover:shadow-lg transition">
+              <div class="aspect-video overflow-hidden">
+                <img src="${article.image || 'https://images.unsplash.com/photo-1486406146926-c627a92ad1ab?w=400&h=200&fit=crop'}" 
+                     alt="${article.title}" 
+                     class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300">
+              </div>
+              <div class="p-4">
+                <h4 class="font-bold text-gray-800 group-hover:text-primary transition truncate">${article.title}</h4>
+                <p class="text-sm text-gray-500 mt-1 truncate">${article.excerpt || ''}</p>
+              </div>
+            </a>
+          `).join('');
+          document.getElementById('related-section').classList.remove('hidden');
+        }
+      } catch (e) {
+        console.error('加载相关文章失败:', e);
+      }
+    }
+    
+    // 页面加载
+    document.addEventListener('DOMContentLoaded', loadArticle);
+  </script>
+</body>
+</html>

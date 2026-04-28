@@ -479,13 +479,18 @@ function renderServices(): string {
         <div class="grid grid-cols-2 md:grid-cols-4 gap-4 mb-8">
           ${currentCases.map((item, index) => `
             <div class="group rounded-2xl overflow-hidden card-hover bg-white" style="border: 1px solid rgba(184, 134, 11, 0.1); box-shadow: 0 4px 20px rgba(0, 0, 0, 0.06); animation-delay: ${index * 0.1}s;">
-              <div class="aspect-[4/3] overflow-hidden">
+              <div class="case-image aspect-[4/3] overflow-hidden cursor-pointer" data-full="${item.image}">
                 <img 
                   src="${item.image}" 
                   alt="${item.title}"
                   class="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110"
                   onerror="this.src='https://images.unsplash.com/photo-1486406146926-c627a92ad1ab?w=800&h=600&fit=crop'"
                 />
+                <div class="absolute inset-0 bg-black bg-opacity-0 group-hover:bg-opacity-30 transition-all duration-300 flex items-center justify-center">
+                  <svg class="opacity-0 group-hover:opacity-100 transition-opacity duration-300" width="40" height="40" fill="white" viewBox="0 0 24 24" style="filter: drop-shadow(0 2px 4px rgba(0,0,0,0.3));">
+                    <path d="M21 19V5c0-1.1-.9-2-2-2H5c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2zM8.5 13.5l2.5 3.01L14.5 12l4.5 6H5l3.5-4.5z"/>
+                  </svg>
+                </div>
               </div>
               <div class="p-5">
                 <h3 class="font-bold text-lg mb-2" style="color: #1F2937;">${item.title}</h3>
@@ -1023,6 +1028,26 @@ export async function initApp(): Promise<void> {
     });
   }
 
+  // Image lightbox function
+  function openImageLightbox(imageSrc: string): void {
+    const existingLightbox = document.getElementById('image-lightbox');
+    if (existingLightbox) existingLightbox.remove();
+
+    const lightbox = document.createElement('div');
+    lightbox.id = 'image-lightbox';
+    lightbox.innerHTML = `
+      <div style="position: fixed; top: 0; left: 0; right: 0; bottom: 0; background: rgba(0,0,0,0.9); z-index: 99999; display: flex; align-items: center; justify-content: center; padding: 20px; cursor: pointer;">
+        <button class="lightbox-close" style="position: absolute; top: 20px; right: 20px; background: rgba(255,255,255,0.2); border: none; color: white; width: 50px; height: 50px; border-radius: 50%; font-size: 24px; cursor: pointer; display: flex; align-items: center; justify-content: center; transition: background 0.3s;">
+          <svg width="24" height="24" fill="white" viewBox="0 0 24 24"><path d="M19 6.41L17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"/></svg>
+        </button>
+        <img src="${imageSrc}" style="max-width: 90%; max-height: 90%; object-fit: contain; border-radius: 8px; box-shadow: 0 20px 60px rgba(0,0,0,0.5);" alt="原图">
+      </div>
+    `;
+    document.body.appendChild(lightbox);
+  }
+
+  (window as any).openImageLightbox = openImageLightbox;
+
 // Article modal function
   function openArticleModal(articleId: number): void {
     const article = articles.find(a => a.id === articleId);
@@ -1185,12 +1210,33 @@ export async function initApp(): Promise<void> {
   document.addEventListener('click', (e) => {
     const target = e.target as HTMLElement;
     
-    // Article card click handler
+    // Image lightbox handler
+    const caseImage = target.closest('.case-image') as HTMLElement;
+    if (caseImage) {
+      e.preventDefault();
+      e.stopPropagation();
+      const imageSrc = caseImage.getAttribute('data-full') || caseImage.querySelector('img')?.src || '';
+      openImageLightbox(imageSrc);
+      return;
+    }
+    
+    // Image lightbox close
+    const lightbox = target.closest('#image-lightbox');
+    if (lightbox && target.tagName === 'DIV') {
+      lightbox.remove();
+    }
+    const lightboxClose = target.closest('.lightbox-close');
+    if (lightboxClose) {
+      document.getElementById('image-lightbox')?.remove();
+      return;
+    }
+    
+    // Article card click handler - 跳转到文章详情页
     const articleCard = target.closest('.article-card') as HTMLElement;
     if (articleCard) {
       const articleId = articleCard.getAttribute('data-id');
       if (articleId) {
-        openArticleModal(parseInt(articleId));
+        window.location.href = '/article.html?id=' + articleId;
       }
     }
     

@@ -1,0 +1,557 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>页面可视化编辑 - 鼎丰资金</title>
+  <link rel="preconnect" href="https://fonts.googleapis.cn">
+  <link rel="preconnect" href="https://fonts.gstatic.cn" crossorigin>
+  <link href="https://fonts.googleapis.cn/css2?family=Noto+Sans+SC:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+  <link href="https://unpkg.com/grapesjs@0.21.9/dist/css/grapes.min.css" rel="stylesheet">
+  <script src="https://unpkg.com/grapesjs@0.21.9/dist/grapes.min.js"></script>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <style>
+    body { font-family: 'Noto Sans SC', sans-serif; }
+    .gjs-frame-wrapper { overflow-y: auto !important; }
+    .gjs-frame { overflow-y: auto !important; }
+    .toast { position: fixed; bottom: 20px; right: 20px; padding: 12px 24px; border-radius: 8px; color: white; z-index: 9999; animation: slideIn 0.3s ease; }
+    .toast.success { background: #10B981; }
+    .toast.error { background: #EF4444; }
+    @keyframes slideIn { from { transform: translateX(100%); opacity: 0; } to { transform: translateX(0); opacity: 1; } }
+    .sidebar-item:hover { background: rgba(184, 134, 11, 0.1); }
+    .editor-sidebar { width: 280px; }
+    .block-item { cursor: move; padding: 10px; border: 1px solid #e5e7eb; border-radius: 8px; margin-bottom: 8px; background: white; transition: all 0.2s; }
+    .block-item:hover { border-color: #B8860B; box-shadow: 0 2px 8px rgba(184,134,11,0.2); }
+    .layer-item { padding: 6px 10px; border-bottom: 1px solid #f3f4f6; cursor: pointer; }
+    .layer-item:hover { background: #f9fafb; }
+    .layer-item.selected { background: rgba(184,134,11,0.1); }
+  </style>
+</head>
+<body class="min-h-screen bg-gray-100">
+  <!-- 顶部导航 -->
+  <nav class="bg-gray-900 text-white px-6 py-4 flex justify-between items-center shadow-lg fixed w-full z-50">
+    <div class="flex items-center gap-3">
+      <a href="dashboard.html" class="flex items-center gap-2 text-gray-300 hover:text-white transition">
+        <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7"></path>
+        </svg>
+        返回后台
+      </a>
+      <span class="text-gray-500">|</span>
+      <span class="text-xl font-bold">页面可视化编辑器</span>
+    </div>
+    <div class="flex items-center gap-3">
+      <button onclick="previewMode()" class="px-4 py-2 bg-gray-700 hover:bg-gray-600 rounded-lg transition flex items-center gap-2">
+        <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"></path>
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z"></path>
+        </svg>
+        预览
+      </button>
+      <button onclick="savePage()" class="px-4 py-2 text-white rounded-lg transition flex items-center gap-2" style="background: linear-gradient(135deg, #B8860B, #DAA520);">
+        <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7H5a2 2 0 00-2 2v9a2 2 0 002 2h14a2 2 0 002-2V9a2 2 0 00-2-2h-3m-1 4l-3 3m0 0l-3-3m3 3V4"></path>
+        </svg>
+        保存页面
+      </button>
+    </div>
+  </nav>
+
+  <div class="flex pt-16 min-h-screen">
+    <!-- 左侧工具栏 -->
+    <div class="editor-sidebar bg-white border-r border-gray-200 overflow-y-auto">
+      <!-- 组件面板 -->
+      <div class="p-4">
+        <h3 class="text-sm font-bold text-gray-700 mb-3 uppercase">页面组件</h3>
+        <div id="blocks-container">
+          <div class="block-item" draggable="true" data-type="hero">
+            <div class="flex items-center gap-3">
+              <div class="w-10 h-10 rounded-lg flex items-center justify-center" style="background: linear-gradient(135deg, #B8860B, #DAA520);">
+                <svg class="w-5 h-5 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 5a1 1 0 011-1h14a1 1 0 011 1v2a1 1 0 01-1 1H5a1 1 0 01-1-1V5zM4 13a1 1 0 011-1h6a1 1 0 011 1v6a1 1 0 01-1 1H5a1 1 0 01-1-1v-6zM16 13a1 1 0 011-1h2a1 1 0 011 1v6a1 1 0 01-1 1h-2a1 1 0 01-1-1v-6z"></path>
+                </svg>
+              </div>
+              <div>
+                <div class="font-medium text-gray-800">Hero 横幅</div>
+                <div class="text-xs text-gray-500">主视觉区域</div>
+              </div>
+            </div>
+          </div>
+          <div class="block-item" draggable="true" data-type="services">
+            <div class="flex items-center gap-3">
+              <div class="w-10 h-10 rounded-lg flex items-center justify-center bg-blue-500">
+                <svg class="w-5 h-5 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 11H5m14 0a2 2 0 012 2v6a2 2 0 01-2 2H5a2 2 0 01-2-2v-6a2 2 0 012-2m14 0V9a2 2 0 00-2-2M5 11V9a2 2 0 012-2m0 0V5a2 2 0 012-2h6a2 2 0 012 2v2M7 7h10"></path>
+                </svg>
+              </div>
+              <div>
+                <div class="font-medium text-gray-800">服务卡片</div>
+                <div class="text-xs text-gray-500">业务展示网格</div>
+              </div>
+            </div>
+          </div>
+          <div class="block-item" draggable="true" data-type="features">
+            <div class="flex items-center gap-3">
+              <div class="w-10 h-10 rounded-lg flex items-center justify-center bg-green-500">
+                <svg class="w-5 h-5 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"></path>
+                </svg>
+              </div>
+              <div>
+                <div class="font-medium text-gray-800">核心优势</div>
+                <div class="text-xs text-gray-500">特点展示区域</div>
+              </div>
+            </div>
+          </div>
+          <div class="block-item" draggable="true" data-type="articles">
+            <div class="flex items-center gap-3">
+              <div class="w-10 h-10 rounded-lg flex items-center justify-center bg-purple-500">
+                <svg class="w-5 h-5 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 20H5a2 2 0 01-2-2V6a2 2 0 012-2h10a2 2 0 012 2v1m2 13a2 2 0 01-2-2V7m2 13a2 2 0 002-2V9a2 2 0 00-2-2h-2m-4-3H9M7 16h6M7 8h6v4H7V8z"></path>
+                </svg>
+              </div>
+              <div>
+                <div class="font-medium text-gray-800">行业资讯</div>
+                <div class="text-xs text-gray-500">文章列表展示</div>
+              </div>
+            </div>
+          </div>
+          <div class="block-item" draggable="true" data-type="contact">
+            <div class="flex items-center gap-3">
+              <div class="w-10 h-10 rounded-lg flex items-center justify-center bg-red-500">
+                <svg class="w-5 h-5 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"></path>
+                </svg>
+              </div>
+              <div>
+                <div class="font-medium text-gray-800">联系我们</div>
+                <div class="text-xs text-gray-500">联系表单区域</div>
+              </div>
+            </div>
+          </div>
+          <div class="block-item" draggable="true" data-type="text">
+            <div class="flex items-center gap-3">
+              <div class="w-10 h-10 rounded-lg flex items-center justify-center bg-gray-500">
+                <svg class="w-5 h-5 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h7"></path>
+                </svg>
+              </div>
+              <div>
+                <div class="font-medium text-gray-800">文本区块</div>
+                <div class="text-xs text-gray-500">富文本内容</div>
+              </div>
+            </div>
+          </div>
+          <div class="block-item" draggable="true" data-type="image">
+            <div class="flex items-center gap-3">
+              <div class="w-10 h-10 rounded-lg flex items-center justify-center bg-indigo-500">
+                <svg class="w-5 h-5 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z"></path>
+                </svg>
+              </div>
+              <div>
+                <div class="font-medium text-gray-800">图片</div>
+                <div class="text-xs text-gray-500">单张图片展示</div>
+              </div>
+            </div>
+          </div>
+          <div class="block-item" draggable="true" data-type="divider">
+            <div class="flex items-center gap-3">
+              <div class="w-10 h-10 rounded-lg flex items-center justify-center bg-orange-500">
+                <svg class="w-5 h-5 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"></path>
+                </svg>
+              </div>
+              <div>
+                <div class="font-medium text-gray-800">分隔线</div>
+                <div class="text-xs text-gray-500">区块分隔元素</div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- 图层面板 -->
+      <div class="p-4 border-t border-gray-200">
+        <h3 class="text-sm font-bold text-gray-700 mb-3 uppercase">图层</h3>
+        <div id="layers-container" class="max-h-64 overflow-y-auto"></div>
+      </div>
+
+      <!-- 属性面板 -->
+      <div class="p-4 border-t border-gray-200">
+        <h3 class="text-sm font-bold text-gray-700 mb-3 uppercase">属性</h3>
+        <div id="styles-container" class="space-y-3"></div>
+      </div>
+    </div>
+
+    <!-- 中间画布 -->
+    <div class="flex-1 bg-gray-200 overflow-hidden">
+      <div id="gjs" class="h-full"></div>
+    </div>
+
+    <!-- 右侧设置面板 -->
+    <div class="editor-sidebar bg-white border-l border-gray-200 overflow-y-auto">
+      <div class="p-4">
+        <h3 class="text-sm font-bold text-gray-700 mb-3 uppercase">组件设置</h3>
+        <div id="component-settings">
+          <p class="text-gray-500 text-sm">选择组件后在此编辑属性</p>
+        </div>
+      </div>
+      
+      <!-- 预设模板 -->
+      <div class="p-4 border-t border-gray-200">
+        <h3 class="text-sm font-bold text-gray-700 mb-3 uppercase">预设模板</h3>
+        <div class="space-y-2">
+          <button onclick="loadTemplate('homepage')" class="w-full px-4 py-2 bg-gray-100 hover:bg-gray-200 rounded-lg text-sm transition text-left">
+            首页完整模板
+          </button>
+          <button onclick="loadTemplate('landing')" class="w-full px-4 py-2 bg-gray-100 hover:bg-gray-200 rounded-lg text-sm transition text-left">
+            落地页模板
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div id="toast-container"></div>
+
+  <script>
+    const API_BASE = '/api';
+    let editor = null;
+
+    // 检查登录
+    function checkAuth() {
+      const loggedIn = sessionStorage.getItem('admin_logged_in');
+      if (!loggedIn) {
+        window.location.href = 'index.html';
+      }
+    }
+    checkAuth();
+
+    // Toast 提示
+    function showToast(message, type = 'success') {
+      const container = document.getElementById('toast-container');
+      const toast = document.createElement('div');
+      toast.className = `toast ${type}`;
+      toast.textContent = message;
+      container.appendChild(toast);
+      setTimeout(() => toast.remove(), 3000);
+    }
+
+    // 初始化 GrapesJS 编辑器
+    function initEditor() {
+      editor = grapesjs.init({
+        container: '#gjs',
+        height: '100%',
+        fromElement: true,
+        storageManager: false,
+        deviceManager: {
+          devices: [{
+            name: 'Desktop',
+            width: '',
+          }, {
+            name: 'Mobile',
+            width: '375px',
+            widthMedia: '480px',
+          }]
+        },
+        panels: { defaults: [] },
+        blockManager: {
+          appendTo: '#blocks-container',
+          blocks: []
+        },
+        styleManager: {
+          appendTo: '#styles-container',
+        },
+        layerManager: {
+          appendTo: '#layers-container',
+        },
+        traitManager: {
+          appendTo: '#component-settings',
+        },
+      });
+
+      // 拖拽组件到画布
+      document.querySelectorAll('.block-item').forEach(item => {
+        item.addEventListener('dragstart', (e) => {
+          e.dataTransfer.setData('block-type', item.dataset.type);
+        });
+      });
+
+      // 放置组件
+      const canvas = document.querySelector('#gjs iframe');
+      if (canvas) {
+        canvas.addEventListener('drop', handleDrop);
+        canvas.addEventListener('dragover', (e) => e.preventDefault());
+      } else {
+        document.getElementById('gjs').addEventListener('drop', handleDrop);
+        document.getElementById('gjs').addEventListener('dragover', (e) => e.preventDefault());
+      }
+
+      // 选择组件时更新设置面板
+      editor.on('component:selected', () => {
+        updateSettingsPanel();
+      });
+
+      // 双击添加组件
+      document.querySelectorAll('.block-item').forEach(item => {
+        item.addEventListener('dblclick', () => {
+          addBlockToCanvas(item.dataset.type);
+        });
+      });
+    }
+
+    // 处理拖拽放置
+    function handleDrop(e) {
+      e.preventDefault();
+      const type = e.dataTransfer.getData('block-type');
+      if (type) {
+        addBlockToCanvas(type);
+      }
+    }
+
+    // 添加组件到画布
+    function addBlockToCanvas(type) {
+      const components = {
+        hero: createHeroBlock(),
+        services: createServicesBlock(),
+        features: createFeaturesBlock(),
+        articles: createArticlesBlock(),
+        contact: createContactBlock(),
+        text: '<div class="text-block p-8"><h2>双击编辑标题</h2><p>点击添加文本内容。这是一个可编辑的文本区块。</p></div>',
+        image: '<div class="image-block p-4"><img src="https://images.unsplash.com/photo-1486406146926-c627a92ad1ab?w=800&h=400&fit=crop" alt="图片" style="width:100%;border-radius:8px;"></div>',
+        divider: '<hr style="margin:40px 0;border:none;border-top:1px solid #e5e7eb;">'
+      };
+
+      const content = components[type];
+      if (content && editor) {
+        editor.addComponents(content);
+      }
+    }
+
+    // 创建 Hero 组件
+    function createHeroBlock() {
+      return `
+        <section class="hero-section" style="background:linear-gradient(135deg,#1F2937 0%,#111827 100%);padding:100px 20px;text-align:center;color:white;">
+          <h1 style="font-size:3rem;font-weight:bold;margin-bottom:20px;">专业资金服务平台</h1>
+          <p style="font-size:1.25rem;margin-bottom:30px;opacity:0.9;">为上市公司、企业及个人提供全方位资金解决方案</p>
+          <button style="padding:15px 40px;background:linear-gradient(135deg,#B8860B,#DAA520);color:white;border:none;border-radius:8px;font-size:1rem;cursor:pointer;">立即咨询</button>
+        </section>
+      `;
+    }
+
+    // 创建服务组件
+    function createServicesBlock() {
+      return `
+        <section class="services-section" style="padding:80px 20px;background:#fff;">
+          <h2 style="text-align:center;font-size:2rem;font-weight:bold;margin-bottom:40px;color:#1F2937;">全方位资金解决方案</h2>
+          <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(250px,1fr));gap:30px;max-width:1200px;margin:0 auto;">
+            <div style="padding:30px;background:#f9fafb;border-radius:12px;text-align:center;">
+              <h3 style="font-size:1.25rem;font-weight:bold;margin-bottom:15px;color:#1F2937;">上市公司服务</h3>
+              <p style="color:#6b7280;">短拆、过桥、质押融资等专业服务</p>
+            </div>
+            <div style="padding:30px;background:#f9fafb;border-radius:12px;text-align:center;">
+              <h3 style="font-size:1.25rem;font-weight:bold;margin-bottom:15px;color:#1F2937;">企业摆账</h3>
+              <p style="color:#6b7280;">验资摆账、显账亮资等全方位服务</p>
+            </div>
+            <div style="padding:30px;background:#f9fafb;border-radius:12px;text-align:center;">
+              <h3 style="font-size:1.25rem;font-weight:bold;margin-bottom:15px;color:#1F2937;">银行存款</h3>
+              <p style="color:#6b7280;">冲量、日均、定期存款等专业服务</p>
+            </div>
+          </div>
+        </section>
+      `;
+    }
+
+    // 创建核心优势组件
+    function createFeaturesBlock() {
+      return `
+        <section class="features-section" style="padding:80px 20px;background:#f9fafb;">
+          <h2 style="text-align:center;font-size:2rem;font-weight:bold;margin-bottom:40px;color:#1F2937;">为什么选择我们</h2>
+          <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:40px;max-width:1000px;margin:0 auto;text-align:center;">
+            <div>
+              <div style="width:60px;height:60px;background:linear-gradient(135deg,#B8860B,#DAA520);border-radius:50%;display:flex;align-items:center;justify-content:center;margin:0 auto 20px;">
+                <span style="font-size:1.5rem;">&#10003;</span>
+              </div>
+              <h3 style="font-weight:bold;margin-bottom:10px;">专业可靠</h3>
+              <p style="color:#6b7280;font-size:0.9rem;">多年行业经验，专业团队服务</p>
+            </div>
+            <div>
+              <div style="width:60px;height:60px;background:linear-gradient(135deg,#B8860B,#DAA520);border-radius:50%;display:flex;align-items:center;justify-content:center;margin:0 auto 20px;">
+                <span style="font-size:1.5rem;">&#9889;</span>
+              </div>
+              <h3 style="font-weight:bold;margin-bottom:10px;">快速响应</h3>
+              <p style="color:#6b7280;font-size:0.9rem;">资金到位迅速，流程高效</p>
+            </div>
+            <div>
+              <div style="width:60px;height:60px;background:linear-gradient(135deg,#B8860B,#DAA520);border-radius:50%;display:flex;align-items:center;justify-content:center;margin:0 auto 20px;">
+                <span style="font-size:1.5rem;">&#128274;</span>
+              </div>
+              <h3 style="font-weight:bold;margin-bottom:10px;">安全保密</h3>
+              <p style="color:#6b7280;font-size:0.9rem;">信息严格保密，交易安全</p>
+            </div>
+          </div>
+        </section>
+      `;
+    }
+
+    // 创建行业资讯组件
+    function createArticlesBlock() {
+      return `
+        <section class="articles-section" style="padding:80px 20px;background:#fff;">
+          <h2 style="text-align:center;font-size:2rem;font-weight:bold;margin-bottom:40px;color:#1F2937;">行业资讯</h2>
+          <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:30px;max-width:1200px;margin:0 auto;">
+            <div style="border-radius:12px;overflow:hidden;box-shadow:0 4px 20px rgba(0,0,0,0.1);">
+              <img src="https://images.unsplash.com/photo-1486406146926-c627a92ad1ab?w=400&h=200&fit=crop" style="width:100%;height:180px;object-fit:cover;">
+              <div style="padding:20px;">
+                <h3 style="font-weight:bold;margin-bottom:10px;">文章标题</h3>
+                <p style="color:#6b7280;font-size:0.9rem;">文章摘要内容...</p>
+              </div>
+            </div>
+            <div style="border-radius:12px;overflow:hidden;box-shadow:0 4px 20px rgba(0,0,0,0.1);">
+              <img src="https://images.unsplash.com/photo-1554224155-6726b3ff858f?w=400&h=200&fit=crop" style="width:100%;height:180px;object-fit:cover;">
+              <div style="padding:20px;">
+                <h3 style="font-weight:bold;margin-bottom:10px;">文章标题</h3>
+                <p style="color:#6b7280;font-size:0.9rem;">文章摘要内容...</p>
+              </div>
+            </div>
+          </div>
+        </section>
+      `;
+    }
+
+    // 创建联系我们组件
+    function createContactBlock() {
+      return `
+        <section class="contact-section" style="padding:80px 20px;background:linear-gradient(135deg,#1F2937 0%,#111827 100%);color:white;">
+          <h2 style="text-align:center;font-size:2rem;font-weight:bold;margin-bottom:40px;">联系我们</h2>
+          <div style="max-width:600px;margin:0 auto;">
+            <div style="background:rgba(255,255,255,0.1);padding:40px;border-radius:16px;">
+              <div style="margin-bottom:20px;">
+                <label style="display:block;margin-bottom:8px;">您的姓名</label>
+                <input type="text" placeholder="请输入姓名" style="width:100%;padding:12px;border-radius:8px;border:none;">
+              </div>
+              <div style="margin-bottom:20px;">
+                <label style="display:block;margin-bottom:8px;">联系电话</label>
+                <input type="tel" placeholder="请输入电话" style="width:100%;padding:12px;border-radius:8px;border:none;">
+              </div>
+              <div style="margin-bottom:20px;">
+                <label style="display:block;margin-bottom:8px;">咨询内容</label>
+                <textarea placeholder="请输入咨询内容" rows="4" style="width:100%;padding:12px;border-radius:8px;border:none;resize:none;"></textarea>
+              </div>
+              <button style="width:100%;padding:15px;background:linear-gradient(135deg,#B8860B,#DAA520);color:white;border:none;border-radius:8px;font-size:1rem;cursor:pointer;">提交咨询</button>
+            </div>
+          </div>
+        </section>
+      `;
+    }
+
+    // 更新设置面板
+    function updateSettingsPanel() {
+      const selected = editor.getSelected();
+      if (!selected) return;
+
+      const container = document.getElementById('component-settings');
+      const tagName = selected.get('tagName');
+      const content = selected.get('content');
+
+      container.innerHTML = `
+        <div class="space-y-3">
+          <div>
+            <label class="block text-sm text-gray-600 mb-1">HTML标签</label>
+            <input type="text" value="${tagName}" disabled class="w-full px-3 py-2 bg-gray-100 rounded-lg text-sm">
+          </div>
+          <div>
+            <label class="block text-sm text-gray-600 mb-1">样式类名</label>
+            <input type="text" value="${selected.get('classes')?.toString() || ''}" onchange="updateClasses(this.value)" class="w-full px-3 py-2 border border-gray-300 rounded-lg text-sm">
+          </div>
+          <div>
+            <label class="block text-sm text-gray-600 mb-1">ID</label>
+            <input type="text" value="${selected.getId() || ''}" onchange="updateId(this.value)" class="w-full px-3 py-2 border border-gray-300 rounded-lg text-sm">
+          </div>
+          <button onclick="deleteComponent()" class="w-full px-4 py-2 bg-red-500 hover:bg-red-600 text-white rounded-lg text-sm transition">删除组件</button>
+        </div>
+      `;
+    }
+
+    // 更新类名
+    function updateClasses(classes) {
+      const selected = editor.getSelected();
+      if (selected) {
+        selected.set('classes', classes.split(' ').filter(c => c));
+      }
+    }
+
+    // 更新ID
+    function updateId(id) {
+      const selected = editor.getSelected();
+      if (selected) {
+        selected.setId(id);
+      }
+    }
+
+    // 删除组件
+    function deleteComponent() {
+      const selected = editor.getSelected();
+      if (selected && confirm('确定删除此组件？')) {
+        selected.remove();
+      }
+    }
+
+    // 预览模式
+    function previewMode() {
+      editor.runCommand('preview');
+    }
+
+    // 保存页面
+    async function savePage() {
+      const html = editor.getHtml();
+      const css = editor.getCss();
+      const pageData = { html, css, updated_at: new Date().toISOString() };
+
+      try {
+        // 保存到 localStorage 作为演示
+        localStorage.setItem('page_editor_content', JSON.stringify(pageData));
+        showToast('页面保存成功！');
+      } catch (e) {
+        showToast('保存失败', 'error');
+      }
+    }
+
+    // 加载预设模板
+    function loadTemplate(template) {
+      if (!confirm('加载模板将覆盖当前内容，确定继续？')) return;
+
+      let content = '';
+      if (template === 'homepage') {
+        content = createHeroBlock() + createServicesBlock() + createFeaturesBlock() + createArticlesBlock() + createContactBlock();
+      } else if (template === 'landing') {
+        content = createHeroBlock() + createFeaturesBlock() + createContactBlock();
+      }
+
+      if (editor && content) {
+        editor.setComponents(content);
+        showToast('模板加载成功！');
+      }
+    }
+
+    // 初始化
+    document.addEventListener('DOMContentLoaded', () => {
+      initEditor();
+      
+      // 加载已保存的内容
+      setTimeout(() => {
+        const saved = localStorage.getItem('page_editor_content');
+        if (saved) {
+          try {
+            const data = JSON.parse(saved);
+            if (data.html && editor) {
+              editor.setComponents(data.html);
+            }
+          } catch (e) {}
+        }
+      }, 500);
+    });
+  </script>
+</body>
+</html>
