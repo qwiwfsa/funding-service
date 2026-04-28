@@ -551,29 +551,75 @@ function renderAgent(): string {
 }
 
 function renderArticles(): string {
-  const articles = [
-    { id: 1, title: '上市公司短拆业务详解', category: '上市公司', date: '2024-01-15', reads: 1234, summary: '深入解析上市公司短期拆借业务模式、操作流程及注意事项...' },
-    { id: 2, title: '企业摆账验资全攻略', category: '企业摆账', date: '2024-01-10', reads: 892, summary: '企业摆账验资是快速提升企业实力的有效方式...' },
-    { id: 3, title: '银行冲量业务指南', category: '银行存款', date: '2024-01-05', reads: 1567, summary: '银行时点、日均、月底冲量业务的区别与选择...' },
-    { id: 4, title: '应收账款买断融资', category: '应收账款', date: '2024-01-01', reads: 2103, summary: '应收账款等价置换云信票据，替代现金流转...' },
-    { id: 5, title: '股票质押融资要点', category: '上市公司', date: '2023-12-28', reads: 756, summary: '股票质押融资的风控要点和操作流程...' },
-    { id: 6, title: '云信票据实摆技巧', category: '企业摆账', date: '2023-12-25', reads: 1089, summary: '云信票据实摆的操作要点和注意事项...' },
-  ];
-  
+  const categories = ['全部', '上市公司', '企业摆账', '银行存款', '应收账款'];
+
   return `
-    <section id="articles-page" class="py-20" style="background: white;">
+    <section id="articles" class="py-24 relative" style="background: #ffffff;">
       <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-          ${articles.map(article => `
-            <div class="group rounded-xl overflow-hidden cursor-pointer" style="background: #FAFAFA; box-shadow: 0 2px 8px rgba(0,0,0,0.06); transition: all 0.3s;" onmouseover="this.style.boxShadow='0 8px 25px rgba(184,134,11,0.15)'" onmouseout="this.style.boxShadow='0 2px 8px rgba(0,0,0,0.06)'">
-              <div class="h-48" style="background: linear-gradient(135deg, #D4AF37 0%, #C9A227 100%); display: flex; align-items: center; justify-content: center;">
-                <span class="text-white text-4xl font-bold opacity-30">${article.id}</span>
+        <div class="text-center mb-16">
+          <span class="font-medium mb-4 block" style="color: #B8860B;">知识中心</span>
+          <h2 class="text-3xl md:text-5xl font-bold mb-6" style="color: #1F2937;">
+            文章资讯
+          </h2>
+          <p class="mb-8" style="color: #6B7280;">
+            专业解读资金业务知识，助您更好地了解行业动态
+          </p>
+          
+          <div class="flex flex-wrap justify-center gap-3" id="article-filters">
+            ${categories.map((cat, i) => `
+              <button 
+                class="article-filter-btn px-5 py-2 rounded-full text-sm font-medium transition-all ${i === 0 ? 'bg-yellow-600 text-white' : 'bg-gray-100 text-gray-600 hover:bg-yellow-600 hover:text-white'}"
+                data-category="${cat}"
+              >
+                ${cat}
+              </button>
+            `).join('')}
+          </div>
+        </div>
+        
+        <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-8" id="articles-grid">
+          ${articles.map((article, i) => `
+            <article 
+              class="article-card rounded-2xl overflow-hidden card-hover bg-white cursor-pointer" 
+              style="border: 1px solid rgba(184, 134, 11, 0.1); box-shadow: 0 4px 24px rgba(0, 0, 0, 0.06);"
+              data-id="${article.id}"
+              data-category="${article.category}"
+            >
+              <div class="relative" style="height: 200px; overflow: hidden;">
+                <img 
+                  src="${article.image}" 
+                  alt="${article.title}" 
+                  class="w-full h-full object-cover"
+                  style="transition: transform 0.3s ease;"
+                  onerror="this.src='https://images.unsplash.com/photo-1486406146926-c627a92ad1ab?w=800&h=400&fit=crop'"
+                >
+                <div class="absolute top-4 left-4">
+                  <span class="px-3 py-1 rounded-full text-xs font-medium" style="background: rgba(184, 134, 11, 0.9); color: white;">
+                    ${article.category}
+                  </span>
+                </div>
               </div>
               <div class="p-6">
-                <p class="text-sm mb-3" style="color: #B8860B;">${article.date} · ${article.reads} 阅读</p>
-                <p class="text-sm leading-relaxed" style="color: #4B5563;">${article.summary}</p>
+                <h3 class="text-lg font-bold mb-3 line-clamp-2 hover:text-yellow-600 transition-colors" style="color: #1F2937;">
+                  ${article.title}
+                </h3>
+                <p class="text-sm mb-4 line-clamp-2" style="color: #6B7280;">
+                  ${article.excerpt}
+                </p>
+                <div class="flex items-center justify-between text-xs" style="color: #9CA3AF;">
+                  <div class="flex items-center gap-4">
+                    <span class="flex items-center gap-1">
+                      ${icons.calendar}
+                      ${article.date}
+                    </span>
+                    <span class="flex items-center gap-1">
+                      ${icons.eye}
+                      ${article.views.toLocaleString()}
+                    </span>
+                  </div>
+                </div>
               </div>
-            </div>
+            </article>
           `).join('')}
         </div>
       </div>
