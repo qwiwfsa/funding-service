@@ -1272,22 +1272,12 @@ export function initApp(): void {
     document.body.style.overflow = '';
   }
 
-  // Add click handlers to article cards - scroll to contact and show phone
+  // Add click handlers to article cards - show phone modal
   articleCards.forEach(card => {
     card.addEventListener('click', () => {
-      // Close article modal
+      // Close article modal and show phone modal
       closeModal();
-      // Navigate to home (show all sections)
-      navigateTo('home');
-      // Scroll to contact section after a short delay
-      setTimeout(() => {
-        const contactSection = document.getElementById('page-contact');
-        if (contactSection) {
-          contactSection.scrollIntoView({ behavior: 'smooth', block: 'start' });
-        }
-        // Show phone modal
-        showConsultModal();
-      }, 100);
+      showConsultModal();
     });
   });
 
