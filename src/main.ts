@@ -102,43 +102,43 @@ const advantages = [
 // Render functions
 function renderNavbar(): string {
   return `
-    <nav class="fixed top-0 left-0 right-0 z-50 glass">
+    <nav class="fixed top-0 left-0 right-0 z-50 bg-white/95 backdrop-blur-md shadow-sm" style="border-bottom: 1px solid rgba(184, 134, 11, 0.1);">
       <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div class="flex items-center justify-between h-20">
           <div class="flex items-center gap-3">
             <div class="w-12 h-12 rounded-xl bg-gradient-to-br from-yellow-600 to-yellow-500 flex items-center justify-center">
-              <span class="text-xl font-bold text-gray-900">DF</span>
+              <span class="text-xl font-bold text-white">DF</span>
             </div>
             <div>
-              <h1 class="text-xl font-bold gradient-text">鼎丰资金</h1>
-              <p class="text-xs text-gray-400">专业资金服务平台</p>
+              <h1 class="text-xl font-bold" style="color: #B8860B;">鼎丰资金</h1>
+              <p class="text-xs" style="color: #6B7280;">专业资金服务平台</p>
             </div>
           </div>
           
           <div class="hidden md:flex items-center gap-8">
-            <a href="#services" class="text-gray-300 hover:text-yellow-500 transition-colors">业务服务</a>
-            <a href="#advantages" class="text-gray-300 hover:text-yellow-500 transition-colors">核心优势</a>
-            <a href="#agent" class="text-gray-300 hover:text-yellow-500 transition-colors">代理加盟</a>
-            <a href="#contact" class="text-gray-300 hover:text-yellow-500 transition-colors">联系我们</a>
+            <a href="#services" class="text-gray-700 hover:text-yellow-600 transition-colors">业务服务</a>
+            <a href="#advantages" class="text-gray-700 hover:text-yellow-600 transition-colors">核心优势</a>
+            <a href="#agent" class="text-gray-700 hover:text-yellow-600 transition-colors">代理加盟</a>
+            <a href="#contact" class="text-gray-700 hover:text-yellow-600 transition-colors">联系我们</a>
           </div>
           
           <button class="btn-gold hidden md:block">
             立即咨询
           </button>
           
-          <button class="md:hidden text-gray-300" id="mobile-menu-btn">
+          <button class="md:hidden text-gray-700" id="mobile-menu-btn">
             ${icons.menu}
           </button>
         </div>
       </div>
       
       <!-- Mobile menu -->
-      <div class="hidden md:hidden bg-slate-900/95 border-t border-yellow-600/20" id="mobile-menu">
+      <div class="hidden md:hidden bg-white border-t border-gray-100" id="mobile-menu">
         <div class="px-4 py-4 space-y-3">
-          <a href="#services" class="block text-gray-300 hover:text-yellow-500 py-2">业务服务</a>
-          <a href="#advantages" class="block text-gray-300 hover:text-yellow-500 py-2">核心优势</a>
-          <a href="#agent" class="block text-gray-300 hover:text-yellow-500 py-2">代理加盟</a>
-          <a href="#contact" class="block text-gray-300 hover:text-yellow-500 py-2">联系我们</a>
+          <a href="#services" class="block text-gray-700 hover:text-yellow-600 py-2">业务服务</a>
+          <a href="#advantages" class="block text-gray-700 hover:text-yellow-600 py-2">核心优势</a>
+          <a href="#agent" class="block text-gray-700 hover:text-yellow-600 py-2">代理加盟</a>
+          <a href="#contact" class="block text-gray-700 hover:text-yellow-600 py-2">联系我们</a>
           <button class="btn-gold w-full mt-4">立即咨询</button>
         </div>
       </div>
@@ -148,28 +148,28 @@ function renderNavbar(): string {
 
 function renderHero(): string {
   return `
-    <section class="relative min-h-screen flex items-center justify-center overflow-hidden pt-20">
+    <section class="relative min-h-screen flex items-center justify-center overflow-hidden pt-20" style="background: linear-gradient(180deg, #ffffff 0%, #F8FAFC 100%);">
       <!-- Background decorations -->
-      <div class="decorative-circle w-96 h-96 -top-20 -left-20" style="background: radial-gradient(circle, rgba(184, 134, 11, 0.15) 0%, transparent 70%);"></div>
-      <div class="decorative-circle w-80 h-80 bottom-20 -right-20" style="background: radial-gradient(circle, rgba(218, 165, 32, 0.1) 0%, transparent 70%);"></div>
+      <div class="decorative-circle w-96 h-96 -top-20 -left-20" style="background: radial-gradient(circle, rgba(184, 134, 11, 0.08) 0%, transparent 70%);"></div>
+      <div class="decorative-circle w-80 h-80 bottom-20 -right-20" style="background: radial-gradient(circle, rgba(218, 165, 32, 0.06) 0%, transparent 70%);"></div>
       
       <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-20 relative z-10">
         <div class="text-center animate-fade-in-up">
-          <div class="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-yellow-600/20 border border-yellow-600/30 mb-8">
+          <div class="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-yellow-600/10 border border-yellow-600/20 mb-8">
             <span class="w-2 h-2 rounded-full bg-yellow-500 animate-pulse"></span>
-            <span class="text-yellow-500 text-sm font-medium">专业 · 诚信 · 高效 · 共赢</span>
+            <span class="text-yellow-600 text-sm font-medium">专业 · 诚信 · 高效 · 共赢</span>
           </div>
           
           <h1 class="text-4xl md:text-6xl lg:text-7xl font-bold mb-6 leading-tight">
             <span class="gradient-text">鼎丰资金</span>
             <br>
-            <span class="text-white">专业资金服务平台</span>
+            <span style="color: #1F2937;">专业资金服务平台</span>
           </h1>
           
-          <p class="text-lg md:text-xl text-gray-400 max-w-3xl mx-auto mb-10 leading-relaxed">
+          <p class="text-lg md:text-xl mb-10 leading-relaxed" style="color: #6B7280;">
             专注上市公司短拆、过桥、摆账、存款、应收账款融资等全方位资金解决方案
             <br>
-            <span class="text-yellow-500">资金实力雄厚 | 服务全国 | 合作共赢</span>
+            <span class="font-medium" style="color: #B8860B;">资金实力雄厚 | 服务全国 | 合作共赢</span>
           </p>
           
           <div class="flex flex-col sm:flex-row gap-4 justify-center">
@@ -185,21 +185,21 @@ function renderHero(): string {
         
         <!-- Stats -->
         <div class="grid grid-cols-2 md:grid-cols-4 gap-6 mt-20 animate-fade-in-up" style="animation-delay: 0.3s;">
-          <div class="text-center p-6 rounded-2xl glass card-hover">
+          <div class="text-center p-6 rounded-2xl bg-white shadow-lg card-hover" style="border: 1px solid rgba(184, 134, 11, 0.1);">
             <div class="stat-value">500+</div>
-            <p class="text-gray-400 mt-2">成功案例</p>
+            <p class="mt-2" style="color: #6B7280;">成功案例</p>
           </div>
-          <div class="text-center p-6 rounded-2xl glass card-hover">
+          <div class="text-center p-6 rounded-2xl bg-white shadow-lg card-hover" style="border: 1px solid rgba(184, 134, 11, 0.1);">
             <div class="stat-value">50亿+</div>
-            <p class="text-gray-400 mt-2">累计交易额</p>
+            <p class="mt-2" style="color: #6B7280;">累计交易额</p>
           </div>
-          <div class="text-center p-6 rounded-2xl glass card-hover">
+          <div class="text-center p-6 rounded-2xl bg-white shadow-lg card-hover" style="border: 1px solid rgba(184, 134, 11, 0.1);">
             <div class="stat-value">98%</div>
-            <p class="text-gray-400 mt-2">客户满意度</p>
+            <p class="mt-2" style="color: #6B7280;">客户满意度</p>
           </div>
-          <div class="text-center p-6 rounded-2xl glass card-hover">
+          <div class="text-center p-6 rounded-2xl bg-white shadow-lg card-hover" style="border: 1px solid rgba(184, 134, 11, 0.1);">
             <div class="stat-value">24h</div>
-            <p class="text-gray-400 mt-2">快速响应</p>
+            <p class="mt-2" style="color: #6B7280;">快速响应</p>
           </div>
         </div>
       </div>
@@ -215,21 +215,20 @@ function renderHero(): string {
 }
 
 function renderServiceCard(data: typeof businessData.listed, index: number): string {
-  const isEven = index % 2 === 0;
   return `
-    <div class="glass rounded-3xl p-8 md:p-10 card-hover" style="animation-delay: ${index * 0.1}s;">
+    <div class="rounded-3xl p-8 md:p-10 card-hover" style="background: #ffffff; border: 1px solid rgba(184, 134, 11, 0.15); box-shadow: 0 4px 24px rgba(0, 0, 0, 0.06);" style="animation-delay: ${index * 0.1}s;">
       <div class="flex flex-col lg:flex-row gap-8">
         <div class="lg:w-1/3">
           <div class="icon-box mb-6" style="color: ${data.color};">
             ${data.icon}
           </div>
-          <h3 class="text-2xl font-bold text-white mb-2">${data.title}</h3>
+          <h3 class="text-2xl font-bold mb-2" style="color: #1F2937;">${data.title}</h3>
           <p class="text-sm mb-6" style="color: ${data.color};">${data.subtitle}</p>
           ${data.scenarios ? `
-            <div class="bg-slate-800/50 rounded-xl p-4">
-              <p class="text-sm text-gray-400 mb-3">应用场景：</p>
+            <div class="rounded-xl p-4" style="background: #F8FAFC;">
+              <p class="text-sm mb-3" style="color: #6B7280;">应用场景：</p>
               <div class="flex flex-wrap gap-2">
-                ${data.scenarios.map(s => `<span class="px-3 py-1 rounded-full text-xs bg-yellow-600/20 text-yellow-500 border border-yellow-600/30">${s}</span>`).join('')}
+                ${data.scenarios.map(s => `<span class="px-3 py-1 rounded-full text-xs bg-yellow-600/10 text-yellow-600 border border-yellow-600/20">${s}</span>`).join('')}
               </div>
             </div>
           ` : ''}
@@ -237,14 +236,14 @@ function renderServiceCard(data: typeof businessData.listed, index: number): str
         
         <div class="lg:w-2/3 grid sm:grid-cols-2 gap-4">
           ${data.services.map(service => `
-            <div class="bg-slate-800/30 rounded-xl p-5 border border-slate-700/50 hover:border-yellow-600/30 transition-all">
+            <div class="rounded-xl p-5 transition-all" style="background: #F8FAFC; border: 1px solid rgba(184, 134, 11, 0.1);">
               <div class="flex items-start gap-3">
-                <div class="w-6 h-6 rounded-full bg-yellow-600/20 flex items-center justify-center flex-shrink-0 mt-0.5" style="color: ${data.color};">
+                <div class="w-6 h-6 rounded-full bg-yellow-600/10 flex items-center justify-center flex-shrink-0 mt-0.5" style="color: ${data.color};">
                   ${icons.check}
                 </div>
                 <div>
-                  <h4 class="text-white font-semibold mb-1">${service.name}</h4>
-                  <p class="text-sm text-gray-400">${service.desc}</p>
+                  <h4 class="font-semibold mb-1" style="color: #1F2937;">${service.name}</h4>
+                  <p class="text-sm" style="color: #6B7280;">${service.desc}</p>
                 </div>
               </div>
             </div>
@@ -257,14 +256,14 @@ function renderServiceCard(data: typeof businessData.listed, index: number): str
 
 function renderServices(): string {
   return `
-    <section id="services" class="py-24 relative">
+    <section id="services" class="py-24 relative" style="background: #ffffff;">
       <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div class="text-center mb-16">
-          <span class="text-yellow-500 font-medium mb-4 block">我们的服务</span>
-          <h2 class="text-3xl md:text-5xl font-bold text-white mb-6">
+          <span class="font-medium mb-4 block" style="color: #B8860B;">我们的服务</span>
+          <h2 class="text-3xl md:text-5xl font-bold mb-6" style="color: #1F2937;">
             全方位资金解决方案
           </h2>
-          <p class="text-gray-400 max-w-2xl mx-auto">
+          <p class="mb-6" style="color: #6B7280;">
             专业团队提供一站式资金服务，覆盖上市公司、企业个人、银行存款及应收账款融资等多领域
           </p>
         </div>
@@ -279,30 +278,30 @@ function renderServices(): string {
 
 function renderAdvantages(): string {
   return `
-    <section id="advantages" class="py-24 relative bg-gradient-to-b from-transparent via-yellow-900/10 to-transparent">
+    <section id="advantages" class="py-24 relative" style="background: linear-gradient(180deg, #F8FAFC 0%, #ffffff 100%);">
       <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div class="text-center mb-16">
-          <span class="text-yellow-500 font-medium mb-4 block">为什么选择我们</span>
-          <h2 class="text-3xl md:text-5xl font-bold text-white mb-6">
+          <span class="font-medium mb-4 block" style="color: #B8860B;">为什么选择我们</span>
+          <h2 class="text-3xl md:text-5xl font-bold mb-6" style="color: #1F2937;">
             核心优势
           </h2>
         </div>
         
         <div class="grid md:grid-cols-3 lg:grid-cols-5 gap-6 mb-16">
           ${advantages.map((adv, i) => `
-            <div class="glass rounded-2xl p-6 text-center card-hover" style="animation-delay: ${i * 0.1}s;">
-              <div class="w-12 h-12 rounded-full bg-yellow-600/20 mx-auto mb-4 flex items-center justify-center" style="color: #FFD700;">
+            <div class="rounded-2xl p-6 text-center card-hover bg-white" style="border: 1px solid rgba(184, 134, 11, 0.1); box-shadow: 0 2px 12px rgba(0, 0, 0, 0.04);" style="animation-delay: ${i * 0.1}s;">
+              <div class="w-12 h-12 rounded-full bg-yellow-600/10 mx-auto mb-4 flex items-center justify-center" style="color: #B8860B;">
                 ${icons.star}
               </div>
-              <p class="text-white font-medium">${adv}</p>
+              <p class="font-medium" style="color: #1F2937;">${adv}</p>
             </div>
           `).join('')}
         </div>
         
-        <div class="glass rounded-3xl p-8 md:p-12 animate-pulse-glow">
+        <div class="rounded-3xl p-8 md:p-12 animate-pulse-glow" style="background: linear-gradient(135deg, #1E3A5F 0%, #2D5A87 100%);">
           <div class="flex flex-col lg:flex-row items-center gap-8">
             <div class="lg:w-1/3 text-center">
-              <div class="w-24 h-24 rounded-full bg-gradient-to-br from-yellow-600 to-yellow-500 mx-auto flex items-center justify-center mb-6" style="color: #050D18;">
+              <div class="w-24 h-24 rounded-full bg-gradient-to-br from-yellow-500 to-yellow-400 mx-auto flex items-center justify-center mb-6">
                 ${icons.dollar}
               </div>
               <h3 class="text-2xl font-bold text-white">资金安全有保障</h3>
@@ -310,39 +309,39 @@ function renderAdvantages(): string {
             <div class="lg:w-2/3">
               <div class="grid sm:grid-cols-2 gap-6">
                 <div class="flex items-start gap-4">
-                  <div class="w-10 h-10 rounded-lg bg-yellow-600/20 flex items-center justify-center flex-shrink-0" style="color: #FFD700;">
+                  <div class="w-10 h-10 rounded-lg bg-white/10 flex items-center justify-center flex-shrink-0" style="color: #FFD700;">
                     ${icons.shield}
                   </div>
                   <div>
                     <h4 class="text-white font-semibold mb-1">资金监管</h4>
-                    <p class="text-sm text-gray-400">所有资金通过正规渠道托管，安全透明</p>
+                    <p class="text-sm" style="color: rgba(255,255,255,0.7);">所有资金通过正规渠道托管，安全透明</p>
                   </div>
                 </div>
                 <div class="flex items-start gap-4">
-                  <div class="w-10 h-10 rounded-lg bg-yellow-600/20 flex items-center justify-center flex-shrink-0" style="color: #FFD700;">
+                  <div class="w-10 h-10 rounded-lg bg-white/10 flex items-center justify-center flex-shrink-0" style="color: #FFD700;">
                     ${icons.clock}
                   </div>
                   <div>
                     <h4 class="text-white font-semibold mb-1">快速到账</h4>
-                    <p class="text-sm text-gray-400">简化流程，最快当天完成资金到位</p>
+                    <p class="text-sm" style="color: rgba(255,255,255,0.7);">简化流程，最快当天完成资金到位</p>
                   </div>
                 </div>
                 <div class="flex items-start gap-4">
-                  <div class="w-10 h-10 rounded-lg bg-yellow-600/20 flex items-center justify-center flex-shrink-0" style="color: #FFD700;">
+                  <div class="w-10 h-10 rounded-lg bg-white/10 flex items-center justify-center flex-shrink-0" style="color: #FFD700;">
                     ${icons.trending}
                   </div>
                   <div>
                     <h4 class="text-white font-semibold mb-1">优惠费率</h4>
-                    <p class="text-sm text-gray-400">行业竞争力费率，降低融资成本</p>
+                    <p class="text-sm" style="color: rgba(255,255,255,0.7);">行业竞争力费率，降低融资成本</p>
                   </div>
                 </div>
                 <div class="flex items-start gap-4">
-                  <div class="w-10 h-10 rounded-lg bg-yellow-600/20 flex items-center justify-center flex-shrink-0" style="color: #FFD700;">
+                  <div class="w-10 h-10 rounded-lg bg-white/10 flex items-center justify-center flex-shrink-0" style="color: #FFD700;">
                     ${icons.users}
                   </div>
                   <div>
                     <h4 class="text-white font-semibold mb-1">专属服务</h4>
-                    <p class="text-sm text-gray-400">一对一专业顾问，全程跟踪服务</p>
+                    <p class="text-sm" style="color: rgba(255,255,255,0.7);">一对一专业顾问，全程跟踪服务</p>
                   </div>
                 </div>
               </div>
@@ -356,9 +355,9 @@ function renderAdvantages(): string {
 
 function renderAgent(): string {
   return `
-    <section id="agent" class="py-24 relative">
+    <section id="agent" class="py-24 relative" style="background: #ffffff;">
       <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div class="glass rounded-3xl p-8 md:p-16 relative overflow-hidden">
+        <div class="rounded-3xl p-8 md:p-16 relative overflow-hidden" style="background: linear-gradient(135deg, #fef3c7 0%, #fef9e7 100%); border: 1px solid rgba(184, 134, 11, 0.2);">
           <!-- Background decoration -->
           <div class="absolute top-0 right-0 w-64 h-64 bg-yellow-600/10 rounded-full blur-3xl"></div>
           <div class="absolute bottom-0 left-0 w-48 h-48 bg-yellow-600/10 rounded-full blur-3xl"></div>
@@ -367,24 +366,24 @@ function renderAgent(): string {
             <div class="text-center mb-12">
               <div class="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-yellow-600/20 border border-yellow-600/30 mb-6">
                 ${icons.users}
-                <span class="text-yellow-500 font-medium">诚邀加盟</span>
+                <span class="font-medium" style="color: #B8860B;">诚邀加盟</span>
               </div>
-              <h2 class="text-3xl md:text-5xl font-bold text-white mb-6">
+              <h2 class="text-3xl md:text-5xl font-bold mb-6" style="color: #1F2937;">
                 诚邀有企业资源代理
               </h2>
-              <p class="text-gray-400 max-w-2xl mx-auto">
+              <p class="mb-6" style="color: #6B7280;">
                 如果您有企业客户资源，欢迎加入我们的代理体系，共同开拓市场，实现互利共赢
               </p>
             </div>
             
             <div class="grid md:grid-cols-2 lg:grid-cols-4 gap-6 mb-12">
               ${agentBenefits.map((benefit, i) => `
-                <div class="bg-slate-800/50 rounded-2xl p-6 text-center border border-slate-700/50 hover:border-yellow-600/30 transition-all" style="animation-delay: ${i * 0.1}s;">
-                  <div class="w-14 h-14 rounded-2xl bg-gradient-to-br from-yellow-600/20 to-yellow-600/10 mx-auto mb-4 flex items-center justify-center" style="color: #FFD700;">
+                <div class="rounded-2xl p-6 text-center bg-white border border-yellow-600/10 card-hover" style="animation-delay: ${i * 0.1}s;">
+                  <div class="w-14 h-14 rounded-2xl bg-gradient-to-br from-yellow-600/10 to-yellow-600/5 mx-auto mb-4 flex items-center justify-center" style="color: #B8860B;">
                     ${benefit.icon}
                   </div>
-                  <h4 class="text-lg font-bold text-white mb-2">${benefit.title}</h4>
-                  <p class="text-sm text-gray-400">${benefit.desc}</p>
+                  <h4 class="text-lg font-bold mb-2" style="color: #1F2937;">${benefit.title}</h4>
+                  <p class="text-sm" style="color: #6B7280;">${benefit.desc}</p>
                 </div>
               `).join('')}
             </div>
@@ -404,65 +403,65 @@ function renderAgent(): string {
 
 function renderContact(): string {
   return `
-    <section id="contact" class="py-24 relative">
+    <section id="contact" class="py-24 relative" style="background: #F8FAFC;">
       <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div class="text-center mb-16">
-          <span class="text-yellow-500 font-medium mb-4 block">联系我们</span>
-          <h2 class="text-3xl md:text-5xl font-bold text-white mb-6">
+          <span class="font-medium mb-4 block" style="color: #B8860B;">联系我们</span>
+          <h2 class="text-3xl md:text-5xl font-bold mb-6" style="color: #1F2937;">
             立即咨询
           </h2>
-          <p class="text-gray-400 max-w-2xl mx-auto">
+          <p class="mb-6" style="color: #6B7280;">
             专业顾问随时为您服务，欢迎来电咨询或留言
           </p>
         </div>
         
         <div class="grid lg:grid-cols-2 gap-8">
           <!-- Contact Info -->
-          <div class="glass rounded-3xl p-8 md:p-10">
-            <h3 class="text-2xl font-bold text-white mb-8">联系方式</h3>
+          <div class="rounded-3xl p-8 md:p-10 bg-white" style="box-shadow: 0 4px 24px rgba(0, 0, 0, 0.06); border: 1px solid rgba(184, 134, 11, 0.1);">
+            <h3 class="text-2xl font-bold mb-8" style="color: #1F2937;">联系方式</h3>
             
             <div class="space-y-6">
               <div class="flex items-start gap-4">
-                <div class="w-12 h-12 rounded-xl bg-yellow-600/20 flex items-center justify-center flex-shrink-0" style="color: #FFD700;">
+                <div class="w-12 h-12 rounded-xl bg-yellow-600/10 flex items-center justify-center flex-shrink-0" style="color: #B8860B;">
                   ${icons.phone}
                 </div>
                 <div>
-                  <p class="text-gray-400 text-sm mb-1">联系电话</p>
-                  <p class="text-white text-lg font-medium">400-888-8888</p>
-                  <p class="text-gray-400 text-sm">7×24小时恭候您的来电</p>
+                  <p class="text-sm mb-1" style="color: #6B7280;">联系电话</p>
+                  <p class="text-lg font-medium" style="color: #1F2937;">400-888-8888</p>
+                  <p class="text-sm" style="color: #6B7280;">7×24小时恭候您的来电</p>
                 </div>
               </div>
               
               <div class="flex items-start gap-4">
-                <div class="w-12 h-12 rounded-xl bg-yellow-600/20 flex items-center justify-center flex-shrink-0" style="color: #FFD700;">
+                <div class="w-12 h-12 rounded-xl bg-yellow-600/10 flex items-center justify-center flex-shrink-0" style="color: #B8860B;">
                   ${icons.mail}
                 </div>
                 <div>
-                  <p class="text-gray-400 text-sm mb-1">电子邮箱</p>
-                  <p class="text-white text-lg font-medium">contact@dingfong.com</p>
-                  <p class="text-gray-400 text-sm">工作时间：9:00 - 18:00</p>
+                  <p class="text-sm mb-1" style="color: #6B7280;">电子邮箱</p>
+                  <p class="text-lg font-medium" style="color: #1F2937;">contact@dingfong.com</p>
+                  <p class="text-sm" style="color: #6B7280;">工作时间：9:00 - 18:00</p>
                 </div>
               </div>
               
               <div class="flex items-start gap-4">
-                <div class="w-12 h-12 rounded-xl bg-yellow-600/20 flex items-center justify-center flex-shrink-0" style="color: #FFD700;">
+                <div class="w-12 h-12 rounded-xl bg-yellow-600/10 flex items-center justify-center flex-shrink-0" style="color: #B8860B;">
                   <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"></path><circle cx="12" cy="10" r="3"></circle></svg>
                 </div>
                 <div>
-                  <p class="text-gray-400 text-sm mb-1">公司地址</p>
-                  <p class="text-white text-lg font-medium">北京市朝阳区建国门外大街1号</p>
-                  <p class="text-gray-400 text-sm">国贸CBD核心区</p>
+                  <p class="text-sm mb-1" style="color: #6B7280;">公司地址</p>
+                  <p class="text-lg font-medium" style="color: #1F2937;">北京市朝阳区建国门外大街1号</p>
+                  <p class="text-sm" style="color: #6B7280;">国贸CBD核心区</p>
                 </div>
               </div>
             </div>
             
-            <div class="mt-10 pt-8 border-t border-slate-700/50">
-              <p class="text-gray-400 text-sm mb-4">商务合作</p>
+            <div class="mt-10 pt-8" style="border-top: 1px solid rgba(184, 134, 11, 0.1);">
+              <p class="text-sm mb-4" style="color: #6B7280;">商务合作</p>
               <div class="flex gap-4">
-                <a href="#" class="w-10 h-10 rounded-full bg-slate-800 flex items-center justify-center hover:bg-yellow-600/20 transition-colors" style="color: #FFD700;">
+                <a href="#" class="w-10 h-10 rounded-full bg-gray-100 flex items-center justify-center hover:bg-yellow-600/10 transition-colors" style="color: #B8860B;">
                   <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="currentColor"><path d="M8.691 2.188C3.891 2.188 0 5.476 0 9.53c0 2.212 1.17 4.203 3.002 5.55a.59.59 0 0 1 .213.665l-.39 1.48c-.019.07-.048.141-.048.213 0 .163.13.295.29.295a.326.326 0 0 0 .167-.054l1.903-1.114a.864.864 0 0 1 .717-.098 10.16 10.16 0 0 0 2.837.403c.276 0 .543-.027.811-.05-.857-2.578.157-4.972 1.932-6.446 1.703-1.415 3.882-1.98 5.853-1.838-.576-3.583-4.196-6.348-8.596-6.348zM5.785 5.991c.642 0 1.162.529 1.162 1.18a1.17 1.17 0 0 1-1.162 1.178A1.17 1.17 0 0 1 4.623 7.17c0-.651.52-1.18 1.162-1.18zm5.813 0c.642 0 1.162.529 1.162 1.18a1.17 1.17 0 0 1-1.162 1.178 1.17 1.17 0 0 1-1.162-1.178c0-.651.52-1.18 1.162-1.18zm5.34 2.867c-1.797-.052-3.746.512-5.28 1.786-1.72 1.428-2.687 3.72-1.78 6.22.942 2.453 3.666 4.229 6.884 4.229.826 0 1.622-.12 2.361-.336a.722.722 0 0 1 .598.082l1.584.926a.272.272 0 0 0 .14.047c.134 0 .24-.111.24-.247 0-.06-.023-.12-.038-.177l-.327-1.233a.582.582 0 0 1-.023-.156.49.49 0 0 1 .201-.398C23.024 18.48 24 16.82 24 14.98c0-3.21-2.931-5.837-6.656-6.088V8.89a5.718 5.718 0 0 0-.407-.032zm-2.53 3.274c.535 0 .969.44.969.982a.976.976 0 0 1-.969.983.976.976 0 0 1-.969-.983c0-.542.434-.982.97-.982zm4.844 0c.535 0 .969.44.969.982a.976.976 0 0 1-.969.983.976.976 0 0 1-.969-.983c0-.542.434-.982.969-.982z"/></svg>
                 </a>
-                <a href="#" class="w-10 h-10 rounded-full bg-slate-800 flex items-center justify-center hover:bg-yellow-600/20 transition-colors" style="color: #FFD700;">
+                <a href="#" class="w-10 h-10 rounded-full bg-gray-100 flex items-center justify-center hover:bg-yellow-600/10 transition-colors" style="color: #B8860B;">
                   <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="currentColor"><path d="M.057 24l1.687-6.163c-1.041-1.804-1.588-3.849-1.587-5.946.003-6.556 5.338-11.891 11.893-11.891 3.181.001 6.167 1.24 8.413 3.488 2.245 2.248 3.481 5.236 3.48 8.414-.003 6.557-5.338 11.892-11.893 11.892-1.99-.001-3.951-.5-5.688-1.448l-6.305 1.654zm6.597-3.807c1.676.995 3.276 1.591 5.392 1.592 5.448 0 9.886-4.434 9.889-9.885.002-5.462-4.415-9.89-9.881-9.892-5.452 0-9.887 4.434-9.889 9.884-.001 2.225.651 3.891 1.746 5.634l-.999 3.648 3.742-.981zm11.387-5.464c-.074-.124-.272-.198-.57-.347-.297-.149-1.758-.868-2.031-.967-.272-.099-.47-.149-.669.149-.198.297-.768.967-.941 1.165-.173.198-.347.223-.644.074-.297-.149-1.255-.462-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.297-.347.446-.521.151-.172.2-.296.3-.495.099-.198.05-.372-.025-.521-.075-.148-.669-1.611-.916-2.206-.242-.579-.487-.501-.669-.51l-.57-.01c-.198 0-.52.074-.792.372s-1.04 1.016-1.04 2.479 1.065 2.876 1.213 3.074c.149.198 2.095 3.2 5.076 4.487.709.306 1.263.489 1.694.626.712.226 1.36.194 1.872.118.571-.085 1.758-.719 2.006-1.413.248-.695.248-1.29.173-1.414z"/></svg>
                 </a>
               </div>
@@ -470,23 +469,23 @@ function renderContact(): string {
           </div>
           
           <!-- Contact Form -->
-          <div class="bg-slate-800/50 rounded-3xl p-8 md:p-10 border border-slate-700/50">
-            <h3 class="text-2xl font-bold text-white mb-8">在线留言</h3>
+          <div class="rounded-3xl p-8 md:p-10 bg-white" style="box-shadow: 0 4px 24px rgba(0, 0, 0, 0.06); border: 1px solid rgba(184, 134, 11, 0.1);">
+            <h3 class="text-2xl font-bold mb-8" style="color: #1F2937;">在线留言</h3>
             
             <form id="contact-form" class="space-y-6">
               <div>
-                <label class="block text-sm text-gray-400 mb-2">您的姓名</label>
+                <label class="block text-sm mb-2" style="color: #6B7280;">您的姓名</label>
                 <input type="text" name="name" placeholder="请输入您的姓名" required class="w-full">
               </div>
               
               <div>
-                <label class="block text-sm text-gray-400 mb-2">联系电话</label>
+                <label class="block text-sm mb-2" style="color: #6B7280;">联系电话</label>
                 <input type="tel" name="phone" placeholder="请输入您的手机号" required class="w-full">
               </div>
               
               <div>
-                <label class="block text-sm text-gray-400 mb-2">咨询业务</label>
-                <select name="service" class="w-full" style="background: rgba(26, 42, 74, 0.5); border: 1px solid rgba(184, 134, 11, 0.3); color: var(--text-light); padding: 12px 16px; border-radius: 8px;">
+                <label class="block text-sm mb-2" style="color: #6B7280;">咨询业务</label>
+                <select name="service" class="w-full" style="background: rgba(255, 255, 255, 0.9); border: 1px solid rgba(184, 134, 11, 0.3); color: #1F2937; padding: 12px 16px; border-radius: 8px;">
                   <option value="">请选择咨询业务</option>
                   <option value="listed">上市公司类</option>
                   <option value="enterprise">企业/个人摆账类</option>
@@ -498,7 +497,7 @@ function renderContact(): string {
               </div>
               
               <div>
-                <label class="block text-sm text-gray-400 mb-2">留言内容</label>
+                <label class="block text-sm mb-2" style="color: #6B7280;">留言内容</label>
                 <textarea name="message" rows="4" placeholder="请简要描述您的需求..." class="w-full resize-none"></textarea>
               </div>
               
@@ -516,33 +515,33 @@ function renderContact(): string {
 function renderFooter(): string {
   const year = new Date().getFullYear();
   return `
-    <footer class="py-12 border-t border-slate-800">
+    <footer class="py-12" style="background: #1F2937; border-top: 1px solid rgba(184, 134, 11, 0.1);">
       <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div class="flex flex-col md:flex-row items-center justify-between gap-6">
           <div class="flex items-center gap-3">
             <div class="w-10 h-10 rounded-lg bg-gradient-to-br from-yellow-600 to-yellow-500 flex items-center justify-center">
-              <span class="text-sm font-bold text-gray-900">DF</span>
+              <span class="text-sm font-bold text-white">DF</span>
             </div>
             <div>
-              <h3 class="text-lg font-bold gradient-text">鼎丰资金</h3>
-              <p class="text-xs text-gray-500">专业资金服务平台</p>
+              <h3 class="text-lg font-bold" style="color: #FFD700;">鼎丰资金</h3>
+              <p class="text-xs" style="color: rgba(255,255,255,0.5);">专业资金服务平台</p>
             </div>
           </div>
           
-          <div class="flex flex-wrap justify-center gap-6 text-sm text-gray-400">
+          <div class="flex flex-wrap justify-center gap-6 text-sm" style="color: rgba(255,255,255,0.6);">
             <a href="#services" class="hover:text-yellow-500 transition-colors">业务服务</a>
             <a href="#advantages" class="hover:text-yellow-500 transition-colors">核心优势</a>
             <a href="#agent" class="hover:text-yellow-500 transition-colors">代理加盟</a>
             <a href="#contact" class="hover:text-yellow-500 transition-colors">联系我们</a>
           </div>
           
-          <p class="text-sm text-gray-500">
+          <p class="text-sm" style="color: rgba(255,255,255,0.4);">
             © ${year} 鼎丰资金. 保留所有权利.
           </p>
         </div>
         
-        <div class="mt-8 pt-8 border-t border-slate-800/50 text-center">
-          <p class="text-xs text-gray-600">
+        <div class="mt-8 pt-8" style="border-top: 1px solid rgba(255,255,255,0.1);">
+          <p class="text-xs text-center" style="color: rgba(255,255,255,0.3);">
             温馨提示：本平台所有业务均在国家法律法规框架内开展，诚信经营，合规操作。
           </p>
         </div>
