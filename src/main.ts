@@ -663,7 +663,7 @@ function renderAdvantages(): string {
 
 function renderAgent(): string {
   return `
-    <section id="agent" class="py-24 relative" style="background: #ffffff;">
+    <section id="join" class="py-24 relative" style="background: #ffffff;">
       <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div class="rounded-3xl p-8 md:p-16 relative overflow-hidden" style="background: linear-gradient(135deg, #fef3c7 0%, #fef9e7 100%); border: 1px solid rgba(184, 134, 11, 0.2);">
           <!-- Background decoration -->
@@ -778,6 +778,7 @@ function renderArticles(): string {
     </section>
   `;
 }
+
 
 function renderContact(): string {
   return `
